@@ -31,7 +31,7 @@ display:flex;
 flex-direction:column;
 align-items:center;
 
-background:#dfe3ea;
+background:#f3f4f6;
 
 }
 
@@ -73,16 +73,17 @@ input{
 .homeCard{
 
 height:120px;
+width:100%;
 
+box-sizing:border-box;
 display:flex;
 flex-direction:column;
 justify-content:center;
 align-items:center;
-background:#fafafa;
-border:4px solid #000000;
+background:#dfe3ea;
+border:4px solid #000;
 border-radius:22px;
-box-shadow:
-0 4px 14px rgba(0,0,0,0.12);
+box-shadow:0 4px 14px rgba(0,0,0,0.12);
 transition:0.15s;
 cursor:pointer;
 
@@ -210,16 +211,13 @@ Checked-in:
 
 <div style="
 display:grid;
-grid-template-columns:1fr 1fr;
-gap:6px;
-
+grid-template-columns:repeat(2, 1fr);
+gap:8px;
 width:100%;
 max-width:620px;
-
-margin:8px auto;
-
-justify-content:center;
-align-items:center;
+margin:6px auto;
+padding:0 12px;
+box-sizing:border-box;
 ">
 
 <button class="homeCard" onclick="openScan()">
@@ -265,7 +263,7 @@ Dashboard
 </div>
 
 <div class="homeText">
-Search Participant
+Search Member
 </div>
 
 </button>
@@ -366,7 +364,7 @@ Check-in
 
 <div id="searchPage" style="display:none;">
 
-<h3>🔍 Search Participant</h3>
+<h3>🔍 Search Member</h3>
 
 <input
 id="searchInput"
