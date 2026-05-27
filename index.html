@@ -65,7 +65,8 @@ input{
 
 <body>
 
-<h2>邻恩复兴教会主日崇拜报到系统</h2>
+<h2>邻恩复兴教会
+主日崇拜报到系统</h2>
 <h3>NGA Worship Check-in</h3>
 
 <h4>
@@ -120,6 +121,14 @@ Checked-in:
 
 <div id="home" style="display:none;">
 
+<div style="
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:16px;
+max-width:520px;
+margin:30px auto;
+">
+
 <button onclick="openScan()">
 📷 Scan QR
 </button>
@@ -140,11 +149,11 @@ Checked-in:
 📝 New Registration
 </button>
 
-<br>
-
 <button onclick="logout()">
 🚪 Logout
 </button>
+
+</div>
 
 </div>
 
@@ -220,11 +229,13 @@ Check-in
 
 <input
 id="searchInput"
-placeholder="
-Name / Phone / Email / ID
-"
+placeholder="Name / Phone / Email / ID"
 style="
-width:300px;
+width:280px;
+max-width:90%;
+display:block;
+margin:0 auto;
+text-align:center;
 "
 >
 
@@ -1336,6 +1347,10 @@ document
 .value
 .trim();
 
+document
+.getElementById("searchInput")
+.value="";
+
 if(!keyword){
 
 alert("Enter Name / Phone / Email / ID");
@@ -1506,6 +1521,26 @@ document
 .getElementById("r_address")
 .value
 .trim();
+
+document
+.getElementById("r_chinese")
+.value="";
+
+document
+.getElementById("r_english")
+.value="";
+
+document
+.getElementById("r_email")
+.value="";
+
+document
+.getElementById("r_phone")
+.value="";
+
+document
+.getElementById("r_address")
+.value="";
 
 // =====================================
 // VALIDATE
