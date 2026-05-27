@@ -132,6 +132,14 @@ Checked-in:
 📊 Dashboard
 </button>
 
+<button onclick="openSearch()">
+🔍 Search Participant
+</button>
+
+<button onclick="openRegister()">
+📝 New Registration
+</button>
+
 <br>
 
 <button onclick="logout()">
@@ -193,6 +201,117 @@ Check-in
 <div style="font-size:22px;font-weight:600;">Pending: <span id="d_pending">-</span></div>
 <div style="font-size:22px;font-weight:600;">Group A: <span id="d_a">-</span></div>
 <div style="font-size:22px;font-weight:600;">Group B: <span id="d_b">-</span></div>
+
+<br>
+
+<button onclick="goHome()">
+⬅️ Home
+</button>
+
+</div>
+
+<!-- ===================================== -->
+<!-- SEARCH -->
+<!-- ===================================== -->
+
+<div id="searchPage" style="display:none;">
+
+<h3>🔍 Search Participant</h3>
+
+<input
+id="s_chinese"
+placeholder="Chinese Name"
+>
+
+<br><br>
+
+<input
+id="s_english"
+placeholder="English Name"
+>
+
+<br><br>
+
+<input
+id="s_phone"
+placeholder="Phone"
+>
+
+<br><br>
+
+<input
+id="s_email"
+placeholder="Email"
+>
+
+<br><br>
+
+<button onclick="searchParticipant()">
+Search
+</button>
+
+<br><br>
+
+<div id="searchResult"></div>
+
+<br>
+
+<button onclick="goHome()">
+⬅️ Home
+</button>
+
+</div>
+
+<!-- ===================================== -->
+<!-- REGISTER -->
+<!-- ===================================== -->
+
+<div id="registerPage" style="display:none;">
+
+<h3>📝 New Registration</h3>
+
+<input
+id="r_chinese"
+placeholder="Chinese Name"
+>
+
+<br><br>
+
+<input
+id="r_english"
+placeholder="English Name"
+>
+
+<br><br>
+
+<input
+id="r_email"
+placeholder="Email"
+>
+
+<br><br>
+
+<input
+id="r_phone"
+placeholder="Phone"
+>
+
+<br><br>
+
+<input
+id="r_address"
+placeholder="Home Address"
+>
+
+<br><br>
+
+<button onclick="submitRegistration()">
+Submit Registration
+</button>
+
+<br><br>
+
+<div id="registerResult"></div>
 
 <br>
 
@@ -1127,6 +1246,12 @@ function hideAll() {
   document.getElementById("resultPage")
     .style.display = "none";
 
+  document.getElementById("searchPage")
+    .style.display="none";
+
+  document.getElementById("registerPage")
+    .style.display="none";
+
 }
 
 // ============================
@@ -1163,6 +1288,308 @@ function openDashboard() {
 
 }
 
+function openSearch(){
+
+hideAll();
+
+document.getElementById("searchPage")
+.style.display="block";
+
+}
+
+function openRegister(){
+
+hideAll();
+
+document.getElementById("registerPage")
+.style.display="block";
+
+}
+
+async function searchParticipant(){
+
+const chineseName=
+document.getElementById("s_chinese")
+.value
+.trim();
+
+const englishName=
+document.getElementById("s_english")
+.value
+.trim();
+
+const phone=
+document.getElementById("s_phone")
+.value
+.trim();
+
+const email=
+document.getElementById("s_email")
+.value
+.trim();
+
+// =====================================
+// EMPTY
+// =====================================
+
+if(
+!chineseName &&
+!englishName &&
+!phone &&
+!email
+){
+
+alert("Enter at least one field");
+
+return;
+
+}
+
+// =====================================
+// API
+// =====================================
+
+const url=
+
+API_URL+
+
+"?action=searchParticipant"+
+
+"&chineseName="+
+encodeURIComponent(chineseName)+
+
+"&englishName="+
+encodeURIComponent(englishName)+
+
+"&phone="+
+encodeURIComponent(phone)+
+
+"&email="+
+encodeURIComponent(email);
+
+const res=
+await fetch(url,{
+cache:"no-store"
+});
+
+const data=
+await res.json();
+
+const box=
+document.getElementById("searchResult");
+
+// =====================================
+// NOT FOUND
+// =====================================
+
+if(!data.success){
+
+box.innerHTML=`
+
+<div style="
+color:red;
+font-size:24px;
+">
+Participant Not Found
+</div>
+
+`;
+
+return;
+
+}
+
+// =====================================
+// RESULT
+// =====================================
+
+box.innerHTML=`
+
+<div style="
+font-size:32px;
+font-weight:700;
+">
+${data.id}
+</div>
+
+<br>
+
+<div style="
+font-size:22px;
+">
+${data.chineseName}
+</div>
+
+<div style="
+font-size:20px;
+">
+${data.englishName}
+</div>
+
+<br>
+
+<img
+src="${data.qr}"
+width="220"
+>
+
+<br><br>
+
+<a
+href="${data.wa}"
+target="_blank"
+style="
+font-size:22px;
+"
+> 
+OpenWhatsApp
+</a>
+
+`;
+
+}
+
+async function submitRegistration(){
+
+const chineseName=
+document.getElementById("r_chinese")
+.value
+.trim();
+
+const englishName=
+document.getElementById("r_english")
+.value
+.trim();
+
+const email=
+document.getElementById("r_email")
+.value
+.trim();
+
+const phone=
+document.getElementById("r_phone")
+.value
+.trim();
+
+const address=
+document.getElementById("r_address")
+.value
+.trim();
+
+// =====================================
+// VALIDATION
+// =====================================
+
+if(!chineseName&&!englishName){
+
+alert("Enter participant name");
+
+return;
+
+}
+
+// =====================================
+// API
+// =====================================
+
+const url=
+
+API_URL+
+
+"?action=register"+
+
+"&chineseName="+
+encodeURIComponent(chineseName)+
+
+"&englishName="+
+encodeURIComponent(englishName)+
+
+"&email="+
+encodeURIComponent(email)+
+
+"&phone="+
+encodeURIComponent(phone)+
+
+"&address="+
+encodeURIComponent(address);
+
+const res=
+await fetch(url,{
+cache:"no-store"
+});
+
+const data=
+await res.json();
+
+const box=
+document.getElementById("registerResult");
+
+// =====================================
+// FAILED
+// =====================================
+
+if(!data.success){
+
+box.innerHTML=`
+
+<div style="
+color:red;
+font-size:24px;
+">
+Registration Failed
+</div>
+
+`;
+
+return;
+
+}
+
+// =====================================
+// SUCCESS
+// =====================================
+
+box.innerHTML=`
+
+<div style="
+font-size:34px;
+font-weight:700;
+color:green;
+">
+Registration Success
+</div>
+
+<br>
+
+<div style="
+font-size:28px;
+font-weight:700;
+">
+${data.id}
+</div>
+
+<br>
+
+<img
+src="${data.qr}"
+width="220"
+>
+
+<br><br>
+
+<a
+href="${data.wa}"
+target="_blank"
+style="
+font-size:22px;
+"
+> 
+OpenWhatsApp
+</a>
+
+`;
+
+}
 
 // ============================
 // SMART WARMUP SYSTEM
