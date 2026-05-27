@@ -550,7 +550,7 @@ let currentMode = "";
 let scanCooldown = false;
 let idleTimer = null;
 
-const IDLE_LIMIT = 1 * 60 * 1000;
+const DEFAULT_IDLE_LIMIT = 10 * 60 * 1000;
 const WARMUP_KEY = "gas_warmup_last";
 const WARMUP_COOLDOWN = 4 * 60 * 1000;
 
@@ -729,6 +729,11 @@ function login() {
         data.token
       );
 
+      sessionStorage.setItem(
+        "idleLimit",
+        data.idleLimit
+      );
+      
       resetIdleTimer();
 
       // start session monitor
@@ -902,17 +907,27 @@ function startSessionMonitor() {
 
 }
 
-function resetIdleTimer() {
+function resetIdleTimer(){
 
-  clearTimeout(idleTimer);
+clearTimeout(idleTimer);
 
-  idleTimer = setTimeout(() => {
+const idleLimit=
 
-    alert("Session expired");
+Number(
+sessionStorage.getItem(
+"idleLimit"
+)
+) ||
 
-    logout();
+DEFAULT_IDLE_LIMIT;
 
-  }, IDLE_LIMIT);
+idleTimer=setTimeout(()=>{
+
+alert("Session expired");
+
+logout();
+
+},idleLimit);
 
 }
 
