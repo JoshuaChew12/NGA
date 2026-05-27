@@ -219,29 +219,13 @@ Check-in
 <h3>🔍 Search Participant</h3>
 
 <input
-id="s_chinese"
-placeholder="Chinese Name"
->
-
-<br><br>
-
-<input
-id="s_english"
-placeholder="English Name"
->
-
-<br><br>
-
-<input
-id="s_phone"
-placeholder="Phone"
->
-
-<br><br>
-
-<input
-id="s_email"
-placeholder="Email"
+id="searchInput"
+placeholder="
+Name / Phone / Email / ID
+"
+style="
+width:300px;
+"
 >
 
 <br><br>
@@ -342,6 +326,38 @@ Home
 </div>
 
 <script>
+
+<div id="searchResultPage" style="display:none;">
+
+<div id="searchResultContent"></div>
+
+<br><br>
+
+<button onclick="openSearch()">
+⬅️ Back
+</button>
+
+<button onclick="goHome()">
+🏠 Home
+</button>
+
+</div>
+
+<div id="registerResultPage" style="display:none;">
+
+<div id="registerResultContent"></div>
+
+<br><br>
+
+<button onclick="openRegister()">
+⬅️ Back
+</button>
+
+<button onclick="goHome()">
+🏠 Home
+</button>
+
+</div>
 
 // =====================================
 // CONFIG
@@ -1252,6 +1268,12 @@ function hideAll() {
   document.getElementById("registerPage")
     .style.display="none";
 
+  document.getElementById("searchResultPage")
+    .style.display="none";
+
+  document.getElementById("registerResultPage")
+    .style.display="none";
+
 }
 
 // ============================
@@ -1308,46 +1330,39 @@ document.getElementById("registerPage")
 
 async function searchParticipant(){
 
-const chineseName=
-document.getElementById("s_chinese")
+const keyword=
+document
+.getElementById("searchInput")
 .value
 .trim();
 
-const englishName=
-document.getElementById("s_english")
-.value
-.trim();
+if(!keyword){
 
-const phone=
-document.getElementById("s_phone")
-.value
-.trim();
-
-const email=
-document.getElementById("s_email")
-.value
-.trim();
-
-// =====================================
-// EMPTY
-// =====================================
-
-if(
-!chineseName &&
-!englishName &&
-!phone &&
-!email
-){
-
-alert("Enter at least one field");
+alert("Enter Name / Phone / Email / ID");
 
 return;
 
 }
 
-// =====================================
-// API
-// =====================================
+hideAll();
+
+document
+.getElementById("searchResultPage")
+.style.display="block";
+
+document
+.getElementById("searchResultContent")
+.innerHTML=`
+
+<div style="
+font-size:34px;
+">
+⏳ Searching...
+</div>
+
+`;
+
+try{
 
 const url=
 
@@ -1355,17 +1370,8 @@ API_URL+
 
 "?action=searchParticipant"+
 
-"&chineseName="+
-encodeURIComponent(chineseName)+
-
-"&englishName="+
-encodeURIComponent(englishName)+
-
-"&phone="+
-encodeURIComponent(phone)+
-
-"&email="+
-encodeURIComponent(email);
+"&keyword="+
+encodeURIComponent(keyword);
 
 const res=
 await fetch(url,{
@@ -1375,20 +1381,20 @@ cache:"no-store"
 const data=
 await res.json();
 
-const box=
-document.getElementById("searchResult");
-
 // =====================================
 // NOT FOUND
 // =====================================
 
 if(!data.success){
 
-box.innerHTML=`
+document
+.getElementById("searchResultContent")
+.innerHTML=`
 
 <div style="
+font-size:34px;
 color:red;
-font-size:24px;
+font-weight:700;
 ">
 Participant Not Found
 </div>
@@ -1403,10 +1409,12 @@ return;
 // RESULT
 // =====================================
 
-box.innerHTML=`
+document
+.getElementById("searchResultContent")
+.innerHTML=`
 
 <div style="
-font-size:32px;
+font-size:34px;
 font-weight:700;
 ">
 ${data.id}
@@ -1415,13 +1423,13 @@ ${data.id}
 <br>
 
 <div style="
-font-size:22px;
+font-size:28px;
 ">
 ${data.chineseName}
 </div>
 
 <div style="
-font-size:20px;
+font-size:22px;
 ">
 ${data.englishName}
 </div>
@@ -1430,7 +1438,7 @@ ${data.englishName}
 
 <img
 src="${data.qr}"
-width="220"
+width="240"
 >
 
 <br><br>
@@ -1439,7 +1447,8 @@ width="220"
 href="${data.wa}"
 target="_blank"
 style="
-font-size:22px;
+font-size:24px;
+font-weight:700;
 "
 > 
 OpenWhatsApp
@@ -1447,37 +1456,59 @@ OpenWhatsApp
 
 `;
 
+}catch(err){
+
+document
+.getElementById("searchResultContent")
+.innerHTML=`
+
+<div style="
+font-size:30px;
+color:red;
+">
+Network Error
+</div>
+
+`;
+
+}
+
 }
 
 async function submitRegistration(){
 
 const chineseName=
-document.getElementById("r_chinese")
+document
+.getElementById("r_chinese")
 .value
 .trim();
 
 const englishName=
-document.getElementById("r_english")
+document
+.getElementById("r_english")
 .value
 .trim();
 
 const email=
-document.getElementById("r_email")
+document
+.getElementById("r_email")
 .value
 .trim();
 
 const phone=
-document.getElementById("r_phone")
+document
+.getElementById("r_phone")
 .value
 .trim();
 
 const address=
-document.getElementById("r_address")
+document
+.getElementById("r_address")
 .value
 .trim();
 
 // =====================================
-// VALIDATION
+// VALIDATE
 // =====================================
 
 if(!chineseName&&!englishName){
@@ -1488,9 +1519,25 @@ return;
 
 }
 
-// =====================================
-// API
-// =====================================
+hideAll();
+
+document
+.getElementById("registerResultPage")
+.style.display="block";
+
+document
+.getElementById("registerResultContent")
+.innerHTML=`
+
+<div style="
+font-size:34px;
+">
+⏳ Registering...
+</div>
+
+`;
+
+try{
 
 const url=
 
@@ -1521,20 +1568,20 @@ cache:"no-store"
 const data=
 await res.json();
 
-const box=
-document.getElementById("registerResult");
-
 // =====================================
 // FAILED
 // =====================================
 
 if(!data.success){
 
-box.innerHTML=`
+document
+.getElementById("registerResultContent")
+.innerHTML=`
 
 <div style="
+font-size:34px;
 color:red;
-font-size:24px;
+font-weight:700;
 ">
 Registration Failed
 </div>
@@ -1549,12 +1596,14 @@ return;
 // SUCCESS
 // =====================================
 
-box.innerHTML=`
+document
+.getElementById("registerResultContent")
+.innerHTML=`
 
 <div style="
-font-size:34px;
-font-weight:700;
+font-size:36px;
 color:green;
+font-weight:700;
 ">
 Registration Success
 </div>
@@ -1562,7 +1611,7 @@ Registration Success
 <br>
 
 <div style="
-font-size:28px;
+font-size:32px;
 font-weight:700;
 ">
 ${data.id}
@@ -1572,7 +1621,7 @@ ${data.id}
 
 <img
 src="${data.qr}"
-width="220"
+width="240"
 >
 
 <br><br>
@@ -1581,13 +1630,31 @@ width="220"
 href="${data.wa}"
 target="_blank"
 style="
-font-size:22px;
+font-size:24px;
+font-weight:700;
 "
 > 
 OpenWhatsApp
 </a>
 
 `;
+
+}catch(err){
+
+document
+.getElementById("registerResultContent")
+.innerHTML=`
+
+<div style="
+font-size:30px;
+color:red;
+">
+Network Error
+</div>
+
+`;
+
+}
 
 }
 
