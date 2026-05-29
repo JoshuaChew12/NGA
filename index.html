@@ -18,206 +18,162 @@
 
 <style>
 /* =================================================== */
-/* 全局基础重置：星光折射与浅亮极光背景调色盘 */
+/* 🎨 皮肤颜色调控舱：已一键切换至【皇家圣殿金】皮肤 */
 /* =================================================== */
+:root {
+  --app-bg-dark: #0b0c10;      /* 页面最底层神圣墨黑基底 */
+  --app-text-main: #4a3703;    /* 优雅的古铜深金字（卡片内部低反差核心字色，高级感拉满） */
+  --app-text-sub: #a0aec0;     /* 辅助暗灰文字 */
+  
+  /* 3D 泡泡光影色（让大泡泡折射出神圣、通透的璀璨金光） */
+  --bubble-light-glow: rgba(212, 175, 55, 0.45);  /* 泡泡内部的圣金色聚光折射 */
+  --bubble-deep-shadow: rgba(0, 0, 0, 0.6);        /* 泡泡后方聚光的深邃暗边 */
+  
+  /* 3D 悬浮组件核心色：象牙白晶体卡面 + 5px 香槟金实体厚度底座 */
+  --card-face: #fdfbf7;        /* 温润细腻的圣洁象牙白玉色 */
+  --card-base-3d: #cfae4f;     /* 核心：5px 奢华香槟金实体侧边厚度层 */
+  --card-press-bg: #f4ede0;    /* 手指按住卡片下踩时，卡片正面受力微微变深的润黄色 */
+}
+
+/* 全局基础重置 */
 body {
-  margin: 0;
-  padding: 0;
+  margin: 0; padding: 0;
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", Arial, sans-serif;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: #060b19; 
-  color: #f8fafc;
-  min-height: 100vh;
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
+  text-align: center; display: flex; flex-direction: column; align-items: center;
+  background: var(--app-bg-dark); color: #f5f5f7;
+  min-height: 100vh; overflow-x: hidden; -webkit-font-smoothing: antialiased;
 }
 
 /* =================================================== */
-/* ⚡ 核心组件 1：全屏局部浅亮高光 + 柔和镜面亮光大泡泡背景层 */
+/* ⚡ 组件 1：全屏局部浅亮高光 + 柔和镜面亮光大泡泡背景层 */
 /* =================================================== */
 .bubble-bg-container {
-  position: fixed;
-  top: 0; left: 0; width: 100vw; height: 100vh;
-  z-index: -1;
-  overflow: hidden;
-  /* 背景：中部和上方保持柔和通透的晨曦蓝白与极光浅青色高光晕染 */
-  background: 
-    radial-gradient(circle at 50% 15%, #e0f2fe 0%, rgba(204, 251, 241, 0.8) 30%, #0c172a 70%, #060b19 100%); 
+  position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; overflow: hidden;
+  /* 背景：中部和上方保持柔和通透的晨曦白与圣金色微光晕染 */
+  background: radial-gradient(circle at 50% 15%, #ffffff 0%, rgba(253, 251, 247, 0.8) 30%, #1a1c23 70%, var(--app-bg-dark) 100%); 
 }
-
-/* 3D 水晶大泡泡：内置核心发光折射，形状极其清晰明显 */
 .giant-bubble {
-  position: absolute;
-  border-radius: 50%;
-  
-  /* 3D 棱镜折射：模拟球体左上角射入强光，内部产生炫目的聚焦点 */
-  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.6) 0%, rgba(45, 212, 191, 0.4) 30%, rgba(14, 165, 233, 0.15) 70%, transparent 100%);
-  border: 1.5px solid rgba(255, 255, 255, 0.7); /* 清晰无暇的玻璃外轮廓 */
-  
-  /* 柔和发光层（利用 drop-shadow 让泡泡整体向外辐射散射光晕） */
-  filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.4)) drop-shadow(0 0 25px rgba(45, 212, 191, 0.25));
-  
-  /* 双层超强内折射阴影 */
-  box-shadow: 
-    inset 10px 10px 20px rgba(255, 255, 255, 0.8), 
-    inset -12px -12px 25px rgba(6, 11, 25, 0.5);
-    
+  position: absolute; border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.6) 0%, var(--bubble-light-glow) 30%, rgba(212, 175, 55, 0.15) 70%, transparent 100%);
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
+  filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.4)) drop-shadow(0 0 25px rgba(212, 175, 55, 0.25));
+  box-shadow: inset 10px 10px 20px rgba(255, 255, 255, 0.8), inset -12px -12px 25px var(--bubble-deep-shadow);
   animation: floatBubble 14s ease-in-out infinite alternate;
 }
-
-/* ⚡ 【关键微调】：去除硬朗的十字型，改为纯粹温润的圆形镜面反射亮光（Specular Highlight） */
 .giant-bubble::before {
-  content: '';
-  position: absolute;
-  top: 12%; left: 16%;
-  width: 32%; height: 32%;
-  border-radius: 50%;
-  /* 运用饱满的、向四周羽化的径向纯白高光圈，逼真模拟光线照在圆润弧面上的亮光点 */
+  content: ''; position: absolute; top: 12%; left: 16%; width: 32%; height: 32%; border-radius: 50%;
   background: radial-gradient(circle at center, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.4) 40%, transparent 75%);
 }
-
-/* 3个带有璀璨镜面亮光折射的巨型 3D 水晶球位置及尺寸 */
 .b1 { width: 290px; height: 290px; top: -2%; left: -6%; animation-duration: 15s; }
 .b2 { width: 240px; height: 240px; top: 45%; right: -10%; animation-duration: 19s; animation-delay: -3s; }
 .b3 { width: 200px; height: 200px; bottom: -4%; left: 14%; animation-duration: 17s; }
-
-@keyframes floatBubble {
-  0% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 0.85; }
-  100% { transform: translate(15px, 25px) scale(1.06) rotate(4deg); opacity: 1; }
-}
+@keyframes floatBubble { 0% { transform: translate(0, 0) scale(1); opacity: 0.85; } 100% { transform: translate(15px, 25px) scale(1.06); opacity: 1; } }
 
 /* =================================================== */
-/* ⚡ 核心组件 2：Login 登录面板（白晶舱体，完美融合背景高光） */
+/* ⚡ 组件 2：Login 登录面板（钛金白晶舱体） */
 /* =================================================== */
 .loginBox {
-  margin-top: 50px;
-  background: rgba(255, 255, 255, 0.82); 
-  padding: 40px 25px;
-  border-radius: 26px;
-  border: 1px solid rgba(255, 255, 255, 0.95);
-  border-bottom: 2px solid rgba(15, 23, 42, 0.08);
-  
-  backdrop-filter: blur(25px); 
-  -webkit-backdrop-filter: blur(25px);
-  
-  box-shadow: 
-    0 4px 12px rgba(15, 23, 42, 0.05),
-    0 25px 55px rgba(12, 23, 42, 0.15), 
-    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  margin-top: 50px; background: rgba(255, 255, 255, 0.85); padding: 40px 25px; border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.95); border-bottom: 2px solid rgba(15, 23, 42, 0.08);
+  backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05), 0 25px 55px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
-
-/* 白舱内部高级字体控制（深邃石墨灰，极为舒服清晰） */
-.loginBox h3 {
-  color: #0f172a !important;
-  font-weight: 800;
-  font-size: 22px !important;
-  margin-bottom: 24px;
-  letter-spacing: -0.5px;
-}
-
-/* 白舱专属温润立体输入框 */
-.loginBox input {
-  background: #f1f5f9 !important;
-  border: 1px solid rgba(15, 23, 42, 0.06) !important;
-  color: #0f172a !important;
-  box-shadow: inset 0 2px 4px rgba(15, 23, 42, 0.03) !important;
-}
-.loginBox input:focus {
-  border-color: #0ea5e9;
-  box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.15) !important;
-  background: #ffffff !important;
-}
-.loginBox input::placeholder {
-  color: #94a3b8 !important;
-}
-
-/* 白舱专属大按钮 */
-.loginBox button {
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
-  color: #ffffff !important;
-  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.2) !important;
-}
+.loginBox h3 { color: #1a1c23 !important; font-weight: 800; font-size: 22px !important; margin-bottom: 24px; }
+.loginBox input { background: #fdfbf7 !important; border: 1px solid rgba(15, 23, 42, 0.06) !important; color: #1a1c23 !important; }
+.loginBox input:focus { border-color: var(--card-base-3d); background: #ffffff !important; }
+/* 登录面板大按钮：配合圣金皮肤，采用扎实的金色实色渐变 */
+.loginBox button { background: linear-gradient(135deg, #d4af37 0%, #aa841b 100%) !important; color: #ffffff !important; box-shadow: 0 10px 24px rgba(212, 175, 55, 0.2) !important; }
 
 /* =================================================== */
-/* ⚡ 核心组件 3：主页液态水滴晶体卡片（白晶极光厚度版） */
+/* ⚡ 组件 3：主页九宫格及全局立体卡片（App感核心） */
 /* =================================================== */
-.homeCard {
-  height: 105px;
-  padding: 12px 6px !important;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  box-sizing: border-box;
-  background: #ffffff; /* 牛奶晶体纯白 */
-  border-radius: 24px;
-  cursor: pointer;
-  width: 100%;
-  border: 1px solid rgba(255, 255, 255, 0.9);
-  
-  /* 5px 偏置的极光青实体阴影，死死压出实体的侧面厚度 */
-  box-shadow: 
-    0 5px 0px #0d9488, /* 极光青实体厚度层 */
-    0 16px 32px rgba(12, 23, 42, 0.25), 
-    inset 0 1.5px 0px #ffffff;
-  transition: all 0.12s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.homeCard:active {
-  transform: translateY(5px) scale(0.96);
-  background: #f0fdfa;
-  box-shadow: 0 0px 0px transparent, 0 4px 10px rgba(0, 0, 0, 0.15), inset 0 1px 0px rgba(0,0,0,0.02);
-}
-
-/* 通用输入框和按钮（用于白舱外的子页面） */
-input {
-  padding: 16px; font-size: 17px; width: 230px; background: #ffffff; border: 1px solid rgba(15, 23, 42, 0.08);
-  border-radius: 16px; color: #0f172a; text-align: center; outline: none;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.02); transition: all 0.25s ease;
-}
-input:focus { border-color: #0ea5e9; box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.15); }
-input::placeholder { color: #94a3b8; }
-
-button {
-  padding: 14px 28px; margin: 10px; font-size: 16px; font-weight: 600; border-radius: 16px; border: none; cursor: pointer;
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: #ffffff;
-  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.15), 0 4px 8px rgba(15, 23, 42, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); letter-spacing: 0.5px;
-}
-
 #home > div {
   grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 20px 14px !important;
   width: 100% !important; max-width: 100% !important; padding: 10px 4px !important; margin: 0 auto !important; box-sizing: border-box !important;
 }
 
+/* 所有的实体卡片（包括主页格子、看板长条卡片） */
+.homeCard, .dashboard-item-card {
+  background: var(--card-face); border-radius: 24px; cursor: pointer; width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  /* 5px 偏置的 3D 厚度层与环境阴影 */
+  box-shadow: 0 var(--thick, 5px) 0px var(--card-base-3d), 0 14px 28px rgba(0, 0, 0, 0.45), inset 0 1.5px 0px #ffffff;
+  transition: all 0.12s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.homeCard { height: 105px; display: flex; flex-direction: column; justify-content: center; align-items: center; box-sizing: border-box; }
+
+/* 【极致解压下踩】 */
+.homeCard:active, .dashboard-item-card:active {
+  transform: translateY(5px) scale(0.96); background: var(--card-press-bg);
+  box-shadow: 0 0px 0px transparent, 0 4px 10px rgba(0, 0, 0, 0.15), inset 0 1px 0px rgba(0,0,0,0.02);
+}
+
 /* 分区色彩独立图标槽 */
-.homeCard:nth-child(1) .homeIcon { background: #e0f2fe; color: #0369a1; } 
+.homeCard:nth-child(1) .homeIcon { background: #e0f2fe; color: #1d4ed8; } 
 .homeCard:nth-child(2) .homeIcon { background: #fef3c7; color: #b45309; } 
 .homeCard:nth-child(3) .homeIcon { background: #ecfdf5; color: #047857; } 
 .homeCard:nth-child(4) .homeIcon { background: #f5f3ff; color: #6d28d9; } 
 .homeCard:nth-child(5) .homeIcon { background: #fdf2f8; color: #be185d; } 
 .homeCard:nth-child(6) .homeIcon { background: #fef2f2; color: #b91c1c; } 
-.homeIcon { font-size: 20px; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border-radius: 14px; margin-bottom: 6px; line-height: 1; box-shadow: 0 2px 0px rgba(0, 0, 0, 0.03); }
-.homeText { font-size: 14px; font-weight: 800; line-height: 1.2; color: #1e293b; letter-spacing: -0.1px; }
+.homeIcon { font-size: 20px; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border-radius: 14px; margin-bottom: 6px; box-shadow: 0 2px 0px rgba(0, 0, 0, 0.03); }
+.homeText { font-size: 14px; font-weight: 800; line-height: 1.2; color: var(--app-text-main); letter-spacing: -0.1px; }
 
-/* 状态反馈提示色 */
-.success { background: #e6f9ed !important; border: 1px solid #a7f3d0 !important; color: #047857 !important; border-radius: 14px; }
-.duplicate { background: #fffbeb !important; border: 1px solid #fde68a !important; color: #b45309 !important; border-radius: 14px; }
-.error { background: #fff5f5 !important; border: 2px solid #fecaca !important; color: #b91c1c !important; border-radius: 14px; }
+/* =================================================== */
+/* ⚡ 组件 4：数据看板全 App 化立体长条卡片 */
+/* =================================================== */
+#dashboardPage { text-align: left; padding: 10px 4px; }
+#dashboardPage h3 { text-align: center; color: var(--app-text-sub) !important; }
 
-/* 应用主内容外层总容器 */
+.dashboard-item-card {
+  --thick: 4px; display: flex; justify-content: space-between; align-items: center;
+  padding: 18px 24px !important; margin-bottom: 18px !important;
+  box-sizing: border-box; cursor: default;
+}
+.dashboard-item-card > div:first-child {
+  font-size: 17px; font-weight: 700; color: var(--app-text-main);
+}
+/* 看板内部数据的独立发光高亮 */
+.dashboard-item-card span {
+  font-size: 22px; font-weight: 900; color: #d4af37;
+  text-shadow: 0 2px 8px rgba(212, 175, 55, 0.2);
+}
+#d_total { color: #d4af37; }
+#d_checked { color: #10b981; text-shadow: 0 2px 8px rgba(16, 185, 129, 0.2); }
+#d_pending { color: #f59e0b; text-shadow: 0 2px 8px rgba(245, 158, 11, 0.2); }
+
+/* 通用输入框和基本按钮（适用于白舱外的子页面） */
+input {
+  padding: 16px; font-size: 17px; width: 230px; background: #1a1c23; border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px; color: #ffffff; text-align: center; outline: none;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.2); transition: all 0.25s ease;
+}
+input:focus { border-color: var(--card-base-3d); box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.15); }
+input::placeholder { color: #4b526d; }
+
+button {
+  padding: 14px 28px; margin: 10px; font-size: 16px; font-weight: 600; border-radius: 16px; border: none; cursor: pointer;
+  background: linear-gradient(135deg, #d4af37 0%, #aa841b 100%); color: #ffffff;
+  box-shadow: 0 10px 24px rgba(212, 175, 55, 0.15), 0 4px 8px rgba(212, 175, 55, 0.1);
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); letter-spacing: 0.5px;
+}
+
+/* 状态通知气泡 */
+.success { background: rgba(46, 204, 113, 0.15) !important; border: 1px solid #2ecc71 !important; color: #2ecc71 !important; border-radius: 14px; }
+.duplicate { background: rgba(241, 196, 15, 0.15) !important; border: 1px solid #f1c40f !important; color: #f1c40f !important; border-radius: 14px; }
+.error { background: rgba(231, 76, 60, 0.15) !important; border: 1px solid #e74c3c !important; color: #e74c3c !important; border-radius: 14px; }
+
+/* 应用主层级外壳 */
 #appContainer { width: 100%; max-width: 520px; padding: 20px; box-sizing: border-box; position: relative; z-index: 1; }
-#count, #d_total, #d_checked, #d_pending, #d_a, #d_b { color: #0ea5e9; font-weight: 800; font-size: 1.2em; }
 
-/* 标题排版 */
-h2 { font-size: 26px !important; font-weight: 800; color: #0f172a; margin-bottom: 6px !important; letter-spacing: -0.5px; }
-h3 { font-size: 18px !important; color: #334155; font-weight: 600; margin-top: 0; }
-h4 { font-size: 13px !important; color: #64748b !important; font-weight: 500; letter-spacing: 1px; }
-h5 { color: #334155; font-size: 15px !important; background: #ffffff; padding: 8px 18px; border-radius: 20px; display: inline-block; box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08); border: 1px solid rgba(255,255,255,0.5); }
+/* 文本标题控制排版 */
+h2 { font-size: 26px !important; font-weight: 800; color: #ffffff; margin-bottom: 6px !important; letter-spacing: -0.5px; }
+h3 { font-size: 18px !important; color: var(--app-text-sub); font-weight: 600; margin-top: 0; }
+h4 { font-size: 13px !important; color: #4a5568 !important; font-weight: 500; letter-spacing: 1px; }
+h5 {
+  color: #e2e8f0; font-size: 15px !important; background: #1a1c23; padding: 8px 18px; border-radius: 20px;
+  display: inline-block; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); border: 1px solid rgba(255,255,255,0.02);
+}
 </style>
-
   
 </head>
 
