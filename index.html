@@ -18,87 +18,85 @@
 
 <style>
 /* =================================================== */
-/* 全局基础重置：冰川极地蓝高级调色盘 */
+/* 全局基础重置：皇家圣殿圣洁金高级调色盘 */
 /* =================================================== */
 body {
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: #0f172a; /* 深邃数码夜空蓝 */
-  color: #f8fafc; /* 干净的极地白文字 */
+  background: #0b0c10; /* 深邃神盛的数码墨黑底色 */
+  color: #f5f5f7; /* 优雅的亮白文字 */
   min-height: 100vh;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
-/* 提升页面厚度感的立体背景层（从深蓝到极光绿的优雅渐变氛围灯） */
+/* 页面后方的立体环境光晕（淡淡的香槟金氛围灯，彻底消除空洞单调感） */
 .app-fluid-bg {
   position: fixed;
   top: 0; left: 0; width: 100vw; height: 100vw;
-  background: 
-    radial-gradient(circle at 15% 0%, rgba(20, 184, 166, 0.15) 0%, transparent 60%), /* 引入薄荷绿微光 */
-    radial-gradient(circle at 85% 20%, rgba(99, 102, 241, 0.12) 0%, transparent 55%);
   z-index: -1;
   filter: blur(50px);
+  background: radial-gradient(circle at 15% 0%, rgba(212, 175, 55, 0.12) 0%, transparent 60%);
 }
 
-/* 具有物理厚度的立体输入框 */
+/* 具有物理凹陷感的模块化输入框 */
 input {
   padding: 16px;
   font-size: 17px;
   width: 230px;
-  background: #1e293b; /* 输入框变成深邃石墨蓝 */
+  background: #1a1c23; /* 深石墨蓝黑输入槽 */
   border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 14px;
   color: #ffffff;
   text-align: center;
   outline: none;
   box-shadow: 
-    inset 0 2px 4px rgba(0, 0, 0, 0.2),
-    0 4px 12px rgba(0, 0, 0, 0.1);
+    inset 0 2px 4px rgba(0, 0, 0, 0.4),
+    0 4px 12px rgba(0, 0, 0, 0.2);
   transition: all 0.25s ease;
 }
 input:focus {
-  border-color: #14b8a6;
-  box-shadow: 
-    0 0 0 4px rgba(20, 184, 166, 0.15),
-    0 8px 20px rgba(20, 184, 166, 0.1);
+  border-color: #d4af37; /* 聚焦时亮金边框 */
+  box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.2);
+  background: #20232c;
 }
 input::placeholder {
-  color: #64748b;
+  color: #4b526d;
 }
 
-/* 现代独立实体大按钮 */
+/* 带有香槟金高光与悬浮投影的通用按钮 */
 button {
   padding: 14px 28px;
   margin: 10px;
   font-size: 16px;
   font-weight: 600;
   border-radius: 14px;
-  background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%); /* 配合极地蓝的翡翠青按钮 */
-  color: #ffffff;
   border: none;
+  cursor: pointer;
+  background: linear-gradient(135deg, #d4af37 0%, #aa841b 100%); /* 奢华圣金渐变 */
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
   box-shadow: 
-    0 10px 24px rgba(20, 184, 166, 0.25),
-    0 4px 8px rgba(20, 184, 166, 0.15),
+    0 10px 24px rgba(212, 175, 55, 0.25),
+    0 4px 8px rgba(212, 175, 55, 0.15),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
   transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-  cursor: pointer;
   letter-spacing: 0.5px;
 }
 button:active {
   transform: scale(0.95);
-  box-shadow: 0 4px 10px rgba(20, 184, 166, 0.2);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.15);
 }
 
-/* 修复主页格子：完美水平居中 */
+/* 修复主页网格布局：移除冗余宽度，确保在大屏/小屏手机上都绝对水平居中 */
 #home > div {
   grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  gap: 18px 14px !important; /* 纵向间距预留给 4px 的物理厚度座 */
+  gap: 18px 14px !important; /* 纵向留出空间给 5px 的 3D 金色底座 */
   width: 100% !important;
   max-width: 100% !important;
   padding: 10px 4px !important;
@@ -107,56 +105,55 @@ button:active {
 }
 
 /* =================================================== */
-/* ⚡ 方案六核心魔改：液态水滴晶体卡片（极地蓝版） */
+/* ⚡ 核心进化：液态水滴晶体卡片（皇家圣洁金版） */
 /* =================================================== */
 .homeCard {
   height: 105px;
-  padding: 12px 6px !important;
+  padding: 12px 6px !important; /* 压缩内部 padding，消除内容偏出和拥挤 */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
   
-  /* 核心高级色：晶莹通透的极地冰川浅蓝 */
-  background: #e0f2fe; 
-  border-radius: 22px; /* 极致饱满圆润的水滴圆角 */
+  background: #fdfbf7; /* 温润柔和的圣洁象牙白玉色 */
+  border-radius: 22px; /* 极致圆润的水滴组件大圆角 */
   cursor: pointer;
   width: 100%;
   
-  /* 微弱的表面边框线 */
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  /* 精致的微光表面线 */
+  border: 1px solid rgba(255, 255, 255, 0.9);
   
-  /* 【绝对立体感核心】：利用 4px 偏置的矿石蓝实色投影，死死压出卡片的实体物理侧面厚度 */
+  /* 【绝对立体感精髓】：利用 5px 的香槟金实色投影，在纯黑背景上死死压出实体的侧面厚度 */
   box-shadow: 
-    0 5px 0px #7dd3fc, /* 关键：浅天蓝的物理厚度层（肉眼可见的立体感！） */
-    0 14px 28px rgba(0, 0, 0, 0.3), /* 远端下沉的环境扩散阴影 */
+    0 5px 0px #cfae4f, /* 黄金实体侧边厚度层（肉眼可见的立体感！） */
+    0 14px 28px rgba(0, 0, 0, 0.5), /* 极深的远端扩散环境光影 */
     inset 0 1.5px 0px #ffffff; /* 内部顶光亮线 */
     
-  transition: all 0.12s cubic-bezier(0.4, 0, 0.2, 1); /* 极快的解压下踩触感 */
+  transition: all 0.12s cubic-bezier(0.4, 0, 0.2, 1); /* 极其干脆利落的机械操作感 */
 }
 
-/* 【极致解压的踩扁手感】：点击时，5px 的物理厚度瞬间被手指“压平”入屏幕 */
+/* 【解压的下踩反转手感】：点击时，5px 的黄金厚度瞬间被手指“踩扁”压入手机屏幕 */
 .homeCard:active {
-  transform: translateY(5px) scale(0.96); /* 向下位移正好等于厚度层 */
-  background: #bae6fd; /* 按下时颜色微微变深 */
+  transform: translateY(5px) scale(0.96); /* 垂直向下沉降位移正好等于厚度层 */
+  background: #f4ede0; /* 按下时白玉颜色微微变深，模拟物理接触受力 */
   
-  /* 厚度投影归零，模拟卡片完全贴紧地面的质感 */
+  /* 厚度投影归零，模拟卡片完全被按到底部的实体开关质感 */
   box-shadow: 
     0 0px 0px transparent, 
-    0 4px 10px rgba(0, 0, 0, 0.2),
+    0 4px 10px rgba(0, 0, 0, 0.3),
     inset 0 1px 0px rgba(0,0,0,0.05);
 }
 
-/* 分区色彩独立图标槽 */
-.homeCard:nth-child(1) .homeIcon { background: #38bdf8; color: #ffffff; } /* 扫码 */
-.homeCard:nth-child(2) .homeIcon { background: #fbbf24; color: #ffffff; } /* 手动 */
-.homeCard:nth-child(3) .homeIcon { background: #34d399; color: #ffffff; } /* 看板 */
-.homeCard:nth-child(4) .homeIcon { background: #a78bfa; color: #ffffff; } /* 搜索 */
-.homeCard:nth-child(5) .homeIcon { background: #f472b6; color: #ffffff; } /* 注册 */
-.homeCard:nth-child(6) .homeIcon { background: #f87171; color: #ffffff; } /* 登出 */
+/* 分区色彩独立图标槽（让色彩包裹在精致的白色格子中，丰富且绝不单调） */
+.homeCard:nth-child(1) .homeIcon { background: #e0f2ff; color: #1d4ed8; } /* 扫码-天蓝 */
+.homeCard:nth-child(2) .homeIcon { background: #fef3c7; color: #b45309; } /* 手动-暖金 */
+.homeCard:nth-child(3) .homeIcon { background: #ecfdf5; color: #047857; } /* 看板-翡翠绿 */
+.homeCard:nth-child(4) .homeIcon { background: #f5f3ff; color: #6d28d9; } /* 搜索-丁香紫 */
+.homeCard:nth-child(5) .homeIcon { background: #fdf2f8; color: #be185d; } /* 注册-胭脂粉 */
+.homeCard:nth-child(6) .homeIcon { background: #fef2f2; color: #b91c1c; } /* 登出-高级红 */
 
-/* 饱满的水滴圆形图标槽（自带厚度） */
+/* 晶体卡片里的圆形/跑道型独立图标槽 */
 .homeIcon {
   font-size: 20px;
   width: 44px;
@@ -167,35 +164,37 @@ button:active {
   border-radius: 14px;
   margin-bottom: 6px;
   line-height: 1;
-  /* 图标槽也带有微小的下沉厚度线 */
-  box-shadow: 0 2px 0px rgba(0, 0, 0, 0.08); 
+  /* 图标槽自身的立体下沉微线 */
+  box-shadow: 0 2px 0px rgba(0, 0, 0, 0.04); 
 }
 
 .homeText {
   font-size: 14px;
-  font-weight: 800; /* 加粗字体，在极地蓝卡片上极具辨识度 */
+  font-weight: 800; /* 加粗字体，大幅提升辨识度 */
   line-height: 1.2;
-  color: #0369a1; /* 深海靛蓝文字，优雅低反差 */
+  color: #4a3703; /* 低反差古铜深金字，比网页死黑字高级十倍 */
   letter-spacing: -0.1px;
 }
 
-/* 状态反馈提示色 */
-.success { background: rgba(20, 184, 166, 0.15) !important; border: 1px solid #14b8a6 !important; color: #2dd4bf !important; border-radius: 12px; }
-.duplicate { background: rgba(245, 158, 11, 0.15) !important; border: 1px solid #f59e0b !important; color: #fbbf24 !important; border-radius: 12px; }
-.error { background: rgba(239, 68, 68, 0.15) !important; border: 1px solid #ef4444 !important; color: #f87171 !important; border-radius: 12px; }
+/* 庄重高档的工业级状态指示气泡 */
+.success { background: rgba(46, 204, 113, 0.15) !important; border: 1px solid #2ecc71 !important; color: #2ecc71 !important; border-radius: 12px; }
+.duplicate { background: rgba(241, 196, 15, 0.15) !important; border: 1px solid #f1c40f !important; color: #f1c40f !important; border-radius: 12px; }
+.error { background: rgba(231, 76, 60, 0.15) !important; border: 1px solid #e74c3c !important; color: #e74c3c !important; border-radius: 12px; }
 
-/* 登录面板卡片 */
+/* 登录面板、子页面大容器：重构为高级半透明钛金磨砂舱 */
 .loginBox {
   margin-top: 40px;
-  background: rgba(30, 41, 59, 0.7);
+  background: rgba(26, 28, 35, 0.85);
   padding: 35px 25px;
   border-radius: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(20px);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px); /* 强烈的现代毛玻璃折射 */
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.2), 
+    0 30px 60px rgba(0, 0, 0, 0.5);
 }
 
-/* 应用主容器 */
+/* 应用主内容外层总容器 */
 #appContainer {
   width: 100%;
   max-width: 520px;
@@ -205,15 +204,15 @@ button:active {
   z-index: 1;
 }
 
-/* 看板数字高亮 */
+/* 看板、签到核心数据数字高亮（注入优雅的香槟金发光质感） */
 #count, #d_total, #d_checked, #d_pending, #d_a, #d_b {
-  color: #2dd4bf;
+  color: #d4af37;
   font-weight: 800;
   font-size: 1.2em;
-  text-shadow: 0 0 10px rgba(32, 201, 151, 0.3);
+  text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
 }
 
-/* 文字排版优化 */
+/* 顶部教会系统大气的排版和字重对比 */
 h2 {
   font-size: 26px !important;
   font-weight: 800;
@@ -223,24 +222,24 @@ h2 {
 }
 h3 {
   font-size: 18px !important;
-  color: #94a3b8;
+  color: #a0aec0;
   font-weight: 600;
   margin-top: 0;
 }
 h4 {
   font-size: 13px !important;
-  color: #475569 !important;
+  color: #4a5568 !important;
   font-weight: 500;
   letter-spacing: 1px;
 }
 h5 {
   color: #e2e8f0;
   font-size: 15px !important;
-  background: #1e293b;
+  background: #1a1c23;
   padding: 8px 18px;
   border-radius: 20px;
   display: inline-block;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   border: 1px solid rgba(255,255,255,0.02);
 }
 </style>
