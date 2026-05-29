@@ -22,7 +22,7 @@
 /* =================================================== */
 :root {
   --app-bg-dark: #060b19;      /* 页面最底层深邃蓝黑基底 */
-  --app-text-main: #1e293b;    /* 核心卡片内部高级石墨深灰文字（低反差，绝非粉色） */
+  --app-text-main: #0f172a;    /* 核心卡片内部高级石墨深灰文字（低反差，绝非粉色） */
   --app-text-sub: #475569;     /* 辅助暗灰文字 */
   
   /* 3D 泡泡光影色 */
@@ -127,17 +127,17 @@ justify-content:center;
 align-items:center;
 box-sizing:border-box;
 background:#dfe3ea;
-border:4px solid #000;
+border: 1px solid rgba(255, 255, 255, 0.9);
 border-radius:22px;
-box-shadow:0 4px 14px rgba(0,0,0,0.12);
-transition:0.15s;
+box-shadow: 0 var(--thick, 5px) 0px var(--card-base-3d), 0 14px 28px rgba(12, 23, 42, 0.25), inset 0 1.5px 0px #ffffff;
+transition: all 0.12s cubic-bezier(0.4, 0, 0.2, 1);
 cursor:pointer;
 
 }
 
 .homeCard:active{
 
-transform:scale(0.96);
+transform: translateY(5px) scale(0.96);
 
 }
 
