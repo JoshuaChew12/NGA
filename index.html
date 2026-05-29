@@ -17,126 +17,117 @@
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
 <style>
-/* 全局基础重置：科技暗黑背景 */
+/* 全局基础重置：现代深邃空间 */
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Courier New', Courier, monospace, Arial; /* 换成更有黑客数字感的等宽字体 */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: #030712; /* 极深的数码夜空蓝底色 */
-  color: #00f2fe; /* 全局文字变成全息青色 */
+  background: #0d1117; /* 极具质感的深邃墨黑 */
+  color: #f0f6fc; /* 柔和的白色文字 */
   min-height: 100vh;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* 核心：纯 CSS 渲染的激光网格背景层 */
-.hologram-bg {
+/* 核心：空间动态星云（纯 CSS 渲染，极度高级且不卡顿） */
+.spatial-bg {
   position: fixed;
-  top: 0; left: 0; width: 100vw; height: 100vh;
-  background-image: radial-gradient(rgba(0, 242, 254, 0.15) 1px, transparent 0);
-  background-size: 20px 20px;
+  top: -50%; left: -50%; width: 200vw; height: 200vh;
+  background: 
+    radial-gradient(circle at 30% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 70% 60%, rgba(168, 85, 247, 0.12) 0%, transparent 40%);
   z-index: -2;
+  filter: blur(60px);
 }
 
-/* 核心：循环滚动的全息扫描线 */
-.scan-timeline {
-  position: fixed;
-  top: 0; left: 0; width: 100vw; height: 4px;
-  background: linear-gradient(to bottom, rgba(0, 242, 254, 0), rgba(0, 242, 254, 0.4), rgba(0, 242, 254, 0));
-  animation: hologramScan 4s linear infinite;
-  z-index: -1;
-  pointer-events: none;
-}
-@keyframes hologramScan {
-  0% { transform: translateY(-10vh); }
-  100% { transform: translateY(110vh); }
-}
-
-/* 科技感大按钮（通用） */
+/* 极致高级感大按钮（通用） */
 button {
   padding: 16px;
   margin: 10px;
   font-size: 18px;
   font-weight: 600;
-  border-radius: 6px; /* 科技感少用大圆角，多用硬朗微圆角 */
-  background: transparent;
-  color: #00f2fe;
-  border: 1px solid rgba(0, 242, 254, 0.6);
-  box-shadow: 0 0 10px rgba(0, 242, 254, 0.2);
-  transition: all 0.2s ease;
+  border-radius: 14px; /* 优雅的苹果风圆角 */
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
   cursor: pointer;
-  font-family: inherit;
 }
 button:active {
-  transform: scale(0.95);
-  background: rgba(0, 242, 254, 0.2);
-  box-shadow: 0 0 20px rgba(0, 242, 254, 0.6);
+  transform: scale(0.96);
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
-/* 数字化全息输入框 */
+/* 现代玻璃拟态输入框 */
 input {
   padding: 16px;
   font-size: 18px;
   width: 220px;
-  background: rgba(6, 25, 46, 0.6);
-  border: 1px solid rgba(0, 242, 254, 0.4);
-  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
   color: #fff;
   text-align: center;
   outline: none;
-  box-shadow: inset 0 0 8px rgba(0, 242, 254, 0.1);
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.05);
   transition: all 0.3s ease;
 }
 input:focus {
-  border-color: #00f2fe;
-  box-shadow: 0 0 15px rgba(0, 242, 254, 0.4), inset 0 0 8px rgba(0, 242, 254, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
 }
 input::placeholder {
-  color: rgba(0, 242, 254, 0.4);
+  color: rgba(255, 255, 255, 0.3);
 }
 
 /* QR扫描区域 */
 #scanner {
   width: 320px;
   margin: auto;
-  border: 2px dashed #00f2fe;
-  box-shadow: 0 0 20px rgba(0, 242, 254, 0.3);
-  background: rgba(0,0,0,0.4);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
 }
 
-/* 状态反馈提示色（魔改为发光电子色） */
+/* 状态反馈提示色（优雅磨砂色，不刺眼） */
 .success {
-  background: rgba(40, 167, 69, 0.2) !important;
-  border: 1px solid #28a745 !important;
-  color: #2da44e !important;
-  filter: drop-shadow(0 0 8px rgba(40, 167, 69, 0.4));
+  background: rgba(46, 160, 67, 0.15) !important;
+  border: 1px solid rgba(46, 160, 67, 0.4) !important;
+  color: #3fb950 !important;
 }
 .duplicate {
-  background: rgba(255, 193, 7, 0.2) !important;
-  border: 1px solid #ffc107 !important;
-  color: #ffc107 !important;
-  filter: drop-shadow(0 0 8px rgba(255, 193, 7, 0.4));
+  background: rgba(210, 153, 34, 0.15) !important;
+  border: 1px solid rgba(210, 153, 34, 0.4) !important;
+  color: #e3b341 !important;
 }
 .error {
-  background: rgba(220, 53, 69, 0.2) !important;
-  border: 1px solid #dc3545 !important;
-  color: #dc3545 !important;
-  filter: drop-shadow(0 0 8px rgba(220, 53, 69, 0.4));
+  background: rgba(248, 81, 73, 0.15) !important;
+  border: 1px solid rgba(248, 81, 73, 0.4) !important;
+  color: #f85149 !important;
 }
 
+/* 登录面板卡片 */
 .loginBox {
   margin-top: 50px;
-  background: rgba(6, 25, 46, 0.4);
+  background: rgba(255, 255, 255, 0.03);
   padding: 30px 20px;
-  border-radius: 12px;
-  border: 1px solid rgba(0, 242, 254, 0.2);
-  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.3);
 }
 
-/* 主页菜单卡片：全面重构为全息能量方块 */
+/* 主页菜单卡片：Vision Pro 磨砂晶体舱 */
 .homeCard {
   height: 120px;
   display: flex;
@@ -144,39 +135,47 @@ input::placeholder {
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
-  background: rgba(6, 25, 46, 0.5); /* 半透明深蓝 */
-  border: 1px solid rgba(0, 242, 254, 0.4); /* 荧光青细边框 */
-  border-radius: 12px;
-  /* 关键：去除原本沉重的黑边，换成向外散射的荧光效果 */
-  box-shadow: 0 0 15px rgba(0, 242, 254, 0.1); 
-  backdrop-filter: blur(8px); /* 毛玻璃折射 */
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  /* 核心：高光渐变背景，模拟光线照在玻璃边缘的厚度感 */
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.03) 100%);
+  /* 顶部高光边框（1px Highlighter） */
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-top-color: rgba(255, 255, 255, 0.25); /* 顶部边缘更亮，制造光照立体感 */
+  border-radius: 20px; /* 大圆角更具亲和力与高级感 */
+  /* 环境阴影：多层阴影拉开Z轴立体深度 */
+  box-shadow: 
+    0 4px 10px rgba(0, 0, 0, 0.1),
+    0 12px 30px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(16px); /* 极高模糊度，让下方背景完美透出 */
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   width: 100%;
-  color: #00f2fe;
+  color: #ffffff;
 }
 
-/* 卡片按下时的物理下沉及霓虹高亮 */
+/* 卡片点击时的物理陷落 */
 .homeCard:active {
-  transform: scale(0.94);
-  background: rgba(0, 242, 254, 0.15);
-  border-color: #ff007f; /* 按下时闪烁赛博朋克粉色边缘 */
-  box-shadow: 0 0 25px rgba(255, 0, 127, 0.5);
-  color: #ff007f;
+  transform: scale(0.95);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 
+    0 2px 5px rgba(0, 0, 0, 0.1),
+    0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .homeIcon {
-  font-size: 32px;
+  font-size: 28px;
   margin-bottom: 8px;
   line-height: 1;
-  filter: drop-shadow(0 0 5px rgba(0, 242, 254, 0.6)); /* 让Emoji也微微发光 */
+  opacity: 0.9;
 }
 
 .homeText {
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.3;
-  letter-spacing: 1px;
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: 0.5px;
 }
 
 /* 应用主容器 */
@@ -189,21 +188,35 @@ input::placeholder {
   z-index: 1;
 }
 
-/* 数字仪表盘发光特效 */
+/* 数字高亮（克制、通透的淡靛蓝高光） */
 #count, #d_total, #d_checked, #d_pending, #d_a, #d_b {
-  color: #ff007f; /* 数字用亮粉色高亮 */
-  font-weight: bold;
-  text-shadow: 0 0 10px rgba(255, 0, 127, 0.6);
-  font-family: 'Courier New', monospace;
+  color: #818cf8; 
+  font-weight: 700;
+  text-shadow: 0 0 15px rgba(129, 140, 248, 0.4);
 }
 
-/* 额外调整：标题荧光 */
-h2, h3, h4 {
-  text-shadow: 0 0 12px rgba(0, 242, 254, 0.5);
-  letter-spacing: 1px;
+/* 标题文字排版 */
+h2 {
+  font-size: 28px !important;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+  margin-bottom: 8px !important;
+}
+h3 {
+  font-size: 20px !important;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
 }
 h4 {
-  color: rgba(0, 242, 254, 0.7);
+  font-size: 16px !important;
+  color: rgba(255, 255, 255, 0.4) !important;
+  font-weight: 400;
+  letter-spacing: 1px;
+}
+h5 {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 16px !important;
 }
 </style>
 
@@ -211,8 +224,7 @@ h4 {
 
 <body>
 
-<div class="hologram-bg"></div>
-<div class="scan-timeline"></div>
+<div class="spatial-bg"></div>
 
 <div id="appContainer">
 
