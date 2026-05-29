@@ -18,52 +18,68 @@
 
 <style>
 /* =================================================== */
-/* 全局基础重置：星河冰川蓝高级调色盘（无绿色、无粉色） */
+/* 全局基础重置：丝绒燕麦奶茶高级调色盘（温润、治愈、无粉绿） */
 /* =================================================== */
 body {
   margin: 0;
   padding: 0;
-  /* 现代苹果原生无衬线字体族，克制且极具高级感 */
+  /* 现代苹果原生无衬线字体，极具克制的大厂质感 */
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", Arial, sans-serif;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: #f1f5f9; /* 极为干净的冰川浅灰底色 */
-  color: #0f172a; /* 极深的石墨灰文字（高级低反差字色） */
+  background: #f7f5f0; /* 温润柔和的浅燕麦奶茶底色，极具亲和力 */
+  color: #2b2927; /* 极深的暖石墨灰文字（高级低反差的核心） */
   min-height: 100vh;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
 /* =================================================== */
-/* ⚡ 核心组件 1：全屏纯净“星河大泡泡”背景层（剔除所有绿色） */
+/* ⚡ 核心组件 1：全屏高级“折射高光大泡泡”背景层 */
 /* =================================================== */
 .bubble-bg-container {
   position: fixed;
   top: 0; left: 0; width: 100vw; height: 100vh;
   z-index: -1;
   overflow: hidden;
-  background: radial-gradient(circle at 50% 0%, #e0f2fe 0%, #f1f5f9 100%); /* 冰川浅蓝水光底衬 */
+  background: radial-gradient(circle at 50% 0%, #ffffff 0%, #f7f5f0 100%); /* 渐变柔光底衬 */
 }
 
-/* 巨型泡泡的基础样式：换成纯净的浅天蓝到柔蓝渐变，极度通透 */
+/* 巨型泡泡：通过去除强模糊、引入2层内阴影+1层外高光，逼真模拟水晶玻璃球的折射光线 */
 .giant-bubble {
   position: absolute;
   border-radius: 50%;
-  background: linear-gradient(135deg, rgba(56, 189, 248, 0.16) 0%, rgba(14, 165, 233, 0.1) 100%);
-  filter: blur(26px); /* 强模糊制造空气感 */
-  animation: floatBubble 12s ease-in-out infinite alternate;
+  
+  /* 泡泡自身的晶莹质感：极淡的象牙白半透明微渐变 */
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(220, 215, 200, 0.1) 100%);
+  
+  /* 明显的轮廓线条：模拟肥皂泡/水滴边缘的光线汇聚 */
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-top: 2px solid rgba(255, 255, 255, 0.9); /* 顶部迎光面切边，极为明显 */
+  
+  /* 【折射光线精髓】：
+     inset 3px 3px... -> 模拟左上角射入的高光折射
+     inset -6px -6px... -> 模拟泡泡右下角聚光的透光暗边
+     0 12px... -> 泡泡投射在下方的柔和立体阴影 */
+  box-shadow: 
+    inset 4px 4px 12px rgba(255, 255, 255, 0.9), 
+    inset -8px -8px 20px rgba(180, 170, 150, 0.15),
+    0 12px 30px rgba(165, 155, 135, 0.2);
+    
+  filter: blur(2px); /* 仅保留 2px 极微弱的边缘羽化，保证泡泡形状清晰、轮廓明显 */
+  animation: floatBubble 15s ease-in-out infinite alternate;
 }
 
-/* 3个缓缓在后台漂浮、舒张的巨型气泡 */
-.b1 { width: 320px; height: 320px; top: -5%; left: -10%; animation-duration: 14s; }
-.b2 { width: 280px; height: 280px; top: 40%; right: -15%; animation-duration: 18s; animation-delay: -2s; }
-.b3 { width: 220px; height: 220px; bottom: -5%; left: 15%; animation-duration: 16s; }
+/* 定义 3 个带有清晰折射光的巨型泡泡位置及尺寸 */
+.b1 { width: 280px; height: 280px; top: -2%; left: -8%; animation-duration: 16s; }
+.b2 { width: 240px; height: 240px; top: 45%; right: -12%; animation-duration: 20s; animation-delay: -3s; }
+.b3 { width: 200px; height: 200px; bottom: -4%; left: 12%; animation-duration: 18s; }
 
 @keyframes floatBubble {
-  0% { transform: translate(0, 0) scale(1); }
-  100% { transform: translate(25px, 35px) scale(1.12); }
+  0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+  100% { transform: translate(20px, 30px) scale(1.08) rotate(10deg); } /* 缓缓位移和微胖舒张 */
 }
 
 /* =================================================== */
@@ -74,28 +90,28 @@ input {
   font-size: 17px;
   width: 230px;
   background: #ffffff;
-  border: 1px solid rgba(15, 23, 42, 0.06);
+  border: 1px solid rgba(43, 41, 39, 0.06);
   border-radius: 16px;
-  color: #0f172a;
+  color: #2b2927;
   text-align: center;
   outline: none;
   /* 细腻内阴影，制造框体向内深陷的机械质感 */
   box-shadow: 
-    inset 0 2px 4px rgba(15, 23, 42, 0.04),
-    0 4px 12px rgba(15, 23, 42, 0.02);
+    inset 0 2px 4px rgba(43, 41, 39, 0.04),
+    0 4px 12px rgba(43, 41, 39, 0.02);
   transition: all 0.25s ease;
 }
 input:focus {
-  border-color: #0ea5e9;
+  border-color: #c2b29e;
   box-shadow: 
-    0 0 0 4px rgba(14, 165, 233, 0.12),
-    0 8px 20px rgba(14, 165, 233, 0.06);
+    0 0 0 4px rgba(194, 178, 158, 0.15),
+    0 8px 20px rgba(194, 178, 158, 0.06);
 }
 input::placeholder {
-  color: #94a3b8;
+  color: #b0a89f;
 }
 
-/* 现代独立实体大按钮（石墨黑） */
+/* 现代独立实体大按钮（选用奢华内敛的泥土中灰） */
 button {
   padding: 14px 28px;
   margin: 10px;
@@ -104,11 +120,11 @@ button {
   border-radius: 16px;
   border: none;
   cursor: pointer;
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); /* 沉稳黑墨色大按钮，极显高级 */
+  background: linear-gradient(135deg, #4a4540 0%, #332f2c; 100%); /* 选用温润醇厚的石墨咖大按钮，极显高级 */
   color: #ffffff;
   box-shadow: 
-    0 10px 24px rgba(15, 23, 42, 0.15),
-    0 4px 8px rgba(15, 23, 42, 0.1),
+    0 10px 24px rgba(74, 69, 64, 0.18),
+    0 4px 8px rgba(74, 69, 64, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
   transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
   letter-spacing: 0.5px;
@@ -117,7 +133,7 @@ button:active {
   transform: scale(0.95);
 }
 
-/* 修复主页网格布局：移除冗余宽度，绝对水平居中 */
+/* 修复主页网格布局：移除多余间距，绝对水平居中 */
 #home > div {
   grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   gap: 20px 14px !important; /* 纵向大间距，留出空间给 3D 侧边厚度层 */
@@ -129,11 +145,11 @@ button:active {
 }
 
 /* =================================================== */
-/* ⚡ 核心组件 2：液态水滴晶体卡片（冰川矿石白晶版） */
+/* ⚡ 核心组件 2：液态水滴晶体卡片（奶茶白晶版） */
 /* =================================================== */
 .homeCard {
   height: 105px;
-  padding: 12px 6px !important; /* 精简内部 padding，消除内容拥挤 */
+  padding: 12px 6px !important; /* 精简内部 padding，消除多余空隙 */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -141,15 +157,15 @@ button:active {
   box-sizing: border-box;
   
   background: #ffffff; /* 温润饱满的牛奶晶体纯白 */
-  border-radius: 24px; /* 极致圆润胖乎乎的水滴大圆角，呼应背景大泡泡 */
+  border-radius: 24px; /* 极致圆润胖乎乎的水滴大圆角，完美呼应背景折射大泡泡 */
   cursor: pointer;
   width: 100%;
   border: 1px solid rgba(255, 255, 255, 0.9);
   
-  /* 【绝对立体感精髓】：利用 5px 偏置的冰川深灰蓝投影，在泡泡背景上强力压出实体的侧面厚度 */
+  /* 【绝对立体感精髓】：利用 5px 偏置的燕麦深泥灰投影，在泡泡背景上死死压出实体的侧面厚度 */
   box-shadow: 
-    0 5px 0px #cbd5e1; /* 关键：深灰蓝实体厚度侧边（肉眼可见的超强 3D 立体感！） */
-    0 14px 28px rgba(148, 163, 184, 0.35), /* 远端扩散的柔和环境投影 */
+    0 5px 0px #d4cbbe, /* 关键：丝绒泥土灰实体厚度侧边（肉眼可见的超强 3D 立体感！） */
+    0 14px 28px rgba(180, 170, 150, 0.35), /* 远端扩散的柔和环境投影 */
     inset 0 1.5px 0px #ffffff;
     
   transition: all 0.12s cubic-bezier(0.4, 0, 0.2, 1); /* 利落的下按物理反馈 */
@@ -158,11 +174,11 @@ button:active {
 /* 【极致解压的下踩回弹手感】：点击时，5px 的厚度瞬间被手指“压平”入手机屏幕 */
 .homeCard:active {
   transform: translateY(5px) scale(0.96); /* 垂直向下位移等于厚度 */
-  background: #f8fafc; /* 按下时卡片颜色微微变深，模拟受力 */
+  background: #fdfcf9; /* 按下时卡片颜色微微变深，模拟受力 */
   
   box-shadow: 
     0 0px 0px transparent, 
-    0 4px 10px rgba(148, 163, 184, 0.15),
+    0 4px 10px rgba(180, 170, 150, 0.15),
     inset 0 1px 0px rgba(0,0,0,0.02);
 }
 
@@ -192,26 +208,26 @@ button:active {
   font-size: 14px;
   font-weight: 800; /* 加粗字体，极具大厂 App 精致质感 */
   line-height: 1.2;
-  color: #334155; /* 优雅的钢石深灰字（绝非粉色，低反差极美） */
+  color: #4a4540; /* 优雅的燕麦深褐灰色字，高级低反差 */
   letter-spacing: -0.1px;
 }
 
-/* 状态反馈提示色 */
+/* 高级打磨的状态提示气泡 */
 .success { background: #e6f9ed !important; border: 1px solid #a7f3d0 !important; color: #047857 !important; border-radius: 14px; }
 .duplicate { background: #fffbeb !important; border: 1px solid #fde68a !important; color: #b45309 !important; border-radius: 14px; }
 .error { background: #fff5f5 !important; border: 2px solid #fecaca !important; color: #b91c1c !important; border-radius: 14px; }
 
-/* 登录面板、子页面大容器：重构为高级半透明冰川磨砂舱 */
+/* 登录面板、子页面大容器：重构为高级半透明温暖燕麦磨砂舱 */
 .loginBox {
   margin-top: 40px;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.85);
   padding: 35px 25px;
   border-radius: 24px;
   border: 1px solid rgba(255, 255, 255, 0.6);
   backdrop-filter: blur(25px); /* 极强的毛玻璃折射效果 */
   box-shadow: 
-    0 10px 30px rgba(148, 163, 184, 0.1), 
-    0 30px 60px rgba(148, 163, 184, 0.2);
+    0 10px 30px rgba(180, 170, 150, 0.1), 
+    0 30px 60px rgba(180, 170, 150, 0.2);
 }
 
 /* 应用主内容外层总容器 */
@@ -226,7 +242,7 @@ button:active {
 
 /* 看板、签到核心数据数字高亮 */
 #count, #d_total, #d_checked, #d_pending, #d_a, #d_b {
-  color: #0ea5e9; /* 极地深天蓝 */
+  color: #b09575; /* 优雅的温润琥珀金 */
   font-weight: 800;
   font-size: 1.2em;
 }
@@ -235,30 +251,30 @@ button:active {
 h2 {
   font-size: 26px !important;
   font-weight: 800;
-  color: #0f172a; /* 干净深沉的钢石黑 */
+  color: #2b2927; /* 温暖沉稳的泥石深灰 */
   margin-bottom: 6px !important;
   letter-spacing: -0.5px;
 }
 h3 {
   font-size: 18px !important;
-  color: #475569;
+  color: #706961;
   font-weight: 600;
   margin-top: 0;
 }
 h4 {
   font-size: 13px !important;
-  color: #94a3b8 !important;
+  color: #a39c93 !important;
   font-weight: 500;
   letter-spacing: 1px;
 }
 h5 {
-  color: #334155;
+  color: #4a4540;
   font-size: 15px !important;
   background: #ffffff;
   padding: 8px 18px;
   border-radius: 20px;
   display: inline-block;
-  box-shadow: 0 4px 12px rgba(148, 163, 184, 0.15);
+  box-shadow: 0 4px 12px rgba(180, 170, 150, 0.15);
   border: 1px solid rgba(255,255,255,0.5);
 }
 </style>
@@ -266,7 +282,7 @@ h5 {
 </head>
 
 <body>
-<!-- 注入高级立体大泡泡层 -->
+<!-- 注入带有高光折射的巨型燕麦泡泡层 -->
 <div class="bubble-bg-container">
   <div class="giant-bubble b1"></div>
   <div class="giant-bubble b2"></div>
