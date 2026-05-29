@@ -17,112 +17,202 @@
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
 <style>
-
-body{
-
-margin:0;
-padding:0;
-font-family:Arial;
-text-align:center;
-
-display:flex;
-flex-direction:column;
-align-items:center;
-
-background:#f3f4f6;
-
+/* 全局基础重置：科技暗黑背景 */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Courier New', Courier, monospace, Arial; /* 换成更有黑客数字感的等宽字体 */
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #030712; /* 极深的数码夜空蓝底色 */
+  color: #00f2fe; /* 全局文字变成全息青色 */
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
-button{
-  padding:16px;
-  margin:10px;
-  font-size:18px;
-  font-weight:600;
-  border-radius:10px;
+/* 核心：纯 CSS 渲染的激光网格背景层 */
+.hologram-bg {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background-image: radial-gradient(rgba(0, 242, 254, 0.15) 1px, transparent 0);
+  background-size: 20px 20px;
+  z-index: -2;
 }
 
-input{
-  padding:16px;
-  font-size:18px;
-  width:220px;
+/* 核心：循环滚动的全息扫描线 */
+.scan-timeline {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 4px;
+  background: linear-gradient(to bottom, rgba(0, 242, 254, 0), rgba(0, 242, 254, 0.4), rgba(0, 242, 254, 0));
+  animation: hologramScan 4s linear infinite;
+  z-index: -1;
+  pointer-events: none;
+}
+@keyframes hologramScan {
+  0% { transform: translateY(-10vh); }
+  100% { transform: translateY(110vh); }
 }
 
-#scanner{
-  width:320px;
-  margin:auto;
+/* 科技感大按钮（通用） */
+button {
+  padding: 16px;
+  margin: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 6px; /* 科技感少用大圆角，多用硬朗微圆角 */
+  background: transparent;
+  color: #00f2fe;
+  border: 1px solid rgba(0, 242, 254, 0.6);
+  box-shadow: 0 0 10px rgba(0, 242, 254, 0.2);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  font-family: inherit;
+}
+button:active {
+  transform: scale(0.95);
+  background: rgba(0, 242, 254, 0.2);
+  box-shadow: 0 0 20px rgba(0, 242, 254, 0.6);
 }
 
-.success{
-  background:#d4edda;
+/* 数字化全息输入框 */
+input {
+  padding: 16px;
+  font-size: 18px;
+  width: 220px;
+  background: rgba(6, 25, 46, 0.6);
+  border: 1px solid rgba(0, 242, 254, 0.4);
+  border-radius: 6px;
+  color: #fff;
+  text-align: center;
+  outline: none;
+  box-shadow: inset 0 0 8px rgba(0, 242, 254, 0.1);
+  transition: all 0.3s ease;
+}
+input:focus {
+  border-color: #00f2fe;
+  box-shadow: 0 0 15px rgba(0, 242, 254, 0.4), inset 0 0 8px rgba(0, 242, 254, 0.2);
+}
+input::placeholder {
+  color: rgba(0, 242, 254, 0.4);
 }
 
-.duplicate{
-  background:#fff3cd;
+/* QR扫描区域 */
+#scanner {
+  width: 320px;
+  margin: auto;
+  border: 2px dashed #00f2fe;
+  box-shadow: 0 0 20px rgba(0, 242, 254, 0.3);
+  background: rgba(0,0,0,0.4);
 }
 
-.error{
-  background:#f8d7da;
+/* 状态反馈提示色（魔改为发光电子色） */
+.success {
+  background: rgba(40, 167, 69, 0.2) !important;
+  border: 1px solid #28a745 !important;
+  color: #2da44e !important;
+  filter: drop-shadow(0 0 8px rgba(40, 167, 69, 0.4));
+}
+.duplicate {
+  background: rgba(255, 193, 7, 0.2) !important;
+  border: 1px solid #ffc107 !important;
+  color: #ffc107 !important;
+  filter: drop-shadow(0 0 8px rgba(255, 193, 7, 0.4));
+}
+.error {
+  background: rgba(220, 53, 69, 0.2) !important;
+  border: 1px solid #dc3545 !important;
+  color: #dc3545 !important;
+  filter: drop-shadow(0 0 8px rgba(220, 53, 69, 0.4));
 }
 
-.loginBox{
-  margin-top:50px;
+.loginBox {
+  margin-top: 50px;
+  background: rgba(6, 25, 46, 0.4);
+  padding: 30px 20px;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 242, 254, 0.2);
+  backdrop-filter: blur(10px);
 }
 
-.homeCard{
-
-height:120px;
-
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-box-sizing:border-box;
-background:#dfe3ea;
-border:4px solid #000;
-border-radius:22px;
-box-shadow:0 4px 14px rgba(0,0,0,0.12);
-transition:0.15s;
-cursor:pointer;
-
+/* 主页菜单卡片：全面重构为全息能量方块 */
+.homeCard {
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  background: rgba(6, 25, 46, 0.5); /* 半透明深蓝 */
+  border: 1px solid rgba(0, 242, 254, 0.4); /* 荧光青细边框 */
+  border-radius: 12px;
+  /* 关键：去除原本沉重的黑边，换成向外散射的荧光效果 */
+  box-shadow: 0 0 15px rgba(0, 242, 254, 0.1); 
+  backdrop-filter: blur(8px); /* 毛玻璃折射 */
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  width: 100%;
+  color: #00f2fe;
 }
 
-.homeCard:active{
-
-transform:scale(0.96);
-
+/* 卡片按下时的物理下沉及霓虹高亮 */
+.homeCard:active {
+  transform: scale(0.94);
+  background: rgba(0, 242, 254, 0.15);
+  border-color: #ff007f; /* 按下时闪烁赛博朋克粉色边缘 */
+  box-shadow: 0 0 25px rgba(255, 0, 127, 0.5);
+  color: #ff007f;
 }
 
-.homeIcon{
-
-font-size:32px;
-margin-bottom:12px;
-line-height:1;
-
+.homeIcon {
+  font-size: 32px;
+  margin-bottom: 8px;
+  line-height: 1;
+  filter: drop-shadow(0 0 5px rgba(0, 242, 254, 0.6)); /* 让Emoji也微微发光 */
 }
 
-.homeText{
-
-font-size:20px;
-font-weight:700;
-line-height:1.3;
-
+.homeText {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: 1px;
 }
 
-#appContainer{
-
-width:100%;
-max-width:520px;
-
-padding:20px;
-box-sizing:border-box;
-
+/* 应用主容器 */
+#appContainer {
+  width: 100%;
+  max-width: 520px;
+  padding: 24px;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 1;
 }
 
+/* 数字仪表盘发光特效 */
+#count, #d_total, #d_checked, #d_pending, #d_a, #d_b {
+  color: #ff007f; /* 数字用亮粉色高亮 */
+  font-weight: bold;
+  text-shadow: 0 0 10px rgba(255, 0, 127, 0.6);
+  font-family: 'Courier New', monospace;
+}
+
+/* 额外调整：标题荧光 */
+h2, h3, h4 {
+  text-shadow: 0 0 12px rgba(0, 242, 254, 0.5);
+  letter-spacing: 1px;
+}
+h4 {
+  color: rgba(0, 242, 254, 0.7);
+}
 </style>
 
 </head>
 
 <body>
+
+<div class="hologram-bg"></div>
+<div class="scan-timeline"></div>
 
 <div id="appContainer">
 
