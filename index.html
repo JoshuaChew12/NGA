@@ -26,20 +26,20 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: #f4f6f9; /* 高级珍珠浅灰，消除刺眼的死白 */
-  color: #1d1d1f; /* 苹果标志性的深邃灰黑字 */
+  background: #f4f6f9; /* 高级珍珠浅灰底色 */
+  color: #1d1d1f; /* 现代深邃灰黑字 */
   min-height: 100vh;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
-/* 提升页面厚度感的立体背景层 */
+/* 提升页面厚度感的立体背景层（淡淡的极光氛围） */
 .app-fluid-bg {
   position: fixed;
   top: 0; left: 0; width: 100vw; height: 100vw;
   background: 
-    radial-gradient(circle at 10% 0%, rgba(99, 102, 241, 0.12) 0%, transparent 60%),
-    radial-gradient(circle at 90% 20%, rgba(244, 63, 94, 0.08) 0%, transparent 55%);
+    radial-gradient(circle at 15% 0%, rgba(99, 102, 241, 0.12) 0%, transparent 60%),
+    radial-gradient(circle at 85% 20%, rgba(244, 63, 94, 0.08) 0%, transparent 55%);
   z-index: -1;
   filter: blur(40px);
 }
@@ -71,7 +71,7 @@ input::placeholder {
   color: #a1a1aa;
 }
 
-/* 现代独立实体大按钮（通用） */
+/* 现代独立实体大按钮 */
 button {
   padding: 14px 28px;
   margin: 10px;
@@ -94,57 +94,75 @@ button:active {
   box-shadow: 0 4px 10px rgba(79, 70, 229, 0.2);
 }
 
-/* 修复主页格子偏右：通过 box-sizing 和 padding 强制网格完美水平居中 */
+/* 核心重构：主页非对称网格容器（完美水平居中） */
 #home > div {
   grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  gap: 14px !important; /* 适中的格子间距 */
+  gap: 16px 14px !important; /* 纵向间距稍大，横向适中 */
   width: 100% !important;
   max-width: 100% !important;
-  padding: 10px 4px !important; /* 减少外围左右的 Padding，腾出空间给格子 */
+  padding: 15px 4px !important; /* 强制水平对齐 */
   margin: 0 auto !important;
   box-sizing: border-box !important;
+  align-items: center !important;
 }
 
-/* 极致强化：白晶悬浮实体舱卡片（大幅增强立体感、减少内部Padding、保留完美圆角） */
+/* 基础卡片样式：白晶悬浮实体舱（精简 Padding，保留精致圆角） */
 .homeCard {
-  height: 105px; /* 稍微压缩高度，配合减少的 padding，显得更精致紧凑 */
-  padding: 12px 6px !important; /* 显著减少内部 padding，防止内容拥挤 */
+  padding: 10px 4px !important; /* 精简内部 padding，防止拥挤 */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
   background: #ffffff;
-  border-radius: 18px; /* 保留完美且优雅的卡片圆角 */
+  border-radius: 18px; /* 优雅的组件大圆角 */
   cursor: pointer;
   width: 100%;
   
-  /* 【立体感强化核心 1】：双层立体高光边框 */
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  border-top: 1.5px solid rgba(255, 255, 255, 0.9); /* 顶部更亮，形成明显的物理上边缘光切面 */
-  border-bottom: 2px solid rgba(0, 0, 0, 0.04); /* 底部带一丝微沉的暗边，模拟厚度 */
+  /* 立体厚度外框 */
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  border-top: 1.5px solid rgba(255, 255, 255, 0.95); /* 顶部物理高光切面 */
+  border-bottom: 2px solid rgba(0, 0, 0, 0.05); /* 底部实体厚度沉边 */
   
-  /* 【立体感强化核心 2】：大幅增强下沉环境投影，让格子产生强烈的离地悬浮感 */
+  /* 大厂级多层环境投影，让格子强烈离地悬浮 */
   box-shadow: 
-    0 2px 4px rgba(142, 151, 169, 0.06),
-    0 10px 24px rgba(142, 151, 169, 0.22), /* 加深远端扩散阴影 */
-    0 18px 40px rgba(142, 151, 169, 0.15), 
-    inset 0 1px 0 rgba(255, 255, 255, 0.6); /* 内部顶部高光线 */
+    0 2px 4px rgba(142, 151, 169, 0.05),
+    0 12px 26px rgba(142, 151, 169, 0.2), /* 远端扩散环境光 */
+    0 20px 45px rgba(142, 151, 169, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
     
-  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1); /* 物理阻尼回弹 */
 }
 
-/* 卡片按住时的物理“深陷感”：大幅拉开未按下与按下的物理高度差 */
-.homeCard:active {
-  transform: scale(0.93) translateY(4px); /* 强化按下的下沉位移，立体回弹更爽快 */
-  background: #f8fafc;
-  /* 阴影在按下时近乎完全收敛至框体下方 */
+/* =================================================== */
+/* ⚡ 方案三核心：魔改奇数、偶数格子的物理高度，制造错落便当盒结构 */
+/* =================================================== */
+
+/* 左边一列（第 1, 3, 5 个格子）：高挑型组件，重心微微上提 */
+#home > div > button:nth-child(odd) {
+  height: 118px !important; 
+  transform: translateY(-5px); 
   box-shadow: 
-    0 2px 4px rgba(0, 0, 0, 0.04),
-    0 4px 8px rgba(142, 151, 169, 0.1);
+    0 4px 6px rgba(142, 151, 169, 0.05),
+    0 16px 30px rgba(142, 151, 169, 0.22); /* 高度变高，阴影同步放大扩散 */
 }
 
-/* 分区色彩图标槽 */
+/* 右边一列（第 2, 4, 6 个格子）：精致型短组件，重心微微下沉 */
+#home > div > button:nth-child(even) {
+  height: 98px !important; 
+  transform: translateY(5px);
+}
+
+/* 极致点击手感：无论长短格子，按住时统一产生强烈的“物理陷落”与阴影收敛 */
+#home > div > button:active {
+  transform: scale(0.93) translateY(8px) !important; /* 强烈的形变与下压回弹 */
+  background: #f8fafc;
+  box-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.03),
+    0 4px 10px rgba(142, 151, 169, 0.08) !important;
+}
+
+/* 分区色彩独立图标槽 */
 .homeCard:nth-child(1) .homeIcon { background: #eff6ff; color: #1d4ed8; } 
 .homeCard:nth-child(2) .homeIcon { background: #fef3c7; color: #b45309; } 
 .homeCard:nth-child(3) .homeIcon { background: #ecfdf5; color: #047857; } 
@@ -152,22 +170,22 @@ button:active {
 .homeCard:nth-child(5) .homeIcon { background: #fdf2f8; color: #be185d; } 
 .homeCard:nth-child(6) .homeIcon { background: #fef2f2; color: #b91c1c; } 
 
-/* 图标槽圆角与立体微调：紧凑精致 */
+/* 紧凑精致的图标槽组件 */
 .homeIcon {
-  font-size: 22px; /* 略微缩小图标 */
-  width: 44px; /* 压缩图标槽尺寸，配合整体 padding 的减少 */
-  height: 44px;
+  font-size: 20px; /* 精简大小 */
+  width: 42px; /* 压缩尺寸，完美适配高低错落的格子 */
+  height: 42px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 12px; /* 图标槽圆角 */
-  margin-bottom: 6px; /* 减少图标与文字的间距 */
+  border-radius: 12px;
+  margin-bottom: 4px; /* 紧凑间距 */
   line-height: 1;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.03); 
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.02); 
 }
 
 .homeText {
-  font-size: 14px; /* 稍微精简字号，显得更高级克制 */
+  font-size: 14px;
   font-weight: 700;
   line-height: 1.2;
   color: #1d1d1f;
@@ -194,7 +212,7 @@ button:active {
 #appContainer {
   width: 100%;
   max-width: 520px;
-  padding: 20px; /* 恢复您原有的 20px 间距 */
+  padding: 20px;
   box-sizing: border-box;
   position: relative;
   z-index: 1;
@@ -207,7 +225,7 @@ button:active {
   font-size: 1.2em;
 }
 
-/* 文字排版优化 */
+/* 文字排版 */
 h2 {
   font-size: 26px !important;
   font-weight: 800;
