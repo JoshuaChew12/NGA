@@ -16,166 +16,183 @@
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
+
 <style>
-/* 全局基础重置：现代深邃空间 */
+/* 全局基础重置：深邃且有细节的数码夜空 */
 body {
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: #0d1117; /* 极具质感的深邃墨黑 */
-  color: #f0f6fc; /* 柔和的白色文字 */
+  background: #0a0f1d; /* 深邃数码蓝 */
+  color: #ffffff;
   min-height: 100vh;
   overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
 }
 
-/* 核心：空间动态星云（纯 CSS 渲染，极度高级且不卡顿） */
-.spatial-bg {
+/* 背景层 1：流动的极光色彩（打破单调的纯暗色） */
+.tech-gradient-bg {
   position: fixed;
-  top: -50%; left: -50%; width: 200vw; height: 200vh;
+  top: 0; left: 0; width: 100vw; height: 100vh;
   background: 
-    radial-gradient(circle at 30% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
-    radial-gradient(circle at 70% 60%, rgba(168, 85, 247, 0.12) 0%, transparent 40%);
+    radial-gradient(circle at 10% 10%, rgba(99, 102, 241, 0.25) 0%, transparent 50%),
+    radial-gradient(circle at 90% 80%, rgba(236, 72, 153, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(20, 30, 60, 0.8) 0%, #0a0f1d 100%);
   z-index: -2;
-  filter: blur(60px);
 }
 
-/* 极致高级感大按钮（通用） */
-button {
-  padding: 16px;
-  margin: 10px;
-  font-size: 18px;
-  font-weight: 600;
-  border-radius: 14px; /* 优雅的苹果风圆角 */
-  background: rgba(255, 255, 255, 0.08);
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(12px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-  transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
-  cursor: pointer;
-}
-button:active {
-  transform: scale(0.96);
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.3);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+/* 背景层 2：工业级微型几何点阵（注入细节，消除空洞感） */
+.tech-dot-texture {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 0);
+  background-size: 14px 14px; /* 精细的点阵，让屏幕背景像高端电子屏幕一样充满细节 */
+  z-index: -1;
 }
 
-/* 现代玻璃拟态输入框 */
+/* 精致的参数化输入框 */
 input {
   padding: 16px;
   font-size: 18px;
   width: 220px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(15, 23, 42, 0.8);
+  /* 渐变边框效果 */
+  border: 1px solid rgba(99, 102, 241, 0.4);
   border-radius: 12px;
   color: #fff;
   text-align: center;
   outline: none;
-  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.05);
-  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 input:focus {
-  border-color: rgba(255, 255, 255, 0.4);
-  background: rgba(255, 255, 255, 0.08);
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+  border-color: #6366f1;
+  box-shadow: 0 0 20px rgba(99, 102, 241, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
 }
 input::placeholder {
   color: rgba(255, 255, 255, 0.3);
 }
 
-/* QR扫描区域 */
-#scanner {
-  width: 320px;
-  margin: auto;
-  border-radius: 16px;
+/* 带有微光的科技感通用按钮 */
+button {
+  padding: 14px 28px;
+  margin: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%); /* 渐变实色，增加厚重感 */
+  color: #fff;
   border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+}
+button:active {
+  transform: scale(0.95);
+  box-shadow: 0 2px 8px rgba(79, 70, 229, 0.2);
 }
 
-/* 状态反馈提示色（优雅磨砂色，不刺眼） */
-.success {
-  background: rgba(46, 160, 67, 0.15) !important;
-  border: 1px solid rgba(46, 160, 67, 0.4) !important;
-  color: #3fb950 !important;
-}
-.duplicate {
-  background: rgba(210, 153, 34, 0.15) !important;
-  border: 1px solid rgba(210, 153, 34, 0.4) !important;
-  color: #e3b341 !important;
-}
-.error {
-  background: rgba(248, 81, 73, 0.15) !important;
-  border: 1px solid rgba(248, 81, 73, 0.4) !important;
-  color: #f85149 !important;
+/* 主页菜单网格：调整间距让布局更饱满 */
+#home > div {
+  gap: 12px !important; /* 加大卡片间距 */
+  padding: 10px;
 }
 
-/* 登录面板卡片 */
-.loginBox {
-  margin-top: 50px;
-  background: rgba(255, 255, 255, 0.03);
-  padding: 30px 20px;
-  border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(20px);
-  box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-}
-
-/* 主页菜单卡片：Vision Pro 磨砂晶体舱 */
+/* 主页菜单卡片：注入“流光渐变边框”与“多色分区” */
 .homeCard {
-  height: 120px;
+  height: 125px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
-  /* 核心：高光渐变背景，模拟光线照在玻璃边缘的厚度感 */
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.03) 100%);
-  /* 顶部高光边框（1px Highlighter） */
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-top-color: rgba(255, 255, 255, 0.25); /* 顶部边缘更亮，制造光照立体感 */
-  border-radius: 20px; /* 大圆角更具亲和力与高级感 */
-  /* 环境阴影：多层阴影拉开Z轴立体深度 */
+  
+  /* 核心：更丰富的渐变背景，带有向下的半透明厚度感 */
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.95) 100%);
+  
+  /* 极致细节：用内阴影（inset）逼真模拟晶体折射边框，彻底告别单调 */
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  border-radius: 18px;
+  
+  /* 三层复合重阴影，让卡片在点阵背景上强烈悬浮（App立体感） */
   box-shadow: 
-    0 4px 10px rgba(0, 0, 0, 0.1),
-    0 12px 30px rgba(0, 0, 0, 0.25),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(16px); /* 极高模糊度，让下方背景完美透出 */
+    0 10px 25px rgba(0, 0, 0, 0.4),
+    0 4px 10px rgba(99, 102, 241, 0.05),
+    inset 0 1px 1px rgba(255, 255, 255, 0.15);
+    
+  backdrop-filter: blur(20px);
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   width: 100%;
-  color: #ffffff;
 }
 
-/* 卡片点击时的物理陷落 */
+/* 卡片激活/按下的物理质感：边框高亮变色 */
 .homeCard:active {
-  transform: scale(0.95);
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
-  border-color: rgba(255, 255, 255, 0.08);
-  box-shadow: 
-    0 2px 5px rgba(0, 0, 0, 0.1),
-    0 4px 15px rgba(0, 0, 0, 0.2);
+  transform: scale(0.94) translateY(2px);
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(15, 23, 42, 0.95) 100%);
+  border-color: rgba(99, 102, 241, 0.7);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
 }
+
+/* 为不同的功能卡片注入不同的微量科技色调（色彩分区，丰富视觉） */
+.homeCard:nth-child(1) .homeIcon { color: #38bdf8; text-shadow: 0 0 12px rgba(56, 189, 248, 0.5); } /* 扫码-天蓝 */
+.homeCard:nth-child(2) .homeIcon { color: #fbbf24; text-shadow: 0 0 12px rgba(251, 191, 36, 0.5); } /* 手动-金黄 */
+.homeCard:nth-child(3) .homeIcon { color: #34d399; text-shadow: 0 0 12px rgba(52, 211, 153, 0.5); } /* 看板-薄荷绿 */
+.homeCard:nth-child(4) .homeIcon { color: #a78bfa; text-shadow: 0 0 12px rgba(167, 139, 250, 0.5); } /* 搜索-淡紫 */
+.homeCard:nth-child(5) .homeIcon { color: #f472b6; text-shadow: 0 0 12px rgba(244, 114, 182, 0.5); } /* 注册-珊瑚粉 */
+.homeCard:nth-child(6) .homeIcon { color: #f87171; text-shadow: 0 0 12px rgba(248, 113, 113, 0.5); } /* 登出-警示红 */
 
 .homeIcon {
-  font-size: 28px;
-  margin-bottom: 8px;
+  font-size: 30px;
+  margin-bottom: 10px;
   line-height: 1;
-  opacity: 0.9;
+  /* 允许原本的 Emoji 混合科技单色，形成独特的数码icon感 */
+  background: currentColor;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .homeText {
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.3;
-  color: rgba(255, 255, 255, 0.9);
+  color: #e2e8f0;
   letter-spacing: 0.5px;
+}
+
+/* 状态反馈提示色（丰富饱满的胶囊色块） */
+.success {
+  background: rgba(16, 185, 129, 0.2) !important;
+  border: 1px solid #10b981 !important;
+  color: #10b981 !important;
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.2);
+}
+.duplicate {
+  background: rgba(245, 158, 11, 0.2) !important;
+  border: 1px solid #f59e0b !important;
+  color: #f59e0b !important;
+  box-shadow: 0 0 15px rgba(245, 158, 11, 0.2);
+}
+.error {
+  background: rgba(239, 68, 68, 0.2) !important;
+  border: 1px solid #ef4444 !important;
+  color: #ef4444 !important;
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.2);
+}
+
+/* 登录面板卡片 */
+.loginBox {
+  margin-top: 40px;
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%);
+  padding: 35px 25px;
+  border-radius: 20px;
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
 }
 
 /* 应用主容器 */
@@ -188,43 +205,52 @@ input::placeholder {
   z-index: 1;
 }
 
-/* 数字高亮（克制、通透的淡靛蓝高光） */
+/* 数据看板发光数字 */
 #count, #d_total, #d_checked, #d_pending, #d_a, #d_b {
-  color: #818cf8; 
-  font-weight: 700;
-  text-shadow: 0 0 15px rgba(129, 140, 248, 0.4);
+  color: #6366f1;
+  font-weight: 800;
+  font-size: 1.2em;
+  text-shadow: 0 0 12px rgba(99, 102, 241, 0.5);
 }
 
-/* 标题文字排版 */
+/* 文字排版优化：增加粗细对比 */
 h2 {
   font-size: 28px !important;
-  font-weight: 700;
-  color: #ffffff;
-  letter-spacing: -0.5px;
+  font-weight: 800;
+  background: linear-gradient(to right, #ffffff, #c7d2fe); /* 渐变文字，非常高档 */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   margin-bottom: 8px !important;
 }
 h3 {
   font-size: 20px !important;
-  color: rgba(255, 255, 255, 0.7);
-  font-weight: 500;
+  color: #94a3b8;
+  font-weight: 600;
+  margin-top: 0;
 }
 h4 {
-  font-size: 16px !important;
-  color: rgba(255, 255, 255, 0.4) !important;
-  font-weight: 400;
-  letter-spacing: 1px;
+  font-size: 14px !important;
+  color: #64748b !important;
+  font-weight: 500;
+  letter-spacing: 1.5px;
 }
 h5 {
-  color: rgba(255, 255, 255, 0.8);
+  color: #e2e8f0;
   font-size: 16px !important;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 8px 16px;
+  border-radius: 20px;
+  display: inline-block;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 </style>
 
 </head>
 
 <body>
-
-<div class="spatial-bg"></div>
+<!-- 现代科技感双层背景：一层色彩，一层像素点阵 -->
+<div class="tech-gradient-bg"></div>
+<div class="tech-dot-texture"></div>
 
 <div id="appContainer">
 
