@@ -28,7 +28,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: #060b19; /* 深邃底色 */
+  background: #060b19; 
   color: #f8fafc;
   min-height: 100vh;
   overflow-x: hidden;
@@ -36,29 +36,29 @@ body {
 }
 
 /* =================================================== */
-/* ⚡ 核心组件 1：带局部浅亮高光 + 星光折射大泡泡背景层 */
+/* ⚡ 核心组件 1：全屏局部浅亮高光 + 柔和镜面亮光大泡泡背景层 */
 /* =================================================== */
 .bubble-bg-container {
   position: fixed;
   top: 0; left: 0; width: 100vw; height: 100vh;
   z-index: -1;
   overflow: hidden;
-  /* 背景魔改：在中部和上方注入大面积的浅亮色高光（晨曦蓝白与极光青），让背景有明有暗，通透舒服 */
+  /* 背景：中部和上方保持柔和通透的晨曦蓝白与极光浅青色高光晕染 */
   background: 
     radial-gradient(circle at 50% 15%, #e0f2fe 0%, rgba(204, 251, 241, 0.8) 30%, #0c172a 70%, #060b19 100%); 
 }
 
-/* 3D 水晶大泡泡：内置核心星光折射，形状极其清晰明显 */
+/* 3D 水晶大泡泡：内置核心发光折射，形状极其清晰明显 */
 .giant-bubble {
   position: absolute;
   border-radius: 50%;
   
-  /* 3D 棱镜折射：模拟球体左上角射入强光，内部产生炫目的星光聚焦点 */
+  /* 3D 棱镜折射：模拟球体左上角射入强光，内部产生炫目的聚焦点 */
   background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.6) 0%, rgba(45, 212, 191, 0.4) 30%, rgba(14, 165, 233, 0.15) 70%, transparent 100%);
   border: 1.5px solid rgba(255, 255, 255, 0.7); /* 清晰无暇的玻璃外轮廓 */
   
-  /* 闪烁的星光发光层（利用 drop-shadow 让泡泡整体向外辐射星芒般的散射光） */
-  filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.5)) drop-shadow(0 0 25px rgba(45, 212, 191, 0.3));
+  /* 柔和发光层（利用 drop-shadow 让泡泡整体向外辐射散射光晕） */
+  filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.4)) drop-shadow(0 0 25px rgba(45, 212, 191, 0.25));
   
   /* 双层超强内折射阴影 */
   box-shadow: 
@@ -68,28 +68,25 @@ body {
   animation: floatBubble 14s ease-in-out infinite alternate;
 }
 
-/* ⚡ 关键细节：利用伪元素在大泡泡中心上方强行叠加一个十字星芒反光点（闪烁的星光感） */
+/* ⚡ 【关键微调】：去除硬朗的十字型，改为纯粹温润的圆形镜面反射亮光（Specular Highlight） */
 .giant-bubble::before {
   content: '';
   position: absolute;
-  top: 15%; left: 20%;
-  width: 40%; height: 40%;
-  /* 模拟物理世界中钻石或星光打在玻璃上的交叉十字透镜折射高光 */
-  background: 
-    radial-gradient(ellipse at center, rgba(255,255,255,0.9) 0%, transparent 70%),
-    linear-gradient(to right, transparent 45%, rgba(255,255,255,0.8) 50%, transparent 55%),
-    linear-gradient(to bottom, transparent 45%, rgba(255,255,255,0.8) 50%, transparent 55%);
-  transform: rotate(15deg);
+  top: 12%; left: 16%;
+  width: 32%; height: 32%;
+  border-radius: 50%;
+  /* 运用饱满的、向四周羽化的径向纯白高光圈，逼真模拟光线照在圆润弧面上的亮光点 */
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.4) 40%, transparent 75%);
 }
 
-/* 3个带有璀璨星光折射的巨型 3D 水晶球位置及尺寸 */
+/* 3个带有璀璨镜面亮光折射的巨型 3D 水晶球位置及尺寸 */
 .b1 { width: 290px; height: 290px; top: -2%; left: -6%; animation-duration: 15s; }
 .b2 { width: 240px; height: 240px; top: 45%; right: -10%; animation-duration: 19s; animation-delay: -3s; }
 .b3 { width: 200px; height: 200px; bottom: -4%; left: 14%; animation-duration: 17s; }
 
 @keyframes floatBubble {
   0% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 0.85; }
-  100% { transform: translate(15px, 25px) scale(1.06) rotate(8deg); opacity: 1; }
+  100% { transform: translate(15px, 25px) scale(1.06) rotate(4deg); opacity: 1; }
 }
 
 /* =================================================== */
@@ -97,7 +94,6 @@ body {
 /* =================================================== */
 .loginBox {
   margin-top: 50px;
-  /* 采用 80% 透明度的现代极地牛奶白，在背景的浅亮色衬托下极为通透、干净舒服 */
   background: rgba(255, 255, 255, 0.82); 
   padding: 40px 25px;
   border-radius: 26px;
@@ -109,7 +105,7 @@ body {
   
   box-shadow: 
     0 4px 12px rgba(15, 23, 42, 0.05),
-    0 25px 55px rgba(12, 23, 42, 0.15), /* 浅亮背景下的投影变得更加柔和干净 */
+    0 25px 55px rgba(12, 23, 42, 0.15), 
     inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
@@ -138,7 +134,7 @@ body {
   color: #94a3b8 !important;
 }
 
-/* 白舱专属大按钮：选用极其扎实的石墨深蓝黑，高级感拉满 */
+/* 白舱专属大按钮 */
 .loginBox button {
   background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
   color: #ffffff !important;
@@ -165,7 +161,7 @@ body {
   /* 5px 偏置的极光青实体阴影，死死压出实体的侧面厚度 */
   box-shadow: 
     0 5px 0px #0d9488, /* 极光青实体厚度层 */
-    0 16px 32px rgba(12, 23, 42, 0.25), /* 在半亮背景下，投影呈现高级的雾感过渡 */
+    0 16px 32px rgba(12, 23, 42, 0.25), 
     inset 0 1.5px 0px #ffffff;
   transition: all 0.12s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -215,12 +211,13 @@ button {
 #appContainer { width: 100%; max-width: 520px; padding: 20px; box-sizing: border-box; position: relative; z-index: 1; }
 #count, #d_total, #d_checked, #d_pending, #d_a, #d_b { color: #0ea5e9; font-weight: 800; font-size: 1.2em; }
 
-/* 标题排版（在半亮背景下换回高级石墨黑字） */
+/* 标题排版 */
 h2 { font-size: 26px !important; font-weight: 800; color: #0f172a; margin-bottom: 6px !important; letter-spacing: -0.5px; }
 h3 { font-size: 18px !important; color: #334155; font-weight: 600; margin-top: 0; }
 h4 { font-size: 13px !important; color: #64748b !important; font-weight: 500; letter-spacing: 1px; }
 h5 { color: #334155; font-size: 15px !important; background: #ffffff; padding: 8px 18px; border-radius: 20px; display: inline-block; box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08); border: 1px solid rgba(255,255,255,0.5); }
 </style>
+
   
 </head>
 
