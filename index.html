@@ -18,89 +18,109 @@
 
 <style>
 /* =================================================== */
-/* 全局基础重置：草莓奶昔与粉红泡泡可爱调色盘 */
+/* 全局基础重置：冰川薄荷绿高级调色盘（无粉色，极致高级） */
 /* =================================================== */
 body {
   margin: 0;
   padding: 0;
-  /* 换成更加圆润、可爱的系统字体族 */
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", sans-serif;
+  /* 换成现代苹果原生的无衬线字体，极为克制高级 */
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", Arial, sans-serif;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: #fff0f5; /* 极其温柔的淡粉草莓奶昔底色 */
-  color: #ff69b4; /* 核心高饱和热粉色字 */
+  background: #f1f5f9; /* 极为干净的冰川浅灰底色 */
+  color: #0f172a; /* 极深的石墨灰文字（绝不用死黑，高级感的核心） */
   min-height: 100vh;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
-/* 页面后方的独立粉红泡泡氛围灯（淡淡的蜜桃粉微光，制造全屏呼吸感） */
-.app-fluid-bg {
+/* =================================================== */
+/* ⚡ 核心进化 1：全屏高级动态“立体大泡泡”背景层 */
+/* =================================================== */
+.bubble-bg-container {
   position: fixed;
-  top: 0; left: 0; width: 100vw; height: 100vw;
+  top: 0; left: 0; width: 100vw; height: 100vh;
   z-index: -1;
-  filter: blur(40px);
-  background: 
-    radial-gradient(circle at 15% 10%, rgba(255, 182, 193, 0.4) 0%, transparent 60%),
-    radial-gradient(circle at 85% 30%, rgba(255, 105, 180, 0.2) 0%, transparent 55%);
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 0%, #e0f2fe 0%, #f1f5f9 100%); /* 渐变水光底色 */
 }
 
-/* 具有物理凹陷感的模块化泡泡输入框 */
+/* 巨型泡泡的基础样式：运用强模糊和微渐变，营造晶莹剔透的水滴饱满感 */
+.giant-bubble {
+  position: absolute;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(20, 184, 166, 0.15) 0%, rgba(56, 189, 248, 0.12) 100%);
+  filter: blur(24px); /* 强模糊制造空气感，绝不死板 */
+  animation: floatBubble 12s ease-in-out infinite alternate;
+}
+
+/* 定义 3 个不同大小、不同轨道的巨型泡泡 */
+.b1 { width: 320px; height: 320px; top: -5%; left: -10%; animation-duration: 14s; }
+.b2 { width: 280px; height: 280px; top: 40%; right: -15%; animation-duration: 18s; animation-delay: -2s; }
+.b3 { width: 220px; height: 220px; bottom: -5%; left: 15%; animation-duration: 16s; }
+
+@keyframes floatBubble {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(25px, 35px) scale(1.1); } /* 缓缓位移和膨胀 */
+}
+
+/* =================================================== */
+/* 具有物理厚度的立体输入框 */
+/* =================================================== */
 input {
   padding: 16px;
   font-size: 17px;
   width: 230px;
-  background: #ffffff; /* 纯白无瑕的奶冻输入槽 */
-  border: 2px solid #ffe4e1; /* 柔和的雾粉边框 */
-  border-radius: 20px; /* 超级圆润的可爱大圆角 */
-  color: #ff1493;
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  border-radius: 16px;
+  color: #0f172a;
   text-align: center;
   outline: none;
+  /* 细腻内阴影，制造框体向内深陷的机械高级感 */
   box-shadow: 
-    inset 0 3px 6px rgba(255, 182, 193, 0.2),
-    0 4px 12px rgba(255, 182, 193, 0.1);
+    inset 0 2px 4px rgba(15, 23, 42, 0.04),
+    0 4px 12px rgba(15, 23, 42, 0.02);
   transition: all 0.25s ease;
 }
 input:focus {
-  border-color: #ff69b4;
+  border-color: #0ea5e9;
   box-shadow: 
-    0 0 0 4px rgba(255, 105, 180, 0.15),
-    0 8px 20px rgba(255, 105, 180, 0.1);
-  background: #ffffff;
+    0 0 0 4px rgba(14, 165, 233, 0.1),
+    0 8px 20px rgba(14, 165, 233, 0.05);
 }
 input::placeholder {
-  color: #ffb6c1;
+  color: #94a3b8;
 }
 
-/* 带有Q弹水滴感的蜜桃通用按钮 */
+/* 现代独立实体大按钮 */
 button {
   padding: 14px 28px;
   margin: 10px;
   font-size: 16px;
-  font-weight: 700;
-  border-radius: 20px; /* 圆润泡泡圆角 */
+  font-weight: 600;
+  border-radius: 16px;
   border: none;
   cursor: pointer;
-  background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%); /* 甜心粉红渐变 */
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); /* 选用沉稳奢华的石墨深灰按钮 */
   color: #ffffff;
   box-shadow: 
-    0 8px 20px rgba(255, 20, 147, 0.25),
-    0 3px 6px rgba(255, 20, 147, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    0 10px 24px rgba(15, 23, 42, 0.15),
+    0 4px 8px rgba(15, 23, 42, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
   transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
   letter-spacing: 0.5px;
 }
 button:active {
   transform: scale(0.95);
-  box-shadow: 0 4px 10px rgba(255, 20, 147, 0.15);
 }
 
-/* 修复主页网格布局：移除冗余宽度，确保在各种手机屏幕上绝对水平居中 */
+/* 修复主页网格布局：绝对水平居中 */
 #home > div {
   grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  gap: 20px 14px !important; /* 纵向留出充足空间给 5px 的 3D 蜜桃果冻底座 */
+  gap: 20px 14px !important; /* 纵向留出空间给 3D 侧边厚度层 */
   width: 100% !important;
   max-width: 100% !important;
   padding: 10px 4px !important;
@@ -109,55 +129,52 @@ button:active {
 }
 
 /* =================================================== */
-/* ⚡ 核心进化：液态水滴晶体卡片（粉红泡泡可爱版） */
+/* ⚡ 核心进化 2：液态水滴晶体卡片（冰川矿石白晶版） */
 /* =================================================== */
 .homeCard {
   height: 105px;
-  padding: 12px 6px !important; /* 精简内部 padding，消除内容拥挤 */
+  padding: 12px 6px !important; /* 精简内部 padding，消除多余空隙 */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
   
-  background: #ffffff; /* 饱满通透的纯白牛奶冻底色 */
-  border-radius: 26px; /* 极致饱满、胖乎乎的泡泡大圆角 */
+  background: #ffffff; /* 温润饱满的牛奶晶体纯白 */
+  border-radius: 24px; /* 极致圆润胖乎乎的水滴大圆角，呼应背景大泡泡 */
   cursor: pointer;
   width: 100%;
-  
-  /* 精致的微光表面线 */
   border: 1px solid rgba(255, 255, 255, 0.9);
   
-  /* 【绝对立体感精髓】：利用 5px 的蜜桃粉实色投影，在淡粉背景上死死压出实体的侧面厚度 */
+  /* 【绝对立体感核心】：利用 5px 偏置的矿石浅灰投影，在泡泡背景上死死压出实体的侧面厚度 */
   box-shadow: 
-    0 5px 0px #ffb6c1, /* 蜜桃粉实体侧边厚度层（肉眼可见的Q弹立体感！） */
-    0 14px 28px rgba(255, 182, 193, 0.4), /* 温柔的远端粉红环境光影 */
-    inset 0 1.5px 0px #ffffff; /* 内部顶光亮线 */
+    0 5px 0px #cbd5e1, /* 极具质感的矿石灰实体厚度层（肉眼可见的立体感！） */
+    0 14px 28px rgba(148, 163, 184, 0.3), /* 远端扩散的柔和环境投影 */
+    inset 0 1.5px 0px #ffffff;
     
-  transition: all 0.12s cubic-bezier(0.4, 0, 0.2, 1); /* 极其干脆利落的机械操作感 */
+  transition: all 0.12s cubic-bezier(0.4, 0, 0.2, 1); /* 利落的下按回弹 */
 }
 
-/* 【极致解压的下踩回弹手感】：点击时，5px 的蜜桃厚度瞬间被手指“踩扁”压入手机屏幕 */
+/* 【极致解压的下踩回弹手感】：点击时，5px 的厚度瞬间被手指“压平”入手机屏幕 */
 .homeCard:active {
-  transform: translateY(5px) scale(0.96); /* 垂直向下沉降位移正好等于厚度层 */
-  background: #fff5f5; /* 按下时牛奶冻颜色微微变深，模拟受力 */
+  transform: translateY(5px) scale(0.96); /* 垂直向下位移等于厚度 */
+  background: #f8fafc; /* 按下时卡片颜色微微变深，模拟受力 */
   
-  /* 厚度投影归零，模拟卡片完全被按到底部的实体开关质感 */
   box-shadow: 
     0 0px 0px transparent, 
-    0 4px 10px rgba(255, 182, 193, 0.2),
+    0 4px 10px rgba(148, 163, 184, 0.15),
     inset 0 1px 0px rgba(0,0,0,0.02);
 }
 
-/* 分区色彩独立图标槽（将原有的 Emoji 包裹在色彩多样的可爱马卡龙圆角框里） */
-.homeCard:nth-child(1) .homeIcon { background: #e0f2fe; color: #1d4ed8; } /* 扫码-天蓝 */
-.homeCard:nth-child(2) .homeIcon { background: #fef3c7; color: #b45309; } /* 手动-暖金 */
-.homeCard:nth-child(3) .homeIcon { background: #ecfdf5; color: #047857; } /* 看板-翡翠绿 */
-.homeCard:nth-child(4) .homeIcon { background: #f5f3ff; color: #6d28d9; } /* 搜索-丁香紫 */
-.homeCard:nth-child(5) .homeIcon { background: #fdf2f8; color: #be185d; } /* 注册-胭脂粉 */
-.homeCard:nth-child(6) .homeIcon { background: #fef2f2; color: #b91c1c; } /* 登出-高级红 */
+/* 分区色彩独立图标槽 */
+.homeCard:nth-child(1) .homeIcon { background: #e0f2fe; color: #0369a1; } 
+.homeCard:nth-child(2) .homeIcon { background: #fef3c7; color: #b45309; } 
+.homeCard:nth-child(3) .homeIcon { background: #ecfdf5; color: #047857; } 
+.homeCard:nth-child(4) .homeIcon { background: #f5f3ff; color: #6d28d9; } 
+.homeCard:nth-child(5) .homeIcon { background: #fdf2f8; color: #be185d; } 
+.homeCard:nth-child(6) .homeIcon { background: #fef2f2; color: #b91c1c; } 
 
-/* 晶体卡片里的圆形/跑道型独立图标槽 */
+/* 独立图标槽组件（带微小立体下沉线） */
 .homeIcon {
   font-size: 20px;
   width: 44px;
@@ -165,37 +182,36 @@ button:active {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 16px; /* 胖乎乎的独立图标框圆角 */
+  border-radius: 14px;
   margin-bottom: 6px;
   line-height: 1;
-  /* 图标槽自身的立体下沉微线 */
-  box-shadow: 0 2px 0px rgba(0, 0, 0, 0.04); 
+  box-shadow: 0 2px 0px rgba(0, 0, 0, 0.03); 
 }
 
 .homeText {
   font-size: 14px;
-  font-weight: 800; /* 加粗字体，大幅提升辨识度 */
+  font-weight: 800; /* 加粗字体，极具大厂 App 精致质感 */
   line-height: 1.2;
-  color: #ff69b4; /* 甜美粉红字，极具凝聚力 */
+  color: #334155; /* 优雅的钢石深灰字，高级低反差 */
   letter-spacing: -0.1px;
 }
 
-/* 甜美高档的指示气泡 */
-.success { background: #e6f9ed !important; border: 2px solid #a7f3d0 !important; color: #047857 !important; border-radius: 16px; }
-.duplicate { background: #fffbeb !important; border: 2px solid #fde68a !important; color: #b45309 !important; border-radius: 16px; }
-.error { background: #fff5f5 !important; border: 2px solid #fecaca !important; color: #b91c1c !important; border-radius: 16px; }
+/* 高级打磨的状态提示气泡 */
+.success { background: #e6f9ed !important; border: 1px solid #a7f3d0 !important; color: #047857 !important; border-radius: 14px; }
+.duplicate { background: #fffbeb !important; border: 1px solid #fde68a !important; color: #b45309 !important; border-radius: 14px; }
+.error { background: #fff5f5 !important; border: 2px solid #fecaca !important; color: #b91c1c !important; border-radius: 14px; }
 
-/* 登录面板、子页面大容器：重构为高级半透明草莓冰沙磨砂舱 */
+/* 登录面板、子页面大容器：重构为高级半透明冰川磨砂舱 */
 .loginBox {
   margin-top: 40px;
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.8);
   padding: 35px 25px;
-  border-radius: 26px;
-  border: 2px solid #ffe4e1;
-  backdrop-filter: blur(20px); /* 强烈的现代毛玻璃折射 */
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(25px); /* 极强的毛玻璃折射效果 */
   box-shadow: 
-    0 10px 30px rgba(255, 182, 193, 0.15), 
-    0 30px 60px rgba(255, 182, 193, 0.25);
+    0 10px 30px rgba(148, 163, 184, 0.1), 
+    0 30px 60px rgba(148, 163, 184, 0.2);
 }
 
 /* 应用主内容外层总容器 */
@@ -210,49 +226,52 @@ button:active {
 
 /* 看板、签到核心数据数字高亮 */
 #count, #d_total, #d_checked, #d_pending, #d_a, #d_b {
-  color: #ff1493;
-  font-weight: 900;
-  font-size: 1.3em;
-  text-shadow: 0 0 10px rgba(255, 20, 147, 0.2);
+  color: #0ea5e9; /* 极地深天蓝 */
+  font-weight: 800;
+  font-size: 1.2em;
 }
 
 /* 顶部教会系统大气的排版和字重对比 */
 h2 {
   font-size: 26px !important;
-  font-weight: 900;
-  color: #ff1493; /* 改为深邃甜美粉，突出主题 */
+  font-weight: 800;
+  color: #0f172a; /* 干净深沉的钢石黑 */
   margin-bottom: 6px !important;
   letter-spacing: -0.5px;
 }
 h3 {
   font-size: 18px !important;
-  color: #ff69b4;
-  font-weight: 700;
+  color: #475569;
+  font-weight: 600;
   margin-top: 0;
 }
 h4 {
   font-size: 13px !important;
-  color: #ffb6c1 !important;
-  font-weight: 600;
+  color: #94a3b8 !important;
+  font-weight: 500;
   letter-spacing: 1px;
 }
 h5 {
-  color: #ff69b4;
+  color: #334155;
   font-size: 15px !important;
   background: #ffffff;
   padding: 8px 18px;
   border-radius: 20px;
   display: inline-block;
-  box-shadow: 0 4px 12px rgba(255, 182, 193, 0.2);
-  border: 2px solid #fff5f5;
+  box-shadow: 0 4px 12px rgba(148, 163, 184, 0.15);
+  border: 1px solid rgba(255,255,255,0.5);
 }
 </style>
-
+  
 </head>
 
 <body>
-<!-- 提升页面厚度感的立体背景层 -->
-<div class="app-fluid-bg"></div>
+<!-- 注入高级立体大泡泡层 -->
+<div class="bubble-bg-container">
+  <div class="giant-bubble b1"></div>
+  <div class="giant-bubble b2"></div>
+  <div class="giant-bubble b3"></div>
+</div>
 
 <div id="appContainer">
 
