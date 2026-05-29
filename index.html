@@ -17,156 +17,193 @@
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
 <style>
-/* 全局基础重置：硬核数码纯黑 */
+/* 全局基础重置：明亮、温润、高级的 App 底色 */
 body {
   margin: 0;
   padding: 0;
-  /* 换成更具现代工业感的无衬线或等宽字体 */
-  font-family: system-ui, -apple-system, "SF Pro Text", monospace, Arial;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: #000000; /* 纯黑背景，完美适配手机 OLED 屏幕的极致深邃 */
-  color: #ffffff;
+  background: #f4f6f9; /* 高级珍珠浅灰，消除刺眼的死白 */
+  color: #1d1d1f; /* 苹果标志性的深邃灰黑字 */
   min-height: 100vh;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* 核心背景：精密坐标十字网格线（纯 CSS 绘制，极具专业仪表盘质感） */
-.industrial-grid {
+/* 核心背景：柔和的色彩氛围灯，拉开页面的视觉深度（绝对不单调） */
+.app-fluid-bg {
   position: fixed;
-  top: 0; left: 0; width: 100vw; height: 100vh;
-  background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-  background-size: 30px 30px; /* 大跨度的物理网格 */
+  top: 0; left: 0; width: 100vw; height: 100vw;
+  background: 
+    radial-gradient(circle at 10% 0%, rgba(99, 102, 241, 0.12) 0%, transparent 60%),
+    radial-gradient(circle at 90% 20%, rgba(244, 63, 94, 0.08) 0%, transparent 55%);
   z-index: -1;
+  filter: blur(40px);
 }
 
-/* 极简等宽输入框：像精密仪器一样的输入槽 */
+/* 具有物理厚度的立体输入框 */
 input {
   padding: 16px;
-  font-size: 16px;
-  width: 240px;
-  background: #0f0f0f;
-  border: 1px solid #222222; /* 低反差深灰边框 */
-  border-radius: 4px; /* 硬朗的极小圆角，工业感的核心 */
-  color: #ffffff;
-  font-family: monospace;
+  font-size: 17px;
+  width: 230px;
+  background: #ffffff;
+  /* 运用微妙的内阴影（inset），制造一种框体向手机屏幕内“凹陷”的真实物理感 */
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 14px;
+  color: #1d1d1f;
   text-align: center;
   outline: none;
-  box-shadow: inset 0 2px 4px rgba(0,0,0,0.8);
-  transition: all 0.2s ease;
+  box-shadow: 
+    inset 0 2px 4px rgba(0, 0, 0, 0.04),
+    0 4px 12px rgba(0, 0, 0, 0.02);
+  transition: all 0.25s ease;
 }
 input:focus {
-  border-color: #ffffff; /* 聚焦时边框变纯白 */
-  background: #151515;
+  border-color: #4f46e5;
+  background: #ffffff;
+  /* 聚焦时向外散射一层淡淡的能量光晕 */
+  box-shadow: 
+    0 0 0 4px rgba(79, 70, 229, 0.1),
+    0 8px 20px rgba(79, 70, 229, 0.06);
 }
 input::placeholder {
-  color: #444444;
+  color: #a1a1aa;
 }
 
-/* 模块化纯黑实色大按钮 */
+/* 现代独立实体大按钮（通用） */
 button {
-  padding: 14px 28px;
+  padding: 15px 32px;
   margin: 10px;
   font-size: 16px;
   font-weight: 600;
-  border-radius: 4px;
-  background: #ffffff; /* 纯白按钮 */
-  color: #000000; /* 纯黑文字 */
+  border-radius: 14px;
+  /* 极具质感的现代渐变蓝色 */
+  background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+  color: #ffffff;
   border: none;
-  box-shadow: 0 4px 12px rgba(255,255,255,0.1);
-  transition: all 0.15s ease;
+  /* 按钮的超强悬浮感阴影（拉开Z轴高度） */
+  box-shadow: 
+    0 10px 24px rgba(79, 70, 229, 0.25),
+    0 4px 8px rgba(79, 70, 229, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); /* 带有微微弹性势能的物理动效 */
   cursor: pointer;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
 }
 button:active {
-  transform: scale(0.96);
-  background: #cccccc;
+  transform: scale(0.95);
+  box-shadow: 0 4px 10px rgba(79, 70, 229, 0.2);
 }
 
-/* 主页菜单网格 */
+/* 主页菜单网格布局：加宽间距，完全模拟 iOS 桌面组件 */
 #home > div {
-  gap: 16px !important; /* 加大卡片间距，制造呼吸感 */
-  padding: 10px;
+  gap: 16px !important;
+  padding: 12px;
 }
 
-/* 主页菜单卡片：重构为“低反差物理实体舱” */
+/* 主页菜单卡片：进化为“白晶悬浮实体舱”（App感与立体感的核心！） */
 .homeCard {
-  height: 110px;
+  height: 120px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
-  background: #0a0a0a; /* 极深的暗灰，与纯黑背景拉开极弱的层级 */
-  border: 1px solid #1a1a1a; /* 细腻的暗色线条 */
-  border-radius: 8px; /* 硬朗微圆角 */
-  /* 物理触手感：使用大范围的极淡环境阴影 */
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  
+  /* 核心 1：温润饱满的纯白晶体底色 */
+  background: #ffffff;
+  
+  /* 核心 2：精细的微反光边框。顶部和四周不同，模拟上方光源照下来的立体切面 */
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  border-top: 1px solid rgba(255, 255, 255, 0.8); 
+  border-radius: 22px; /* 优雅饱满的圆角，iOS 原生大卡片既视感 */
+  
+  /* 核心 3：大厂级复合多层重阴影！第一层是极淡的扩散环境光，第二层是紧贴底部的实体投影，让卡片疯狂“浮起来” */
+  box-shadow: 
+    0 1px 2px rgba(0, 0, 0, 0.02),
+    0 8px 20px rgba(0, 0, 0, 0.05),
+    0 16px 36px rgba(142, 151, 169, 0.12),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.01);
+    
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1); /* 引入阻尼物理回弹曲线 */
   cursor: pointer;
   width: 100%;
-  color: #888888; /* 默认灰色，保持低调 */
 }
 
-/* 卡片按下时的极致物理反馈（Squeeze 挤压特效） */
+/* 卡片被手指按住时的“物理陷落感”：高度降低，阴影变实，模拟真实按钮按下去的触感 */
 .homeCard:active {
-  transform: scale(0.95);
-  background: #ffffff; /* 按下时瞬间反转成纯白卡片 */
-  border-color: #ffffff;
-  color: #000000; /* 文字变黑 */
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+  transform: scale(0.94) translateY(3px); /* 强烈下陷位移 */
+  background: #f9fafb;
+  /* 阴影随高度降低而收紧 */
+  box-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.02),
+    0 4px 10px rgba(0, 0, 0, 0.06);
 }
 
-/* 按下时让卡片内部的 Emoji 图标也协同变色 */
-.homeCard:active .homeIcon,
-.homeCard:active .homeText {
-  color: #000000 !important;
-}
+/* 卡片内部图标和文字的分区色彩（明亮、高级、耐看） */
+.homeCard:nth-child(1) .homeIcon { background: #eff6ff; color: #1d4ed8; } /* 扫码-柔蓝 */
+.homeCard:nth-child(2) .homeIcon { background: #fef3c7; color: #b45309; } /* 手动-暖金 */
+.homeCard:nth-child(3) .homeIcon { background: #ecfdf5; color: #047857; } /* 看板-翡翠绿 */
+.homeCard:nth-child(4) .homeIcon { background: #f5f3ff; color: #6d28d9; } /* 搜索-丁香紫 */
+.homeCard:nth-child(5) .homeIcon { background: #fdf2f8; color: #be185d; } /* 注册-胭脂粉 */
+.homeCard:nth-child(6) .homeIcon { background: #fef2f2; color: #b91c1c; } /* 登出-高级红 */
 
+/* 立体卡片里的圆形独立图标槽（App 感的精髓所在） */
 .homeIcon {
-  font-size: 26px;
-  margin-bottom: 8px;
+  font-size: 24px;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px; /* 图标自带圆角框 */
+  margin-bottom: 10px;
   line-height: 1;
-  color: #ffffff; /* 单色化，去除杂色 */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03); /* 图标二次悬浮 */
 }
 
 .homeText {
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.3;
-  color: #eeeeee;
-  letter-spacing: 0.5px;
+  color: #1d1d1f;
+  letter-spacing: -0.2px;
 }
 
-/* 工业状态指示灯 */
+/* 状态反馈提示色：圆润饱满的通知气泡 */
 .success {
-  background: #000000 !important;
-  border: 1px solid #00ff66 !important; /* 纯工业绿线 */
-  color: #00ff66 !important;
+  background: #ecfdf5 !important;
+  border: 1px solid #a7f3d0 !important;
+  color: #065f46 !important;
+  border-radius: 12px;
 }
 .duplicate {
-  background: #000000 !important;
-  border: 1px solid #ffcc00 !important; /* 工业黄线 */
-  color: #ffcc00 !important;
+  background: #fffbeb !important;
+  border: 1px solid #fde68a !important;
+  color: #92400e !important;
+  border-radius: 12px;
 }
 .error {
-  background: #000000 !important;
-  border: 1px solid #ff3333 !important; /* 工业红线 */
-  color: #ff3333 !important;
+  background: #fef2f2 !important;
+  border: 1px solid #fecaca !important;
+  color: #991b1b !important;
+  border-radius: 12px;
 }
 
-/* 登录面板卡片 */
+/* 登录面板卡片：iOS 系统的半透明磨砂玻璃舱 */
 .loginBox {
   margin-top: 40px;
-  background: #050505;
+  background: rgba(255, 255, 255, 0.8);
   padding: 35px 25px;
-  border-radius: 8px;
-  border: 1px solid #111111;
-  box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px); /* 强烈的毛玻璃折射效果 */
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.03),
+    0 30px 60px rgba(142, 151, 169, 0.15);
 }
 
 /* 应用主容器 */
@@ -179,48 +216,50 @@ button:active {
   z-index: 1;
 }
 
-/* 看板数字：变成冷光白 */
+/* 看板数字高亮 */
 #count, #d_total, #d_checked, #d_pending, #d_a, #d_b {
-  color: #ffffff;
-  font-weight: 700;
-  font-family: monospace;
+  color: #4f46e5;
+  font-weight: 800;
+  font-size: 1.2em;
 }
 
-/* 文字排版：纯白色彩控制 */
+/* 高级感排版：克制的字重对比 */
 h2 {
   font-size: 26px !important;
-  font-weight: 700;
-  color: #ffffff;
-  letter-spacing: 0.5px;
+  font-weight: 800;
+  color: #1d1d1f;
   margin-bottom: 6px !important;
+  letter-spacing: -0.5px;
 }
 h3 {
   font-size: 18px !important;
-  color: #888888; /* 辅助文字用中灰 */
-  font-weight: 500;
+  color: #515154;
+  font-weight: 600;
   margin-top: 0;
 }
 h4 {
   font-size: 13px !important;
-  color: #444444 !important; /* 英文用暗灰 */
+  color: #86868b !important; /* 苹果经典的暗灰副标题色 */
   font-weight: 500;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
 }
 h5 {
-  color: #ffffff;
-  font-size: 14px !important;
-  font-family: monospace;
-  border: 1px dashed #333333; /* 虚线框，极具图纸感 */
-  padding: 6px 14px;
+  color: #515154;
+  font-size: 15px !important;
+  background: #ffffff;
+  padding: 8px 18px;
+  border-radius: 20px;
   display: inline-block;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0,0,0,0.02);
 }
 </style>
 
 </head>
 
 <body>
-<!-- 精密工业数码网格 -->
-<div class="industrial-grid"></div>
+<!-- 提升页面厚度感的立体背景层 -->
+<div class="app-fluid-bg"></div>
 
 <div id="appContainer">
 
