@@ -91,60 +91,10 @@ body {
 .loginBox input:focus { border-color: #0ea5e9; background: #ffffff !important; }
 .loginBox button { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important; color: #ffffff !important; box-shadow: 0 10px 24px rgba(15, 23, 42, 0.2) !important; }
 
-/* =================================================== */
-/* ⚡ 组件 3：主页九宫格及全局立体卡片（App感与绝对居中修复） */
-/* =================================================== */
-#home > div {
-  grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 20px 14px !important;
-  width: 100% !important; max-width: 100% !important; padding: 10px 4px !important; margin: 0 auto !important; box-sizing: border-box !important;
+#scanner{
+  width:320px;
+  margin:auto;
 }
-
-/* 所有的实体卡片（主页格子与看板长条卡片完美锁死 5px 厚度） */
-.homeCard, .dashboard-item-card {
-  background: var(--card-face); border-radius: 24px; cursor: pointer; width: 100%;
-  border: 1px solid rgba(255, 255, 255, 0.9);
-  box-shadow: 0 var(--thick, 5px) 0px var(--card-base-3d), 0 14px 28px rgba(12, 23, 42, 0.25), inset 0 1.5px 0px #ffffff;
-  transition: all 0.12s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.homeCard { height: 105px; display: flex; flex-direction: column; justify-content: center; align-items: center; box-sizing: border-box; }
-
-/* 【极致解压下踩回弹】 */
-.homeCard:active, .dashboard-item-card:active {
-  transform: translateY(5px) scale(0.96); background: var(--card-press-bg);
-  box-shadow: 0 0px 0px transparent, 0 4px 10px rgba(0, 0, 0, 0.15), inset 0 1px 0px rgba(0,0,0,0.02);
-}
-
-/* 分区色彩独立图标槽 */
-.homeCard:nth-child(1) .homeIcon { background: #e0f2fe; color: #0369a1; } 
-.homeCard:nth-child(2) .homeIcon { background: #fef3c7; color: #b45309; } 
-.homeCard:nth-child(3) .homeIcon { background: #ecfdf5; color: #047857; } 
-.homeCard:nth-child(4) .homeIcon { background: #f5f3ff; color: #6d28d9; } 
-.homeCard:nth-child(5) .homeIcon { background: #fdf2f8; color: #be185d; } 
-.homeCard:nth-child(6) .homeIcon { background: #fef2f2; color: #b91c1c; } 
-.homeIcon { font-size: 20px; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border-radius: 14px; margin-bottom: 6px; box-shadow: 0 2px 0px rgba(0, 0, 0, 0.03); }
-.homeText { font-size: 14px; font-weight: 800; line-height: 1.2; color: var(--app-text-main); letter-spacing: -0.1px; }
-
-/* =================================================== */
-/* ⚡ 组件 4：数据看板全 App 化立体长条卡片 */
-/* =================================================== */
-#dashboardPage { text-align: left; padding: 10px 4px; }
-#dashboardPage h3 { text-align: center; color: var(--app-text-sub) !important; }
-
-.dashboard-item-card {
-  --thick: 4px; display: flex; justify-content: space-between; align-items: center;
-  padding: 18px 24px !important; margin-bottom: 18px !important;
-  box-sizing: border-box; cursor: default;
-}
-.dashboard-item-card > div:first-child {
-  font-size: 17px; font-weight: 700; color: var(--app-text-main);
-}
-.dashboard-item-card span {
-  font-size: 22px; font-weight: 900; color: #0ea5e9;
-  text-shadow: 0 2px 8px rgba(14, 165, 233, 0.2);
-}
-#d_total { color: #0ea5e9; }
-#d_checked { color: #10b981; text-shadow: 0 2px 8px rgba(16, 185, 129, 0.2); }
-#d_pending { color: #f59e0b; text-shadow: 0 2px 8px rgba(245, 158, 11, 0.2); }
 
 /* 通用输入框和基本按钮（适用于白舱外的子页面） */
 input {
@@ -167,19 +117,58 @@ button {
 .duplicate { background: #fffbeb !important; border: 1px solid #fde68a !important; color: #b45309 !important; border-radius: 14px; }
 .error { background: #fff5f5 !important; border: 2px solid #fecaca !important; color: #b91c1c !important; border-radius: 14px; }
 
-/* 应用主层级外壳 */
-#appContainer { width: 100%; max-width: 520px; padding: 10px; box-sizing: border-box; position: relative; z-index: 1; }
+.homeCard{
 
-/* 文本标题控制排版 */
-h2 { font-size: 26px !important; font-weight: 800; color: #0f172a; margin-bottom: 6px !important; letter-spacing: -0.5px; }
-h3 { font-size: 18px !important; color: var(--app-text-sub); font-weight: 600; margin-top: 0; }
-h4 { font-size: 13px !important; color: #64748b !important; font-weight: 500; letter-spacing: 1px; }
-h5 {
-  color: #334155; font-size: 15px !important; background: #ffffff; padding: 8px 18px; border-radius: 20px;
-  display: inline-block; box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08); border: 1px solid rgba(255,255,255,0.5);
+height:120px;
+
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+box-sizing:border-box;
+background:#dfe3ea;
+border:4px solid #000;
+border-radius:22px;
+box-shadow:0 4px 14px rgba(0,0,0,0.12);
+transition:0.15s;
+cursor:pointer;
+
 }
+
+.homeCard:active{
+
+transform:scale(0.96);
+
+}
+
+.homeIcon{
+
+font-size:32px;
+margin-bottom:12px;
+line-height:1;
+
+}
+
+.homeText{
+
+font-size:20px;
+font-weight:700;
+line-height:1.3;
+
+}
+
+#appContainer{
+
+width:100%;
+max-width:520px;
+
+padding:20px;
+box-sizing:border-box;
+
+}
+
 </style>
-  
+
 </head>
 
 <body>
