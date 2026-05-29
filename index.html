@@ -18,7 +18,7 @@
 
 <style>
 /* =================================================== */
-/* 全局基础重置：深海极光青 3D 晶体调色盘 */
+/* 全局基础重置：星光折射与浅亮极光背景调色盘 */
 /* =================================================== */
 body {
   margin: 0;
@@ -28,7 +28,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: #030611; /* 极深邃的夜空蓝黑，反衬水晶泡泡 */
+  background: #060b19; /* 深邃底色 */
   color: #f8fafc;
   min-height: 100vh;
   overflow-x: hidden;
@@ -36,87 +36,84 @@ body {
 }
 
 /* =================================================== */
-/* ⚡ 核心进化 1：全屏超立体“3D 镜面折射大泡泡”背景层 */
+/* ⚡ 核心组件 1：带局部浅亮高光 + 星光折射大泡泡背景层 */
 /* =================================================== */
 .bubble-bg-container {
   position: fixed;
   top: 0; left: 0; width: 100vw; height: 100vh;
   z-index: -1;
   overflow: hidden;
-  background: radial-gradient(circle at 50% 0%, #081022 0%, #030611 100%);
+  /* 背景魔改：在中部和上方注入大面积的浅亮色高光（晨曦蓝白与极光青），让背景有明有暗，通透舒服 */
+  background: 
+    radial-gradient(circle at 50% 15%, #e0f2fe 0%, rgba(204, 251, 241, 0.8) 30%, #0c172a 70%, #060b19 100%); 
 }
 
-/* 核心魔改：通过多层复杂渐变叠加，模拟 3D 球面的体积感与背部透光 */
+/* 3D 水晶大泡泡：内置核心星光折射，形状极其清晰明显 */
 .giant-bubble {
   position: absolute;
   border-radius: 50%;
   
-  /* 3D 体积感核心：通过径向渐变模拟球体左上角受光、右下角透光（模拟真实水晶球物理光学） */
-  background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.25) 0%, rgba(20, 184, 166, 0.4) 40%, rgba(2, 132, 199, 0.15) 70%, transparent 100%);
+  /* 3D 棱镜折射：模拟球体左上角射入强光，内部产生炫目的星光聚焦点 */
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.6) 0%, rgba(45, 212, 191, 0.4) 30%, rgba(14, 165, 233, 0.15) 70%, transparent 100%);
+  border: 1.5px solid rgba(255, 255, 255, 0.7); /* 清晰无暇的玻璃外轮廓 */
   
-  /* 鲜明的圆形外轮廓线 */
-  border: 1px solid rgba(20, 184, 166, 0.4);
+  /* 闪烁的星光发光层（利用 drop-shadow 让泡泡整体向外辐射星芒般的散射光） */
+  filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.5)) drop-shadow(0 0 25px rgba(45, 212, 191, 0.3));
   
-  /* 镜面反射与二次折射：
-     inset 8px 8px... -> 左上角强力射入的晶体聚光
-     inset -12px -12px... -> 右下角球体边缘的阴影包裹 */
+  /* 双层超强内折射阴影 */
   box-shadow: 
-    inset 8px 8px 18px rgba(255, 255, 255, 0.5), 
-    inset -12px -12px 25px rgba(3, 7, 18, 0.6),
-    0 15px 35px rgba(20, 184, 166, 0.12);
+    inset 10px 10px 20px rgba(255, 255, 255, 0.8), 
+    inset -12px -12px 25px rgba(6, 11, 25, 0.5);
     
-  filter: blur(0.5px); /* 几乎完全锐利，保障真实的物理镜面边界 */
   animation: floatBubble 14s ease-in-out infinite alternate;
 }
 
-/* ⚡ 关键细节：利用伪元素在泡泡表面强行切出一道“物理折射弯月高光” */
+/* ⚡ 关键细节：利用伪元素在大泡泡中心上方强行叠加一个十字星芒反光点（闪烁的星光感） */
 .giant-bubble::before {
   content: '';
   position: absolute;
-  top: 6%; left: 8%;
-  width: 45%; height: 25%;
-  border-radius: 50%;
-  /* 完美的表面反光片效果 */
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.65) 0%, transparent 100%);
-  transform: rotate(-15deg);
+  top: 15%; left: 20%;
+  width: 40%; height: 40%;
+  /* 模拟物理世界中钻石或星光打在玻璃上的交叉十字透镜折射高光 */
+  background: 
+    radial-gradient(ellipse at center, rgba(255,255,255,0.9) 0%, transparent 70%),
+    linear-gradient(to right, transparent 45%, rgba(255,255,255,0.8) 50%, transparent 55%),
+    linear-gradient(to bottom, transparent 45%, rgba(255,255,255,0.8) 50%, transparent 55%);
+  transform: rotate(15deg);
 }
 
-/* 3个大小错落的 3D 反光晶体玻璃球 */
-.b1 { width: 310px; height: 310px; top: -3%; left: -6%; animation-duration: 15s; }
-.b2 { width: 250px; height: 250px; top: 42%; right: -10%; animation-duration: 19s; animation-delay: -3s; }
-.b3 { width: 210px; height: 210px; bottom: -4%; left: 12%; animation-duration: 17s; }
+/* 3个带有璀璨星光折射的巨型 3D 水晶球位置及尺寸 */
+.b1 { width: 290px; height: 290px; top: -2%; left: -6%; animation-duration: 15s; }
+.b2 { width: 240px; height: 240px; top: 45%; right: -10%; animation-duration: 19s; animation-delay: -3s; }
+.b3 { width: 200px; height: 200px; bottom: -4%; left: 14%; animation-duration: 17s; }
 
 @keyframes floatBubble {
-  0% { transform: translate(0, 0) scale(1) rotate(0deg); }
-  100% { transform: translate(20px, 30px) scale(1.08) rotate(5deg); }
+  0% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 0.85; }
+  100% { transform: translate(15px, 25px) scale(1.06) rotate(8deg); opacity: 1; }
 }
 
 /* =================================================== */
-/* ⚡ 核心进化 2：Login 登录面板魔改（通透白、不全暗、极度舒服） */
+/* ⚡ 核心组件 2：Login 登录面板（白晶舱体，完美融合背景高光） */
 /* =================================================== */
 .loginBox {
   margin-top: 50px;
-  /* 告别死暗！改用 75% 透明度的高档冰川牛奶白作为舱体基底 */
-  background: rgba(255, 255, 255, 0.75); 
+  /* 采用 80% 透明度的现代极地牛奶白，在背景的浅亮色衬托下极为通透、干净舒服 */
+  background: rgba(255, 255, 255, 0.82); 
   padding: 40px 25px;
-  border-radius: 26px; /* 饱满的 App 圆角 */
+  border-radius: 26px;
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  border-bottom: 2px solid rgba(15, 23, 42, 0.08);
   
-  /* 顶层高光切面线，拉开 3D 立体悬浮感 */
-  border: 1px solid rgba(255, 255, 255, 0.9);
-  border-bottom: 2px solid rgba(0, 0, 0, 0.04);
+  backdrop-filter: blur(25px); 
+  -webkit-backdrop-filter: blur(25px);
   
-  /* 强烈的毛玻璃滤镜，让后方缓缓漂浮的 3D 大泡泡滑过时，产生极为高端的模糊透光折射 */
-  backdrop-filter: blur(30px); 
-  -webkit-backdrop-filter: blur(30px);
-  
-  /* 复合下沉投影，让 Login 舱体在深色背景上强烈悬浮 */
   box-shadow: 
-    0 4px 10px rgba(0, 0, 0, 0.1),
-    0 20px 50px rgba(0, 0, 0, 0.5),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    0 4px 12px rgba(15, 23, 42, 0.05),
+    0 25px 55px rgba(12, 23, 42, 0.15), /* 浅亮背景下的投影变得更加柔和干净 */
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
-/* 配合明亮 Login 舱体，将内部的文字调校为高档石墨灰（清晰、不伤眼） */
+/* 白舱内部高级字体控制（深邃石墨灰，极为舒服清晰） */
 .loginBox h3 {
   color: #0f172a !important;
   font-weight: 800;
@@ -125,23 +122,23 @@ body {
   letter-spacing: -0.5px;
 }
 
-/* 独立设计的白舱专属立体输入框 */
+/* 白舱专属温润立体输入框 */
 .loginBox input {
-  background: #f8fafc !important; /* 温润的牛奶浅灰底 */
-  border: 1px solid rgba(15, 23, 42, 0.08) !important;
-  color: #0f172a !important; /* 钢石黑输入文字 */
-  box-shadow: inset 0 2px 4px rgba(15, 23, 42, 0.04) !important;
+  background: #f1f5f9 !important;
+  border: 1px solid rgba(15, 23, 42, 0.06) !important;
+  color: #0f172a !important;
+  box-shadow: inset 0 2px 4px rgba(15, 23, 42, 0.03) !important;
 }
 .loginBox input:focus {
-  border-color: #0d9488 !important;
-  box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.15) !important;
+  border-color: #0ea5e9;
+  box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.15) !important;
   background: #ffffff !important;
 }
 .loginBox input::placeholder {
   color: #94a3b8 !important;
 }
 
-/* 白舱专属大按钮：选用极其扎实的极光深海蓝渐变 */
+/* 白舱专属大按钮：选用极其扎实的石墨深蓝黑，高级感拉满 */
 .loginBox button {
   background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
   color: #ffffff !important;
@@ -168,29 +165,29 @@ body {
   /* 5px 偏置的极光青实体阴影，死死压出实体的侧面厚度 */
   box-shadow: 
     0 5px 0px #0d9488, /* 极光青实体厚度层 */
-    0 16px 32px rgba(0, 0, 0, 0.6), 
+    0 16px 32px rgba(12, 23, 42, 0.25), /* 在半亮背景下，投影呈现高级的雾感过渡 */
     inset 0 1.5px 0px #ffffff;
   transition: all 0.12s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .homeCard:active {
   transform: translateY(5px) scale(0.96);
   background: #f0fdfa;
-  box-shadow: 0 0px 0px transparent, 0 4px 10px rgba(0, 0, 0, 0.4), inset 0 1px 0px rgba(0,0,0,0.02);
+  box-shadow: 0 0px 0px transparent, 0 4px 10px rgba(0, 0, 0, 0.15), inset 0 1px 0px rgba(0,0,0,0.02);
 }
 
-/* 按钮、输入框（通用通用组件，适用于白舱之外的子页面） */
+/* 通用输入框和按钮（用于白舱外的子页面） */
 input {
-  padding: 16px; font-size: 17px; width: 230px; background: #0f172a; border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 16px; color: #ffffff; text-align: center; outline: none;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5), 0 4px 12px rgba(0, 0, 0, 0.3); transition: all 0.25s ease;
+  padding: 16px; font-size: 17px; width: 230px; background: #ffffff; border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 16px; color: #0f172a; text-align: center; outline: none;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.02); transition: all 0.25s ease;
 }
-input:focus { border-color: #2dd4bf; box-shadow: 0 0 0 4px rgba(45, 212, 191, 0.15); background: #1e293b; }
-input::placeholder { color: #475569; }
+input:focus { border-color: #0ea5e9; box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.15); }
+input::placeholder { color: #94a3b8; }
 
 button {
   padding: 14px 28px; margin: 10px; font-size: 16px; font-weight: 600; border-radius: 16px; border: none; cursor: pointer;
-  background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%); color: #ffffff;
-  box-shadow: 0 10px 24px rgba(20, 184, 166, 0.3), 0 4px 8px rgba(20, 184, 166, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: #ffffff;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.15), 0 4px 8px rgba(15, 23, 42, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1);
   transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); letter-spacing: 0.5px;
 }
 
@@ -210,19 +207,19 @@ button {
 .homeText { font-size: 14px; font-weight: 800; line-height: 1.2; color: #1e293b; letter-spacing: -0.1px; }
 
 /* 状态反馈提示色 */
-.success { background: rgba(20, 184, 166, 0.15) !important; border: 1px solid #14b8a6 !important; color: #2dd4bf !important; border-radius: 14px; }
-.duplicate { background: rgba(245, 158, 11, 0.15) !important; border: 1px solid #f59e0b !important; color: #fbbf24 !important; border-radius: 14px; }
-.error { background: rgba(239, 68, 68, 0.15) !important; border: 1px solid #ef4444 !important; color: #f87171 !important; border-radius: 14px; }
+.success { background: #e6f9ed !important; border: 1px solid #a7f3d0 !important; color: #047857 !important; border-radius: 14px; }
+.duplicate { background: #fffbeb !important; border: 1px solid #fde68a !important; color: #b45309 !important; border-radius: 14px; }
+.error { background: #fff5f5 !important; border: 2px solid #fecaca !important; color: #b91c1c !important; border-radius: 14px; }
 
 /* 应用主内容外层总容器 */
 #appContainer { width: 100%; max-width: 520px; padding: 20px; box-sizing: border-box; position: relative; z-index: 1; }
-#count, #d_total, #d_checked, #d_pending, #d_a, #d_b { color: #2dd4bf; font-weight: 800; font-size: 1.2em; text-shadow: 0 0 10px rgba(45, 212, 191, 0.3); }
+#count, #d_total, #d_checked, #d_pending, #d_a, #d_b { color: #0ea5e9; font-weight: 800; font-size: 1.2em; }
 
-/* 标题排版 */
-h2 { font-size: 26px !important; font-weight: 800; color: #ffffff; margin-bottom: 6px !important; letter-spacing: -0.5px; }
-h3 { font-size: 18px !important; color: #94a3b8; font-weight: 600; margin-top: 0; }
-h4 { font-size: 13px !important; color: #475569 !important; font-weight: 500; letter-spacing: 1px; }
-h5 { color: #e2e8f0; font-size: 15px !important; background: #0f172a; padding: 8px 18px; border-radius: 20px; display: inline-block; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); border: 1px solid rgba(255,255,255,0.02); }
+/* 标题排版（在半亮背景下换回高级石墨黑字） */
+h2 { font-size: 26px !important; font-weight: 800; color: #0f172a; margin-bottom: 6px !important; letter-spacing: -0.5px; }
+h3 { font-size: 18px !important; color: #334155; font-weight: 600; margin-top: 0; }
+h4 { font-size: 13px !important; color: #64748b !important; font-weight: 500; letter-spacing: 1px; }
+h5 { color: #334155; font-size: 15px !important; background: #ffffff; padding: 8px 18px; border-radius: 20px; display: inline-block; box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08); border: 1px solid rgba(255,255,255,0.5); }
 </style>
   
 </head>
