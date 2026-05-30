@@ -95,7 +95,9 @@ body {
   width:380px;
   max-width: 100%;
   margin:auto;
+  display: block;
   border-radius: 26px;
+  overflow:hidden;
   box-sizing: border-box;
 }
 
@@ -174,10 +176,11 @@ box-sizing:border-box;
 
 #scanPage, #registerPage {
   
-  margin-top: 20px;
+  margin: 10px auto;
   padding: 28px 5px;
   border-radius: 26px; /* 饱满的 App 组件圆角 */
   width: 100%;
+  max-width:380px;
   box-sizing: border-box; /* 防止手机端排版溢出 */
   
   /* 毛玻璃高级质感：读取顶层的透明度与模糊半径变量 */
@@ -197,10 +200,11 @@ box-sizing:border-box;
 #manualPage, #dashboardPage, #searchPage, 
 #resultPage, #searchResultPage, #registerResultPage {
   
-  margin-top: 20px;
+  margin: 20px auto;
   padding: 28px 20px;
   border-radius: 26px; /* 饱满的 App 组件圆角 */
   width: 100%;
+  max-width:380px;
   box-sizing: border-box; /* 防止手机端排版溢出 */
   
   /* 毛玻璃高级质感：读取顶层的透明度与模糊半径变量 */
@@ -466,7 +470,8 @@ placeholder="Name / Phone / Email / ID"
 onkeypress="if(event.key==='Enter')searchParticipant()"
 style="
 width:250px;
-max-width:100%;
+max-width:90%;
+display:block;
 margin:0 auto;
 text-align:center;
 "
