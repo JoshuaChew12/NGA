@@ -92,7 +92,7 @@ body {
 .loginBox button { background: linear-gradient(135deg, #0f172a 0%, #dfe3ea 50%, #dfe3ea 100%)) !important; color: #1e293b !important; box-shadow: 0 10px 24px rgba(15, 23, 42, 0.2) !important; }
 
 #scanner{
-  width:380px;
+  width:420px;
   max-width: 100%;
   margin:auto;
   display: block;
@@ -111,7 +111,7 @@ input:focus { border-color: #0ea5e9; box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.
 input::placeholder { color: #94a3b8; }
 
 button {
-  padding: 14px 28px; margin: 15px; font-size: 18px; font-weight: 600; border-radius: 16px; border: none; cursor: pointer;
+  padding: 14px 18px; margin: 10px; font-size: 18px; font-weight: 600; border-radius: 16px; border: none; cursor: pointer; display:inline-block;
   background: linear-gradient(135deg, #0f172a 0%, #dfe3ea 50%, #dfe3ea 100%); color: #1e293b;
   box-shadow: 0 10px 24px rgba(15, 23, 42, 0.15), 0 4px 8px rgba(15, 23, 42, 0.1);
   transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); letter-spacing: 0.5px;
@@ -174,12 +174,12 @@ box-sizing:border-box;
 
 }
 
-#scanPage {
+#scanPage, #registerPage {
   
-  margin-top: 20px auto;
-  padding: 8px 5px;
+  margin: 16px auto;
+  padding: 28px 5px;
   border-radius: 26px; /* 饱满的 App 组件圆角 */
-  width: 100%;
+  max-width:380px;
   box-sizing: border-box; /* 防止手机端排版溢出 */
   
   /* 毛玻璃高级质感：读取顶层的透明度与模糊半径变量 */
@@ -197,12 +197,12 @@ box-sizing:border-box;
 }
 
 #manualPage, #dashboardPage, #searchPage, 
-#registerPage, #resultPage, #searchResultPage, #registerResultPage {
+#resultPage, #searchResultPage, #registerResultPage {
   
-  margin-top: 20px auto;
-  padding: 35px 20px;
+  margin: 16px auto;
+  padding: 28px 20px;
   border-radius: 26px; /* 饱满的 App 组件圆角 */
-  width: 100%;
+  max-width:380px;
   box-sizing: border-box; /* 防止手机端排版溢出 */
   
   /* 毛玻璃高级质感：读取顶层的透明度与模糊半径变量 */
@@ -467,8 +467,8 @@ id="searchInput"
 placeholder="Name / Phone / Email / ID"
 onkeypress="if(event.key==='Enter')searchParticipant()"
 style="
-width:250px;
-max-width:90%;
+width:220px;
+max-width:100%;
 margin:0 auto;
 text-align:center;
 "
