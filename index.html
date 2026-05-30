@@ -70,10 +70,10 @@ body {
 }
 
 /* ⚡ 重新排配的 4 个大泡泡：尺寸高低错落，覆盖全屏四个角落，视觉更丰富 */
-.b1 { width: 280px; height: 280px; top: -4%; left: -6%; animation-duration: 15s; }
+.b1 { width: 280px; height: 280px; top: -4%; left: 0%; animation-duration: 15s; }
 .b2 { width: 230px; height: 230px; top: 42%; right: -8%; animation-duration: 19s; animation-delay: -3s; }
 .b3 { width: 190px; height: 190px; bottom: -3%; left: 12%; animation-duration: 17s; }
-.b4 { width: 160px; height: 160px; top: 15%; right: 10%; animation-duration: 13s; animation-delay: -5s; } /* 新增的第4个右上腹部小巨型泡泡 */
+.b4 { width: 160px; height: 160px; top: 2%; left: 4%; animation-duration: 13s; animation-delay: -5s; } /* 新增的第4个右上腹部小巨型泡泡 */
 
 @keyframes floatBubble { 0% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 0.85; } 100% { transform: translate(15px, 25px) scale(1.06) rotate(4deg); opacity: 1; } }
 
@@ -81,7 +81,7 @@ body {
 /* ⚡ 组件 2：Login 登录面板（白晶舱体，完美融合背景高光） */
 /* =================================================== */
 .loginBox {
-  margin-top: 35px; background: rgba(255, 255, 255, 0.55); padding: 40px 25px; border-radius: 26px; max-width: 300px;
+  margin-top: 35px auto; background: rgba(255, 255, 255, 0.53); padding: 40px 25px; border-radius: 26px; max-width: 300px;
   border: 1px solid rgba(255, 255, 255, 0.95); border-bottom: 2px solid rgba(15, 23, 42, 0.08);
   backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
   box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05), 0 25px 55px rgba(12, 23, 42, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.9);
@@ -89,10 +89,10 @@ body {
 .loginBox h3 { color: #0f172a !important; font-weight: 800; font-size: 22px !important; margin-bottom: 24px; }
 .loginBox input { background: #f1f5f9 !important; border: 1px solid rgba(15, 23, 42, 0.06) !important; color: #0f172a !important; }
 .loginBox input:focus { border-color: #0ea5e9; background: #ffffff !important; }
-.loginBox button { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important; color: #ffffff !important; box-shadow: 0 10px 24px rgba(15, 23, 42, 0.2) !important; }
+.loginBox button { background: linear-gradient(135deg, #0f172a 0%, #dfe3ea 100%) !important; color: #1e293b !important; box-shadow: 0 10px 24px rgba(15, 23, 42, 0.2) !important; }
 
 #scanner{
-  width:320px;
+  width:420px;
   max-width: 100%;
   margin:auto;
 }
@@ -107,8 +107,8 @@ input:focus { border-color: #0ea5e9; box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.
 input::placeholder { color: #94a3b8; }
 
 button {
-  padding: 14px 28px; margin: 10px; font-size: 16px; font-weight: 600; border-radius: 16px; border: none; cursor: pointer;
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: #ffffff;
+  padding: 14px 28px; margin: 15px; font-size: 18px; font-weight: 600; border-radius: 16px; border: none; cursor: pointer;
+  background: linear-gradient(135deg, #0f172a 0%, #dfe3ea 100%); color: #1e293b;
   box-shadow: 0 10px 24px rgba(15, 23, 42, 0.15), 0 4px 8px rgba(15, 23, 42, 0.1);
   transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); letter-spacing: 0.5px;
 }
@@ -138,7 +138,8 @@ cursor:pointer;
 
 .homeCard:active{
 
-transform: translateY(5px) scale(0.96);
+transform: translateY(5px) scale(0.96); background: var(--card-press-bg);
+box-shadow: 0 0px 0px transparent, 0 4px 10px rgba(0, 0, 0, 0.15), inset 0 1px 0px rgba(0,0,0,0.02);
 
 }
 
@@ -155,6 +156,7 @@ line-height:1;
 font-size:20px;
 font-weight:700;
 line-height:1.3;
+color: var(--app-text-main)
 
 }
 
@@ -168,7 +170,29 @@ box-sizing:border-box;
 
 }
 
-#scanPage, #manualPage, #dashboardPage, #searchPage, 
+#scanPage {
+  
+  margin-top: 10px auto;
+  padding: 8px 5px;
+  border-radius: 26px; /* 饱满的 App 组件圆角 */
+  width: 100%;
+  box-sizing: border-box; /* 防止手机端排版溢出 */
+  
+  /* 毛玻璃高级质感：读取顶层的透明度与模糊半径变量 */
+  background: rgba(255, 255, 255, 0.53); 
+  backdrop-filter: blur(4px); 
+  -webkit-backdrop-filter: blur(4px);
+  
+  /* 多层重悬浮立体投影 */
+  border: 1px solid rgba(255, 255, 255, 0.95); 
+  border-bottom: 2px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05), 0 25px 55px rgba(12, 23, 42, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    
+  /* 原生 App 级页面切换淡入动效 */
+  animation: pageFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+#manualPage, #dashboardPage, #searchPage, 
 #registerPage, #resultPage, #searchResultPage, #registerResultPage {
   
   margin-top: 20px auto;
@@ -178,7 +202,7 @@ box-sizing:border-box;
   box-sizing: border-box; /* 防止手机端排版溢出 */
   
   /* 毛玻璃高级质感：读取顶层的透明度与模糊半径变量 */
-  background: rgba(255, 255, 255, 0.55); 
+  background: rgba(255, 255, 255, 0.53); 
   backdrop-filter: blur(4px); 
   -webkit-backdrop-filter: blur(4px);
   
@@ -410,7 +434,7 @@ Check-in
 
 <div id="dashboardPage" style="display:none;">
 
-<h3>📊 Dashboard</h3>
+<h4>📊 Dashboard</h4>
 
 <div style="font-size:22px;font-weight:600;">Total: <span id="d_total">-</span></div>
 <div style="font-size:22px;font-weight:600;">Checked In: <span id="d_checked">-</span></div>
@@ -421,7 +445,7 @@ Check-in
 <br>
 
 <button onclick="goHome()">
-⬅️ Home
+⬅️ Back
 </button>
 
 </div>
@@ -432,16 +456,16 @@ Check-in
 
 <div id="searchPage" style="display:none;">
 
-<h3>🔍 Search Member</h3>
+<h4>🔍 Search Member</h4>
 
 <input
 id="searchInput"
 placeholder="Name / Phone / Email / ID"
+onkeypress="if(event.key==='Enter')searchParticipant()"
 style="
 width:280px;
 max-width:90%;
 display:block;
-margin:0 auto;
 text-align:center;
 "
 >
@@ -457,7 +481,7 @@ Search
 <div style="margin-top:6px;">
 
 <button onclick="goHome()">
-⬅️ Home
+⬅️ Back
 </button>
 
 </div>
@@ -469,7 +493,7 @@ Search
 
 <div id="registerPage" style="display:none;">
 
-<h3>📝 New Registration</h3>
+<h4>📝 New Registration</h4>
 
 <input id="r_chinese" placeholder="Chinese Name">
 <br><br>
@@ -494,7 +518,7 @@ Submit Registration
 
 <div style="margin-top:6px;">
 <button onclick="goHome()">
-⬅️ Home
+⬅️ Back
 </button>
 </div>
 
