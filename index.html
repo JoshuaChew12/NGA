@@ -96,6 +96,7 @@ body {
   max-width: 100%;
   margin:auto;
   border-radius: 26px;
+  box-sizing: border-box;
 }
 
 /* 通用输入框和基本按钮（适用于白舱外的子页面） */
@@ -464,7 +465,9 @@ id="searchInput"
 placeholder="Name / Phone / Email / ID"
 onkeypress="if(event.key==='Enter')searchParticipant()"
 style="
-width:280px;
+width:250px;
+max-width:100%;
+margin:0 auto;
 text-align:center;
 "
 >
