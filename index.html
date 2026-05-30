@@ -118,9 +118,9 @@ button {
 }
 
 /* 状态通知气泡 */
-.success { background: #e6f9ed !important; border: 1px solid #a7f3d0 !important; color: #047857 !important; border-radius: 14px; max-width:390px; padding: 28px 20px; }
-.duplicate { background: #fffbeb !important; border: 1px solid #fde68a !important; color: #b45309 !important; border-radius: 14px; max-width:390px; padding: 28px 20px; }
-.error { background: #fff5f5 !important; border: 2px solid #fecaca !important; color: #b91c1c !important; border-radius: 14px; max-width:390px; padding: 28px 20px; }
+.success { background: #e6f9ed !important; border: 1px solid #a7f3d0 !important; color: #047857 !important; border-radius: 14px; box-sizing: border-box; max-width:390px; padding: 28px 20px; }
+.duplicate { background: #fffbeb !important; border: 1px solid #fde68a !important; color: #b45309 !important; border-radius: 14px; box-sizing: border-box; max-width:390px; padding: 28px 20px; }
+.error { background: #fff5f5 !important; border: 2px solid #fecaca !important; color: #b91c1c !important; border-radius: 14px; box-sizing: border-box; max-width:390px; padding: 28px 20px; }
 
 .homeCard{
 
@@ -284,7 +284,7 @@ h5 {
   <br><br>
 
   <button onclick="login()">
-    Login
+  💻 Login
   </button>
 
   <br><br>
@@ -425,7 +425,7 @@ onkeypress="if(event.key==='Enter')manualCheck()"
 <br><br>
 
 <button onclick="manualCheck()">
-Check-in
+📋 Check-in
 </button>
 
 <br>
@@ -467,7 +467,7 @@ id="searchInput"
 placeholder="Name / Phone / Email / ID"
 onkeypress="if(event.key==='Enter')searchParticipant()"
 style="
-width:220px;
+width:240px;
 max-width:100%;
 margin:0 auto;
 text-align:center;
@@ -477,7 +477,7 @@ text-align:center;
 <br><br>
 
 <button onclick="searchParticipant()">
-Search
+🔍 Search
 </button>
 
 <br>
@@ -513,7 +513,7 @@ Search
 <br><br>
 
 <button onclick="submitRegistration()">
-Submit Registration
+📝 Submit Registration
 </button>
 
 <br>
