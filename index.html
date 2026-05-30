@@ -174,12 +174,12 @@ box-sizing:border-box;
 
 }
 
-#scanPage, #registerPage {
+#scanPage {
   
   margin: 16px auto;
   padding: 28px 5px;
   border-radius: 26px; /* 饱满的 App 组件圆角 */
-  max-width:380px;
+  max-width:390px;
   box-sizing: border-box; /* 防止手机端排版溢出 */
   
   /* 毛玻璃高级质感：读取顶层的透明度与模糊半径变量 */
@@ -196,13 +196,13 @@ box-sizing:border-box;
   animation: pageFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-#manualPage, #dashboardPage, #searchPage, 
+#manualPage, #dashboardPage, #searchPage, #registerPage
 #resultPage, #searchResultPage, #registerResultPage {
   
   margin: 16px auto;
   padding: 28px 20px;
   border-radius: 26px; /* 饱满的 App 组件圆角 */
-  max-width:380px;
+  max-width:390px;
   box-sizing: border-box; /* 防止手机端排版溢出 */
   
   /* 毛玻璃高级质感：读取顶层的透明度与模糊半径变量 */
@@ -536,11 +536,11 @@ Submit Registration
 <br><br>
 
 <button onclick="nextAction()">
-Submit Another
+📄 Submit Another
 </button>
 
 <button onclick="goHome()">
-Home
+🏠 Home
 </button>
 
 </div>
