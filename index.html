@@ -10,8 +10,7 @@ content="width=device-width,initial-scale=1">
 NGA Worship Check-in
 </title>
 
-<link rel="stylesheet"
-href="style.css">
+<link rel="stylesheet" href="style.css">
 
 </head>
 
@@ -20,78 +19,91 @@ href="style.css">
 <div id="app">
 
 <!-- =====================
-HEADER AREA
+APP HEADER
 ===================== -->
 <header id="appHeader">
 
-<h2>
-NGA Worship Check-in
-</h2>
+<div class="app-title">
+🔥 NGA Worship
+</div>
 
 <div id="counterBox">
-Checked-in:
+
 <span id="checkCount">
 0
 </span>
+
+<span>
+Checked In
+</span>
+
 </div>
 
 </header>
 
 <!-- =====================
-PAGE CONTAINER
+PAGES
 ===================== -->
 <main id="pages">
 
-<!-- HOME -->
-
-<section 
+<!-- =====================
+HOME
+===================== -->
+<section
 id="homePage"
 class="page active">
 
-<div class="home-content">
+<!-- CLOCK HERO -->
 
-<h1>
-NGA Worship Check-in
-</h1>
+<div class="clock-card">
 
-<div class="clock"
-id="clock">
+<div id="clock"
+class="clock">
+
 00:00:00
-</div>
-
-<div id="todayDay"></div>
-
-<div id="todayDate"></div>
-
-<div class="dashboard"
-id="dashboard">
-
-Dashboard
 
 </div>
 
+<div id="todayDay"
+class="clock-day">
+----
+</div>
 
-<button 
+<div id="todayDate"
+class="clock-date">
+----
+</div>
+
+</div>
+
+<!-- DASHBOARD -->
+<div
+id="dashboard"
+class="dashboard hidden">
+
+</div>
+
+<!-- LOGOUT -->
+
+<button
 class="logout-btn">
 
 Logout
 
 </button>
 
-</div>
-
 </section>
 
-
-<!-- MANUAL -->
-
+<!-- =====================
+MANUAL
+===================== -->
 <section
 id="manualPage"
 class="page">
 
 <div class="counter-small">
 
-Checked-in:
+Checked In:
 <span>
 0
 </span>
@@ -102,11 +114,12 @@ Checked-in:
 Manual Check-in
 </h2>
 
-<div id="manualContent">
+<div class="card"
+id="manualContent">
 
 <input
 id="manualInput"
-placeholder="Enter ID">
+placeholder="Enter Member ID">
 
 <button>
 Submit
@@ -116,16 +129,16 @@ Submit
 
 </section>
 
-
-<!-- SCAN -->
-
+<!-- =====================
+SCAN
+===================== -->
 <section
 id="scanPage"
 class="page">
 
 <div class="counter-small">
 
-Checked-in:
+Checked In:
 <span>
 0
 </span>
@@ -136,8 +149,9 @@ Checked-in:
 Scan QR
 </h2>
 
-<div
-id="scanner">
+<div class="card">
+
+<div id="scanner">
 
 </div>
 
@@ -146,11 +160,13 @@ id="scanResult">
 
 </div>
 
+</div>
+
 </section>
 
-
-<!-- SEARCH -->
-
+<!-- =====================
+SEARCH
+===================== -->
 <section
 id="searchPage"
 class="page">
@@ -158,6 +174,8 @@ class="page">
 <h2>
 Search Member
 </h2>
+
+<div class="card">
 
 <input
 id="searchInput"
@@ -167,15 +185,18 @@ placeholder="Name / ID">
 Search
 </button>
 
-<div id="searchResult">
+<div
+id="searchResult">
+
+</div>
 
 </div>
 
 </section>
 
-
-<!-- REGISTER -->
-
+<!-- =====================
+REGISTER
+===================== -->
 <section
 id="registerPage"
 class="page">
@@ -183,6 +204,8 @@ class="page">
 <h2>
 New Registration
 </h2>
+
+<div class="card">
 
 <input
 placeholder="Chinese Name">
@@ -197,14 +220,16 @@ placeholder="Phone">
 Register
 </button>
 
-<div id="registerResult">
+<div
+id="registerResult">
+
+</div>
 
 </div>
 
 </section>
 
 </main>
-
 
 <!-- =====================
 BOTTOM NAVIGATION
@@ -266,9 +291,12 @@ Register
 
 </button>
 
+
 </nav>
 
-
+<!-- =====================
+SCRIPTS
+===================== -->
 <script src="api.js"></script>
 <script src="home.js"></script>
 <script src="scan.js"></script>
