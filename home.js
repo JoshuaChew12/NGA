@@ -67,50 +67,58 @@ async function loadDashboard(){
 try{
 
 const res=await getDashboard();
-if(!res.success)return;
+const box=document.getElementById("dashboard");
+
+if(!res.success){
+box.classList.add("hidden");
+return;
+}
+
 const data=res.dashboard||[];
+let html="";
 let total=0;
-let html=
-`
-<table>
 
-<tr>
-<th>Location</th>
-<th>Checked In</th>
-</tr>
-`;
+data.slice(1).forEach(r=>{
 
-data.slice(1)
-.forEach(row=>{
-
-const location=row[0];
-const count=Number(row[1]||0);
+const location=r[0];
+const count=Number(r[1]||0);
+if(!count)return;
 total+=count;
-html+=
-`
-<tr>
 
-<td>${location}</td>
+html+=`
+<div class="dashboard-card">
 
-<td>${count}</td>
+<div class="dashboard-title">
+${location}
+</div>
 
-</tr>
+<div class="dashboard-number">
+${count}
+</div>
+
+</div>
 `;
 
 });
 
-html+="</table>";
+document.getElementById("checkCount").textContent=total;
 
-const counter=document.getElementById("checkCount");
-if(counter)counter.innerHTML=total;
-
-const box=document.getElementById("dashboard");
-if(box)box.innerHTML=html;
-
-}
-catch(err){
-console.log("Dashboard Error",err);
+if(total===0){
+box.classList.add("hidden");
+box.innerHTML="";
+return;
 }
 
+box.classList.remove("hidden");
+box.innerHTML=html;
+
+}catch(err){
+
+console.log(err);
+document
+.getElementById("dashboard")
+.classList.add("hidden");
+
+}
 
 }
