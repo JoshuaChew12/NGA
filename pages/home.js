@@ -1,103 +1,43 @@
 let homeClock=null;
 
-// ============================
+// =========================
 // LOAD HOME
-// ============================
+// =========================
 async function loadHome(){
 
-const page=document.getElementById("page-home");
-page.innerHTML=`
-
-<div class="page-header">
-
-<h1>NGA Worship Check-in</h1>
-
-</div>
-
-<div class="counter-box">
-
-<div class="counter-title">
-Checked-in Counter
-</div>
-
-<div id="homeCounter"
-class="counter-number">
-0
-</div>
-
-</div>
-
-<div class="clock-box">
-
-<div id="homeTime">
-</div>
-
-<div id="homeDate">
-</div>
-
-</div>
-
-<div class="dashboard-box">
-
-<h3>Dashboard</h3>
-
-<table id="dashboardTable">
-
-</table>
-
-</div>
-
-<button
-class="logout-btn"
-onclick="logout()">
-
-Logout
-
-</button>
-
-`;
-
-startHomeClock();
-loadHomeDashboard();
+startClock();
+loadDashboard();
 
 }
 
-// ============================
+// =========================
 // CLOCK
-// ============================
-function startHomeClock(){
+// =========================
+function startClock(){
 
 clearInterval(homeClock);
 
-function run(){
+function update(){
 
 const now=new Date();
+const clock=document.getElementById("clock");
 
-document.getElementById("homeTime").innerHTML=
-now.toLocaleTimeString("en-GB");
-
-document.getElementById("homeDate").innerHTML=
-now.toLocaleDateString("en-GB",
-{
-weekday:"long",
-day:"2-digit",
-month:"long",
-year:"numeric"
+if(clock){
+clock.innerHTML=now.toLocaleTimeString("en-GB");
 }
-);
 
 }
 
-run();
+update();
 
-homeClock=setInterval(run,1000);
+homeClock=setInterval(update,1000);
 
 }
 
-// ============================
+// =========================
 // DASHBOARD
-// ============================
-async function loadHomeDashboard(){
+// =========================
+async function loadDashboard(){
 
 try{
 
@@ -106,36 +46,31 @@ if(!res.success)return;
 
 const data=res.dashboard;
 let total=0;
-let html=`
+let html=
+`
+<table>
 
 <tr>
 
-<th>
-Location
-</th>
+<th>Location</th>
 
-<th>
-Checked In
-</th>
+<th>Checked In</th>
 
 </tr>
-
 `;
 
 for(let i=1;i<data.length;i++){
-total+=Number(data[i][1]||0);
+
+const location=data[i][0];
+const count=Number(data[i][1]||0);
+total+=count;
+
 html+=`
 
 <tr>
 
-<td>
-${data[i][0]}
-</td>
-
-
-<td>
-${data[i][1]}
-</td>
+<td>${location}</td>
+<td>${count}</td>
 
 </tr>
 
@@ -143,23 +78,31 @@ ${data[i][1]}
 
 }
 
-document.getElementById("homeCounter")
-.innerHTML=total;
+html+=`</table>`;
 
-document.getElementById("dashboardTable")
-.innerHTML=html;
+// Counter
+const counter=document.getElementById("checkCount");
+if(counter){counter.innerHTML=total;}
+
+// Dashboard
+const dashboard=document.getElementById("dashboard");
+if(dashboard){dashboard.innerHTML=html;}
 
 }
-catch(err){console.log(err);}
+catch(err){
+console.log("Dashboard Error",err);
+}
+
 
 }
 
-// ============================
+// =========================
 // LOGOUT
-// ============================
+// =========================
 function logout(){
 
-localStorage.clear();
+localStorage.removeItem("token");
+localStorage.removeItem("user");
 location.reload();
 
 }
