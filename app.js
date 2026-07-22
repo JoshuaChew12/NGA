@@ -24,6 +24,7 @@ document.addEventListener(
 ()=>{
 initNavigation();
 showPage("homePage");
+loadHome();
 }
 );
 
@@ -63,21 +64,14 @@ showPage("scanPage");
 // ================================
 function showPage(page){
 
-// hide all
 pages.forEach(id=>{
-const el=document.getElementById(id);
-if(el)el.classList.remove("active");
+document.getElementById(id)?.classList.remove("active");
 });
 
-// show target
-const target=document.getElementById(page);
-if(target){
-target.classList.add("active");
+document.getElementById(page)?.classList.add("active");
 currentPage=page;
-}
-
-// header control
 updateHeader(page);
+if(page==="homePage"){loadHome();}
 
 }
 
@@ -120,10 +114,4 @@ counter.style.display="none";
 // ================================
 document
 .querySelector(".logout-btn")
-.addEventListener(
-"click",
-()=>{
-
-if(confirm("Logout?")){location.reload();}
-
-});
+.onclick=logout;
