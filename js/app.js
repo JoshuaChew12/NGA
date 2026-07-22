@@ -1,151 +1,263 @@
-/* ==========================================
+/* =================================
 NGA Worship Check-in
-APP ROUTER V1
-========================================== */
-const pageContainer=document.getElementById("pageContainer");
-const routes={
+APP ROUTER V2
+================================= */
 
-home:{
-html:"pages/home.html",
-js:"js/home.js",
-init:"initHome",
-cleanup:"cleanupHome"
-},
 
-manual:{
-html:"pages/manual.html",
-js:"js/manual.js",
-init:"initManual",
-cleanup:"cleanupManual"
-},
+window.$=id=>document.getElementById(id);
 
-scan:{
-html:"pages/scan.html",
-js:"js/scan.js",
-init:"initScan",
-cleanup:"cleanupScan"
-},
 
-search:{
-html:"pages/search.html",
-js:"js/search.js",
-init:"initSearch",
-cleanup:"cleanupSearch"
-},
-
-register:{
-html:"pages/register.html",
-js:"js/register.js",
-init:"initRegister",
-cleanup:"cleanupRegister"
-}
-
-};
-
-let currentPage="";
-let currentRoute=null;
-const loadedJS={};
-
-// =========================
-// LOAD PAGE
-// =========================
-async function loadPage(name){
-
-if(name===currentPage)return;
-
-if(currentRoute&&window[currentRoute.cleanup])
-window[currentRoute.cleanup]();
-
-const route=routes[name];
-if(!route)return;
+window.getUser=()=>{
 
 try{
 
-const html=await fetch(route.html+"?v=1")
-.then(r=>r.text());
+return JSON.parse(
+localStorage.user||"{}"
+);
+
+}catch(e){
+
+return {};
+
+}
+
+};
+
+
+let currentPage=null;
+
+
+
+// ================================
+// LOAD PAGE
+// ================================
+async function loadPage(page){
+
+
+if(currentPage===page)
+return;
+
+
+// cleanup old page
+
+if(currentPage){
+
+const fn=
+window["cleanup"+capitalize(currentPage)];
+
+if(typeof fn==="function")
+await fn();
+
+}
+
+
+
+// load html
+
+const res=
+await fetch(
+"pages/"+page+".html?v=1"
+);
+
+
+const html=
+await res.text();
+
+
 
 pageContainer.innerHTML=html;
 
-await loadScript(route.js);
 
-if(window[route.init])
-await window[route.init]();
 
-currentPage=name;
-currentRoute=route;
+// load js
 
-setActiveNav(name);
+await loadScript(page);
 
-}catch(err){
 
-console.error(err);
 
-pageContainer.innerHTML=
-`<div class="card">
-Failed to load page.
-</div>`;
+// init
+
+const init=
+window["init"+capitalize(page)];
+
+
+if(typeof init==="function")
+await init();
+
+
+
+setActiveNav(page);
+
+
+currentPage=page;
+
 
 }
 
-}
 
-// =========================
+
+// ================================
 // LOAD JS
-// =========================
-function loadScript(src){
+// ================================
+function loadScript(page){
 
-return new Promise((resolve,reject)=>{
 
-if(loadedJS[src]){resolve();return;}
-const s=document.createElement("script");
-s.src=src+"?v=1";
+return new Promise(resolve=>{
 
-s.onload=()=>{
-loadedJS[src]=true;
-resolve();
-};
 
-s.onerror=reject;
-document.body.appendChild(s);
-
-});
-
-}
-
-// =========================
-// ACTIVE NAV
-// =========================
-function setActiveNav(name){
-
-document
-.querySelectorAll("#bottomNav button")
-.forEach(btn=>{
-
-btn.classList.toggle("active",
-btn.dataset.page===name
+const old=
+document.getElementById(
+"page-script"
 );
 
+
+if(old)
+old.remove();
+
+
+
+const script=
+document.createElement("script");
+
+
+script.id="page-script";
+
+script.src=
+"js/"+page+".js?v=1";
+
+
+
+script.onload=resolve;
+
+
+script.onerror=()=>{
+
+console.log(
+"JS Load Error:",
+page
+);
+
+resolve();
+
+};
+
+
+
+document.body.appendChild(script);
+
+
 });
+
 
 }
 
-// =========================
-// NAV CLICK
-// =========================
+
+
+// ================================
+// NAV ACTIVE
+// ================================
+function setActiveNav(page){
+
+
 document
 .querySelectorAll("#bottomNav button")
 .forEach(btn=>{
+
+
+btn.classList.toggle(
+"active",
+btn.dataset.page===page
+);
+
+
+});
+
+
+}
+
+
+
+// ================================
+// HELPER
+// ================================
+function capitalize(str){
+
+return str.charAt(0).toUpperCase()
++
+str.slice(1);
+
+}
+
+
+
+// ================================
+// LOGIN CHECK
+// ================================
+function checkLogin(){
+
+
+const user=
+localStorage.getItem("user");
+
+
+if(!user){
+
+console.log(
+"Not Login"
+);
+
+// 如需要登录页面再打开
+// location.href="login.html";
+
+
+return false;
+
+}
+
+
+return true;
+
+}
+
+
+
+// ================================
+// NAV CLICK
+// ================================
+document
+.querySelectorAll("#bottomNav button")
+.forEach(btn=>{
+
 
 btn.onclick=()=>{
-const page=btn.dataset.page;
-if(page)loadPage(page);
+
+
+const page=
+btn.dataset.page;
+
+
+if(page)
+loadPage(page);
+
+
 };
+
 
 });
 
-// =========================
-// START
-// =========================
-document.addEventListener("DOMContentLoaded",
-()=>loadPage("home")
-);
+
+
+
+// ================================
+// START APP
+// ================================
+
+document.addEventListener(
+"DOMContentLoaded",
+()=>{
+
+
+loadPage("home");
+
+
+});
