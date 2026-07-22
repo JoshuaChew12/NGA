@@ -1,184 +1,55 @@
-/* =====================================================
-APP ROUTER V1
-===================================================== */
-
-
-const pageContainer=
-document.getElementById("pageContainer");
-
+const pageContainer=document.getElementById("pageContainer");
 
 const routes={
-
-
-home:{
-id:"homePage"
-},
-
-
-manual:{
-id:"manualPage"
-},
-
-
-scan:{
-id:"scanPage"
-},
-
-
-search:{
-id:"searchPage"
-},
-
-
-register:{
-id:"registerPage"
-}
-
-
+home:{html:"pages/home.html",js:"js/home.js",init:"loadHome"},
+manual:{html:"pages/manual.html",js:"js/manual.js",init:"loadManual"},
+scan:{html:"pages/scan.html",js:"js/scan.js",init:"loadScan"},
+search:{html:"pages/search.html",js:"js/search.js",init:"loadSearch"},
+register:{html:"pages/register.html",js:"js/register.js",init:"loadRegister"}
 };
 
+let currentPage="";
+let currentScript=null;
 
+async function loadPage(name){
 
+if(currentPage===name)return;
 
+if(window.stopScanner)window.stopScanner();
 
-function loadPage(name){
+const r=routes[name];
+if(!r)return;
 
+const html=await fetch(r.html+"?v=1").then(x=>x.text());
 
-const route=
-routes[name];
+pageContainer.innerHTML=html;
 
+if(currentScript)currentScript.remove();
 
-if(!route)
-return;
+await new Promise(resolve=>{
 
-
-
-const old=
-document.getElementById(route.id);
-
-
-
-if(old){
-
-pageContainer.innerHTML=
-old.outerHTML;
-
-
-return;
-
-}
-
-
-
-pageContainer.innerHTML="";
-
-
-}
-
-
-
-
-
-function setActiveNav(name){
-
-
-document
-.querySelectorAll("#bottomNav button")
-.forEach(btn=>{
-
-btn.classList.remove("active");
-
-
-if(btn.dataset.page===name)
-btn.classList.add("active");
-
+const s=document.createElement("script");
+s.src=r.js+"?v=1";
+s.onload=()=>{
+currentScript=s;
+resolve();
+};
+document.body.appendChild(s);
 
 });
 
+if(window[r.init])window[r.init]();
 
-}
-
-
-
-
-
-function navigate(name){
-
-
-loadPage(name);
-
-
-setActiveNav(name);
-
-
-
-/*
-future:
-
-load page html
-
-load page js
-
-*/
-
-}
-
-
-
-
-
-document
-.querySelectorAll("#bottomNav button")
-.forEach(btn=>{
-
-
-btn.onclick=()=>{
-
-
-const page=
-btn.dataset.page;
-
-
-if(page){
-
-navigate(page);
-
-}
-
-
-};
-
-
+document.querySelectorAll("#bottomNav button").forEach(b=>{
+b.classList.toggle("active",b.dataset.page===name);
 });
 
-
-
-
-
-/* SCAN BUTTON */
-
-
-const scanNav=
-document.getElementById("scanNav");
-
-
-if(scanNav){
-
-
-scanNav.onclick=()=>{
-
-navigate("scan");
-
-};
-
+currentPage=name;
 
 }
 
+document.querySelectorAll("#bottomNav button").forEach(b=>{
+b.onclick=()=>loadPage(b.dataset.page);
+});
 
-
-
-
-/* START */
-
-
-navigate("home");
+loadPage("home");
