@@ -3,11 +3,11 @@
 
 <head>
 
-<meta charset="utf-8">
+<meta charset="UTF-8">
 
 <meta
 name="viewport"
-content="width=device-width,initial-scale=1">
+content="width=device-width,initial-scale=1,viewport-fit=cover">
 
 <title>
 NGA Worship Check-in
@@ -23,11 +23,13 @@ href="style.css">
 
 <div id="app">
 
-<!-- =====================
+<!-- =====================================================
 HEADER
-===================== -->
+===================================================== -->
 
 <header id="appHeader">
+
+<div class="header-top">
 
 <h1>
 NGA Worship Check-in
@@ -35,27 +37,34 @@ NGA Worship Check-in
 
 <div id="counterBox">
 
+<div class="counter-value"
+id="checkCount">
+
+0
+
+</div>
+
+<div class="counter-label">
+
 Checked-in
 
-<div id="checkCount">
-0
+</div>
+
 </div>
 
 </div>
 
 </header>
 
-
-<!-- =====================
+<!-- =====================================================
 PAGES
-===================== -->
+===================================================== -->
 
 <main id="pages">
 
-
-<!-- =====================
+<!-- =====================================================
 HOME
-===================== -->
+===================================================== -->
 
 <section
 id="homePage"
@@ -83,19 +92,25 @@ Sunday
 class="clock-date"
 id="todayDate">
 
-20 July 2026
+01 January 2026
 
 </div>
 
 </div>
-
 
 <div
-id="dashboard"
-class="dashboard hidden">
+class="dashboard-title"
+id="dashboardTitle">
+
+Attendance Dashboard
 
 </div>
 
+<div
+class="dashboard"
+id="dashboard">
+
+</div>
 
 <button
 class="logout-btn">
@@ -106,33 +121,23 @@ Logout
 
 </section>
 
-
-
-<!-- =====================
+<!-- =====================================================
 MANUAL
-===================== -->
+===================================================== -->
 
 <section
 id="manualPage"
 class="page">
-
-<div class="counter-small">
-
-Checked-in
-
-<span id="manualCount">
-0
-</span>
-
-</div>
-
-<div class="card">
 
 <h2>
 
 Manual Check-in
 
 </h2>
+
+<div
+id="manualContent"
+class="card">
 
 <input
 id="manualInput"
@@ -148,31 +153,17 @@ Submit
 
 </section>
 
-
-
-<!-- =====================
+<!-- =====================================================
 SCAN
-===================== -->
+===================================================== -->
 
 <section
 id="scanPage"
 class="page">
 
-<div class="counter-small">
-
-Checked-in
-
-<span id="scanCount">
-0
-</span>
-
-</div>
-
-<div class="card">
-
 <h2>
 
-Scan QR
+Scan QR Code
 
 </h2>
 
@@ -186,27 +177,23 @@ id="scanResult">
 
 </div>
 
-</div>
-
 </section>
 
-
-
-<!-- =====================
+<!-- =====================================================
 SEARCH
-===================== -->
+===================================================== -->
 
 <section
 id="searchPage"
 class="page">
-
-<div class="card">
 
 <h2>
 
 Search Member
 
 </h2>
+
+<div class="card">
 
 <input
 id="searchInput"
@@ -227,23 +214,21 @@ id="searchResult">
 
 </section>
 
-
-
-<!-- =====================
+<!-- =====================================================
 REGISTER
-===================== -->
+===================================================== -->
 
 <section
 id="registerPage"
 class="page">
-
-<div class="card">
 
 <h2>
 
 New Registration
 
 </h2>
+
+<div class="card">
 
 <input
 placeholder="Chinese Name">
@@ -271,14 +256,11 @@ id="registerResult">
 
 </main>
 
-
-
-<!-- =====================
-BOTTOM NAV
-===================== -->
+<!-- =====================================================
+BOTTOM NAVIGATION
+===================================================== -->
 
 <nav id="bottomNav">
-
 
 <button
 data-page="homePage">
@@ -293,8 +275,6 @@ Home
 
 </button>
 
-
-
 <button
 data-page="manualPage">
 
@@ -307,8 +287,6 @@ Manual
 </span>
 
 </button>
-
-
 
 <button
 id="scanNav">
@@ -323,15 +301,13 @@ id="scanNav">
 
 <div class="scan-text">
 
-Scan
+SCAN
 
 </div>
 
 </div>
 
 </button>
-
-
 
 <button
 data-page="searchPage">
@@ -346,8 +322,6 @@ Search
 
 </button>
 
-
-
 <button
 data-page="registerPage">
 
@@ -361,11 +335,9 @@ Register
 
 </button>
 
-
 </nav>
 
 </div>
-
 
 <script src="api.js"></script>
 
