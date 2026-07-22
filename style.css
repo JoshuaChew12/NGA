@@ -1790,3 +1790,82 @@ justify-content:center;
 margin-top:20px;
 
 }
+
+.login-page{
+
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:20px;
+
+}
+
+
+.login-card{
+
+width:100%;
+max-width:380px;
+background:#fff;
+padding:30px;
+border-radius:20px;
+box-shadow:0 10px 30px #0001;
+text-align:center;
+
+}
+
+
+.login-card h2{
+
+margin:0;
+font-size:28px;
+
+}
+
+
+.login-title{
+
+color:#666;
+margin-bottom:25px;
+
+}
+
+
+.login-form{
+
+display:grid;
+gap:15px;
+
+}
+
+
+.login-form input{
+
+height:48px;
+border-radius:12px;
+border:1px solid #ddd;
+padding:0 15px;
+font-size:16px;
+
+}
+
+
+.login-form button{
+
+height:48px;
+border:none;
+border-radius:12px;
+background:#2563eb;
+color:white;
+font-size:16px;
+font-weight:bold;
+
+}
+
+
+#loginMessage{
+
+font-size:14px;
+color:#666;
+
+}
