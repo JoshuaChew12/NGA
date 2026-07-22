@@ -1,3 +1,7 @@
+/* =================================================
+NGA Worship Check-in
+HOME MODULE V2
+================================================= */
 let homeClock=null;
 
 // =========================
@@ -17,20 +21,19 @@ function startClock(){
 
 clearInterval(homeClock);
 
-function update(){
+const run=()=>{
 
 const now=new Date();
 const clock=document.getElementById("clock");
-
 if(clock){
 clock.innerHTML=now.toLocaleTimeString("en-GB");
 }
 
-}
+};
 
-update();
+run();
 
-homeClock=setInterval(update,1000);
+homeClock=setInterval(run,1000);
 
 }
 
@@ -45,23 +48,30 @@ const res=await getDashboard();
 if(!res.success)return;
 const data=res.dashboard||[];
 let total=0;
-let html=`
+let html=
+`
 <table>
+
 <tr>
 <th>Location</th>
 <th>Checked In</th>
 </tr>
 `;
 
-data.slice(1).forEach(r=>{
+data.slice(1)
+.forEach(row=>{
 
-const location=r[0];
-const count=Number(r[1]||0);
+const location=row[0];
+const count=Number(row[1]||0);
 total+=count;
-html+=`
+html+=
+`
 <tr>
+
 <td>${location}</td>
+
 <td>${count}</td>
+
 </tr>
 `;
 
@@ -69,20 +79,16 @@ html+=`
 
 html+="</table>";
 
-document.getElementById("checkCount").innerHTML=total;
-document.getElementById("dashboard").innerHTML=html;
+const counter=document.getElementById("checkCount");
+if(counter)counter.innerHTML=total;
 
-}catch(err){console.log(err);}
+const box=document.getElementById("dashboard");
+if(box)box.innerHTML=html;
 
 }
+catch(err){
+console.log("Dashboard Error",err);
+}
 
-// =========================
-// LOGOUT
-// =========================
-function logout(){
-
-localStorage.removeItem("token");
-localStorage.removeItem("user");
-location.reload();
 
 }
