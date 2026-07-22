@@ -1,0 +1,195 @@
+<!-- ==============================
+REGISTER PAGE V5
+============================== -->
+
+<div class="page register-page">
+
+<div class="glass-card register-card">
+
+<h2 class="page-title">
+📝 New Registration
+</h2>
+
+
+<div class="form-group">
+
+<label>Church</label>
+
+<select id="registerChurch">
+
+<option value="">
+Select Church
+</option>
+
+</select>
+
+</div>
+
+
+
+<div class="form-group">
+
+<label>Chinese Name</label>
+
+<input
+id="registerCN"
+type="text"
+placeholder="Chinese Name"
+>
+
+</div>
+
+
+
+<div class="form-group">
+
+<label>English Name</label>
+
+<input
+id="registerEN"
+type="text"
+placeholder="English Name"
+>
+
+</div>
+
+
+
+<div class="form-group">
+
+<label>Email</label>
+
+<input
+id="registerEmail"
+type="email"
+placeholder="Email Address"
+>
+
+</div>
+
+
+
+<div class="form-group">
+
+<label>Phone</label>
+
+<input
+id="registerPhone"
+type="tel"
+placeholder="Phone Number"
+>
+
+</div>
+
+
+
+<div class="form-group">
+
+<label>Address</label>
+
+<textarea
+id="registerAddress"
+placeholder="Address"
+></textarea>
+
+</div>
+
+
+
+<button
+class="primary-btn register-btn"
+onclick="submitRegister()"
+>
+
+<span id="registerBtnText">
+CREATE MEMBER
+</span>
+
+</button>
+
+
+<div
+id="registerMessage"
+class="form-message"
+></div>
+
+
+</div>
+
+
+
+<!-- =========================
+RESULT
+========================= -->
+
+<div
+id="registerResult"
+class="glass-card register-result"
+style="display:none;"
+>
+
+
+<h3>
+Registration Successful ✓
+</h3>
+
+
+
+<div class="member-id-box">
+
+Member ID
+
+<strong id="resultMemberID">
+</strong>
+
+</div>
+
+
+
+<div class="qr-box">
+
+<img
+id="resultQR"
+src=""
+alt="QR Code"
+>
+
+</div>
+
+
+
+<div class="result-actions">
+
+
+<a
+id="resultWA"
+class="secondary-btn"
+target="_blank"
+>
+
+Open WhatsApp
+
+</a>
+
+
+
+<a
+id="resultPDF"
+class="secondary-btn"
+target="_blank"
+style="display:none;"
+>
+
+Open PDF
+
+</a>
+
+
+</div>
+
+
+</div>
+
+
+
+</div>
