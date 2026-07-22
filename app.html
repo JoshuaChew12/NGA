@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1">
+
+<title>
+NGA Worship Check-in
+</title>
+
+<link rel="stylesheet"
+href="style.css">
+
+</head>
+
+<body>
+
+<div id="app">
+
+<!-- =====================
+HEADER AREA
+===================== -->
+<header id="appHeader">
+
+<h2>
+NGA Worship Check-in
+</h2>
+
+<div id="counterBox">
+Checked-in:
+<span id="checkCount">
+0
+</span>
+</div>
+
+</header>
+
+<!-- =====================
+PAGE CONTAINER
+===================== -->
+<main id="pages">
+
+<!-- HOME -->
+
+<section 
+id="homePage"
+class="page active">
+
+<div class="home-content">
+
+<h1>
+NGA Worship Check-in
+</h1>
+
+<div class="clock"
+id="clock">
+00:00:00
+</div>
+
+<div class="dashboard"
+id="dashboard">
+
+Dashboard
+
+</div>
+
+
+<button 
+class="logout-btn">
+
+Logout
+
+</button>
+
+</div>
+
+</section>
+
+
+<!-- MANUAL -->
+
+<section
+id="manualPage"
+class="page">
+
+<div class="counter-small">
+
+Checked-in:
+<span>
+0
+</span>
+
+</div>
+
+<h2>
+Manual Check-in
+</h2>
+
+<div id="manualContent">
+
+<input
+id="manualInput"
+placeholder="Enter ID">
+
+<button>
+Submit
+</button>
+
+</div>
+
+</section>
+
+
+<!-- SCAN -->
+
+<section
+id="scanPage"
+class="page">
+
+<div class="counter-small">
+
+Checked-in:
+<span>
+0
+</span>
+
+</div>
+
+<h2>
+Scan QR
+</h2>
+
+<div
+id="scanner">
+
+</div>
+
+<div
+id="scanResult">
+
+</div>
+
+</section>
+
+
+<!-- SEARCH -->
+
+<section
+id="searchPage"
+class="page">
+
+<h2>
+Search Member
+</h2>
+
+<input
+id="searchInput"
+placeholder="Name / ID">
+
+<button>
+Search
+</button>
+
+<div id="searchResult">
+
+</div>
+
+</section>
+
+
+<!-- REGISTER -->
+
+<section
+id="registerPage"
+class="page">
+
+<h2>
+New Registration
+</h2>
+
+<input
+placeholder="Chinese Name">
+
+<input
+placeholder="English Name">
+
+<input
+placeholder="Phone">
+
+<button>
+Register
+</button>
+
+<div id="registerResult">
+
+</div>
+
+</section>
+
+</main>
+
+
+<!-- =====================
+BOTTOM NAVIGATION
+===================== -->
+<nav id="bottomNav">
+
+<button
+data-page="homePage">
+
+🏠
+<span>
+Home
+</span>
+
+</button>
+
+<button
+data-page="manualPage">
+
+⌨️
+<span>
+Manual
+</span>
+
+</button>
+
+<button
+id="scanNav">
+
+<div class="scan-circle">
+
+📷
+
+</div>
+
+<span>
+Scan
+</span>
+
+</button>
+
+<button
+data-page="searchPage">
+
+🔍
+<span>
+Search
+</span>
+
+</button>
+
+<button
+data-page="registerPage">
+
+📝
+<span>
+Register
+</span>
+
+</button>
+
+</nav>
+
+
+<script src="api.js"></script>
+<script src="app.js"></script>
+
+</body>
+
+</html>
