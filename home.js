@@ -2,7 +2,7 @@
 NGA Worship Check-in
 HOME MODULE V2
 ================================================= */
-let homeClock=null;
+window.homeClock=null;
 
 // =========================
 // LOAD HOME
@@ -25,8 +25,30 @@ const run=()=>{
 
 const now=new Date();
 const clock=document.getElementById("clock");
+const day=document.getElementById("todayDay");
+const date=document.getElementById("todayDate");
+
+// TIME
 if(clock){
 clock.innerHTML=now.toLocaleTimeString("en-GB");
+}
+
+// DAY
+if(day){
+day.innerHTML=
+now.toLocaleDateString("en-GB",{weekday:"long"});
+}
+
+// DATE
+if(date){
+date.innerHTML=now.toLocaleDateString("en-GB",
+{
+day:"2-digit",
+month:"long",
+year:"numeric"
+}
+);
+
 }
 
 };
