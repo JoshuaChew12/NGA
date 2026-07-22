@@ -1,22 +1,21 @@
-/* =================================================
-NGA Worship Check-in
-HOME MODULE V2
-================================================= */
-window.homeClock=null;
+let homeClock=null;
 
-// =========================
-// LOAD HOME
-// =========================
-async function loadHome(){
+// =====================================
+// INIT
+// =====================================
+async function initHome(){
 
 startClock();
+
 await loadDashboard();
+
+logoutBtn.onclick=logout;
 
 }
 
-// =========================
+// =====================================
 // CLOCK
-// =========================
+// =====================================
 function startClock(){
 
 clearInterval(homeClock);
@@ -24,32 +23,21 @@ clearInterval(homeClock);
 const run=()=>{
 
 const now=new Date();
-const clock=document.getElementById("clock");
-const day=document.getElementById("todayDay");
-const date=document.getElementById("todayDate");
 
-// TIME
-if(clock){
-clock.innerHTML=now.toLocaleTimeString("en-GB");
-}
+clock.innerHTML=
+now.toLocaleTimeString("en-GB");
 
-// DAY
-if(day){
-day.innerHTML=
-now.toLocaleDateString("en-GB",{weekday:"long"});
-}
+todayDay.innerHTML=
+now.toLocaleDateString("en-GB",{
+weekday:"long"
+});
 
-// DATE
-if(date){
-date.innerHTML=now.toLocaleDateString("en-GB",
-{
+todayDate.innerHTML=
+now.toLocaleDateString("en-GB",{
 day:"2-digit",
 month:"long",
 year:"numeric"
-}
-);
-
-}
+});
 
 };
 
@@ -59,58 +47,82 @@ homeClock=setInterval(run,1000);
 
 }
 
-// =========================
+// =====================================
 // DASHBOARD
-// =========================
+// =====================================
 async function loadDashboard(){
+
+dashboard.innerHTML="Loading...";
 
 try{
 
 const res=await getDashboard();
-if(!res.success)return;
-const data=res.dashboard||[];
+
+if(!res.success){
+dashboard.innerHTML="No data";
+return;
+}
+
+const rows=res.dashboard||[];
+
+if(rows.length<=1){
+dashboard.innerHTML="No attendance";
+checkCount.innerHTML=0;
+return;
+}
+
 let total=0;
-let html=
-`
-<table>
+let html="";
 
-<tr>
-<th>Location</th>
-<th>Checked In</th>
-</tr>
-`;
+for(let i=1;i<rows.length;i++){
 
-data.slice(1)
-.forEach(row=>{
+const location=rows[i][0]||"-";
+const count=Number(rows[i][1]||0);
 
-const location=row[0];
-const count=Number(row[1]||0);
 total+=count;
-html+=
-`
-<tr>
 
-<td>${location}</td>
-
-<td>${count}</td>
-
-</tr>
+html+=`
+<div class="dash-row">
+<div>${location}</div>
+<b>${count}</b>
+</div>
 `;
 
-});
-
-html+="</table>";
-
-const counter=document.getElementById("checkCount");
-if(counter)counter.innerHTML=total;
-
-const box=document.getElementById("dashboard");
-if(box)box.innerHTML=html;
-
-}
-catch(err){
-console.log("Dashboard Error",err);
 }
 
+dashboard.innerHTML=html;
+checkCount.innerHTML=total;
+
+}catch(err){
+
+dashboard.innerHTML="Load failed";
+console.log(err);
+
+}
+
+}
+
+// =====================================
+// LOGOUT
+// =====================================
+function logout(){
+
+if(!confirm("Logout?"))return;
+
+clearInterval(homeClock);
+
+localStorage.removeItem("token");
+localStorage.removeItem("user");
+
+location.reload();
+
+}
+
+// =====================================
+// CLEANUP
+// =====================================
+function cleanupHome(){
+
+clearInterval(homeClock);
 
 }
