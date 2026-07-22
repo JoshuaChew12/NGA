@@ -5,44 +5,51 @@
 
 <meta charset="UTF-8">
 
-<meta
-name="viewport"
+<meta name="viewport"
 content="width=device-width,initial-scale=1,viewport-fit=cover">
+
 
 <title>
 NGA Worship Check-in
 </title>
 
-<link
-rel="stylesheet"
+
+<link rel="stylesheet"
 href="style.css">
+
 
 </head>
 
+
 <body>
+
 
 <div id="app">
 
-<!-- =====================================================
-HEADER
-===================================================== -->
+
+<!-- HEADER -->
 
 <header id="appHeader">
 
+
 <div class="header-top">
+
 
 <h1>
 NGA Worship Check-in
 </h1>
 
+
 <div id="counterBox">
 
-<div class="counter-value"
-id="checkCount">
+
+<div id="checkCount"
+class="counter-value">
 
 0
 
 </div>
+
 
 <div class="counter-label">
 
@@ -50,248 +57,61 @@ Checked-in
 
 </div>
 
-</div>
 
 </div>
+
+
+</div>
+
 
 </header>
 
-<!-- =====================================================
-PAGES
-===================================================== -->
 
-<main id="pages">
 
-<!-- =====================================================
-HOME
-===================================================== -->
+<!-- PAGE CONTAINER -->
 
-<section
-id="homePage"
-class="page active">
+<main id="pageContainer">
 
-<div class="clock-card">
-
-<div
-class="clock"
-id="clock">
-
-00:00:00
-
-</div>
-
-<div
-class="clock-day"
-id="todayDay">
-
-Sunday
-
-</div>
-
-<div
-class="clock-date"
-id="todayDate">
-
-01 January 2026
-
-</div>
-
-</div>
-
-<div
-class="dashboard-title"
-id="dashboardTitle">
-
-Attendance Dashboard
-
-</div>
-
-<div
-class="dashboard"
-id="dashboard">
-
-</div>
-
-<button
-class="logout-btn">
-
-Logout
-
-</button>
-
-</section>
-
-<!-- =====================================================
-MANUAL
-===================================================== -->
-
-<section
-id="manualPage"
-class="page">
-
-<h2>
-
-Manual Check-in
-
-</h2>
-
-<div
-id="manualContent"
-class="card">
-
-<input
-id="manualInput"
-placeholder="Enter ID">
-
-<button>
-
-Submit
-
-</button>
-
-</div>
-
-</section>
-
-<!-- =====================================================
-SCAN
-===================================================== -->
-
-<section
-id="scanPage"
-class="page">
-
-<h2>
-
-Scan QR Code
-
-</h2>
-
-<div
-id="scanner">
-
-</div>
-
-<div
-id="scanResult">
-
-</div>
-
-</section>
-
-<!-- =====================================================
-SEARCH
-===================================================== -->
-
-<section
-id="searchPage"
-class="page">
-
-<h2>
-
-Search Member
-
-</h2>
-
-<div class="card">
-
-<input
-id="searchInput"
-placeholder="Name / ID">
-
-<button>
-
-Search
-
-</button>
-
-<div
-id="searchResult">
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =====================================================
-REGISTER
-===================================================== -->
-
-<section
-id="register-Page"
-class="page">
-
-<h2>
-
-New Registration
-
-</h2>
-
-<div class="card">
-
-<input
-placeholder="Chinese Name">
-
-<input
-placeholder="English Name">
-
-<input
-placeholder="Phone">
-
-<button>
-
-Register
-
-</button>
-
-<div
-id="registerResult">
-
-</div>
-
-</div>
-
-</section>
 
 </main>
 
-<!-- =====================================================
-BOTTOM NAVIGATION
-===================================================== -->
+
+
+
+<!-- BOTTOM NAV -->
 
 <nav id="bottomNav">
 
-<button
-data-page="homePage">
+
+<button data-page="home">
 
 🏠
 
 <span>
-
 Home
-
 </span>
 
 </button>
 
-<button
-data-page="manualPage">
+
+
+<button data-page="manual">
 
 ⌨️
 
 <span>
-
 Manual
-
 </span>
 
 </button>
 
-<button
-id="scanNav">
+
+
+<button id="scanNav">
+
 
 <div class="scan-circle">
+
 
 <div class="scan-icon">
 
@@ -299,57 +119,57 @@ id="scanNav">
 
 </div>
 
+
 <div class="scan-text">
 
 SCAN
 
 </div>
 
+
 </div>
+
 
 </button>
 
-<button
-data-page="searchPage">
+
+
+
+<button data-page="search">
 
 🔍
 
 <span>
-
 Search
-
 </span>
 
 </button>
 
-<button
-data-page="registerPage">
+
+
+<button data-page="register">
 
 📝
 
 <span>
-
 Register
-
 </span>
 
 </button>
 
+
+
 </nav>
+
 
 </div>
 
+
+
 <script src="api.js"></script>
 
-<script src="home.js"></script>
-
-<script src="scan.js"></script>
-
-<script src="search.js"></script>
-
-<script src="register.js"></script>
-
 <script src="app.js"></script>
+
 
 </body>
 
