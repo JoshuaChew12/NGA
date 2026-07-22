@@ -1,263 +1,132 @@
-/* =================================
-NGA Worship Check-in
-APP ROUTER V2
-================================= */
-
-
 window.$=id=>document.getElementById(id);
-
 
 window.getUser=()=>{
 
 try{
-
-return JSON.parse(
-localStorage.user||"{}"
-);
-
-}catch(e){
-
-return {};
-
-}
+return JSON.parse(localStorage.user||"{}");
+}catch(e){return {};}
 
 };
 
-
 let currentPage=null;
 
-
-
-// ================================
 // LOAD PAGE
-// ================================
 async function loadPage(page){
 
+if(currentPage===page)return;
 
-if(currentPage===page)
-return;
-
-
-// cleanup old page
-
+// cleanup
 if(currentPage){
 
-const fn=
-window["cleanup"+capitalize(currentPage)];
-
+const fn=window["cleanup"+capitalize(currentPage)];
 if(typeof fn==="function")
 await fn();
 
 }
 
+// html
+const res=await fetch("pages/"+page+".html");
+pageContainer.innerHTML=await res.text();
 
-
-// load html
-
-const res=
-await fetch(
-"pages/"+page+".html?v=1"
-);
-
-
-const html=
-await res.text();
-
-
-
-pageContainer.innerHTML=html;
-
-
-
-// load js
-
+// js
 await loadScript(page);
 
-
-
 // init
-
-const init=
-window["init"+capitalize(page)];
-
-
-if(typeof init==="function")
-await init();
-
-
+const init=window["init"+capitalize(page)];
+if(typeof init==="function")await init();
 
 setActiveNav(page);
-
-
 currentPage=page;
-
 
 }
 
-
-
-// ================================
 // LOAD JS
-// ================================
 function loadScript(page){
-
 
 return new Promise(resolve=>{
 
+document.getElementById("page-script")?.remove();
+const s=document.createElement("script");
 
-const old=
-document.getElementById(
-"page-script"
-);
+s.id="page-script";
+s.src="js/"+page+".js?v=1";
+s.onload=resolve;
+s.onerror=resolve;
 
-
-if(old)
-old.remove();
-
-
-
-const script=
-document.createElement("script");
-
-
-script.id="page-script";
-
-script.src=
-"js/"+page+".js?v=1";
-
-
-
-script.onload=resolve;
-
-
-script.onerror=()=>{
-
-console.log(
-"JS Load Error:",
-page
-);
-
-resolve();
-
-};
-
-
-
-document.body.appendChild(script);
-
+document.body.appendChild(s);
 
 });
 
-
 }
 
-
-
-// ================================
-// NAV ACTIVE
-// ================================
+// ACTIVE NAV
 function setActiveNav(page){
 
-
 document
 .querySelectorAll("#bottomNav button")
-.forEach(btn=>{
-
-
-btn.classList.toggle(
+.forEach(b=>
+b.classList.toggle(
 "active",
-btn.dataset.page===page
-);
-
-
-});
-
+b.dataset.page===page
+));
 
 }
 
-
-
-// ================================
 // HELPER
-// ================================
-function capitalize(str){
+function capitalize(s){
 
-return str.charAt(0).toUpperCase()
-+
-str.slice(1);
+return s[0].toUpperCase()+s.slice(1);
 
 }
 
+// SESSION CHECK
+async function startApp(){
 
+try{
+const user=localStorage.user;
+if(!user){loadPage("login");return;
+}
 
-// ================================
-// LOGIN CHECK
-// ================================
-function checkLogin(){
+const res=await verifySession();
 
+if(!res.success){
 
-const user=
-localStorage.getItem("user");
-
-
-if(!user){
-
-console.log(
-"Not Login"
-);
-
-// 如需要登录页面再打开
-// location.href="login.html";
-
-
-return false;
+localStorage.clear();
+loadPage("login");
+return;
 
 }
 
-
-return true;
-
-}
-
-
-
-// ================================
-// NAV CLICK
-// ================================
-document
-.querySelectorAll("#bottomNav button")
-.forEach(btn=>{
-
-
-btn.onclick=()=>{
-
-
-const page=
-btn.dataset.page;
-
-
-if(page)
-loadPage(page);
-
-
-};
-
-
-});
-
-
-
-
-// ================================
-// START APP
-// ================================
-
-document.addEventListener(
-"DOMContentLoaded",
-()=>{
-
+// 更新用户资料
+localStorage.user=JSON.stringify(res);
 
 loadPage("home");
 
 
+}catch(e){console.log(e);
+
+loadPage("login");
+
+}
+
+}
+
+
+// NAV
+document
+.querySelectorAll("#bottomNav button")
+.forEach(btn=>{
+
+btn.onclick=()=>{
+
+const page=btn.dataset.page;
+
+if(page)
+loadPage(page);
+
+};
+
 });
+
+// START
+document.addEventListener("DOMContentLoaded",startApp);
