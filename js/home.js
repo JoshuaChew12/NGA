@@ -1,74 +1,47 @@
-/* ==========================================
+/* =================================================
 NGA Worship Check-in
-HOME MODULE V4
-========================================== */
-
-let homeClock=null;
-
+HOME MODULE V2
+================================================= */
+window.homeClock=null;
 
 // =========================
-// INIT
+// LOAD HOME
 // =========================
-async function initHome(){
+async function loadHome(){
 
 startClock();
-
 await loadDashboard();
 
 }
-
-
-// =========================
-// CLEANUP
-// =========================
-function cleanupHome(){
-
-if(homeClock){
-
-clearInterval(homeClock);
-
-homeClock=null;
-
-}
-
-}
-
 
 // =========================
 // CLOCK
 // =========================
 function startClock(){
 
-cleanupHome();
-
-
-const clock=document.getElementById("clock");
-const day=document.getElementById("todayDay");
-const date=document.getElementById("todayDate");
-
+clearInterval(homeClock);
 
 const run=()=>{
 
 const now=new Date();
+const clock=document.getElementById("clock");
+const day=document.getElementById("todayDay");
+const date=document.getElementById("todayDate");
 
+// TIME
+if(clock){
+clock.innerHTML=now.toLocaleTimeString("en-GB");
+}
 
-if(clock)
-clock.textContent=
-now.toLocaleTimeString("en-GB");
+// DAY
+if(day){
+day.innerHTML=
+now.toLocaleDateString("en-GB",{weekday:"long"});
+}
 
-
-if(day)
-day.textContent=
-now.toLocaleDateString(
-"en-GB",
-{weekday:"long"}
-);
-
-
-if(date)
-date.textContent=
-now.toLocaleDateString(
-"en-GB",
+// DATE
+if(date){
+date.innerHTML=now.toLocaleDateString("en-GB",
 {
 day:"2-digit",
 month:"long",
@@ -76,8 +49,9 @@ year:"numeric"
 }
 );
 
-};
+}
 
+};
 
 run();
 
@@ -85,99 +59,58 @@ homeClock=setInterval(run,1000);
 
 }
 
-
 // =========================
 // DASHBOARD
 // =========================
 async function loadDashboard(){
 
-const box=
-document.getElementById("dashboard");
-
-const counter=
-document.getElementById("checkCount");
-
-
-if(!box)return;
-
-
 try{
 
-const res=
-await getDashboard();
-
-
-if(!res.success)
-throw "Dashboard Error";
-
-
+const res=await getDashboard();
+if(!res.success)return;
+const data=res.dashboard||[];
 let total=0;
+let html=
+`
+<table>
 
+<tr>
+<th>Location</th>
+<th>Checked In</th>
+</tr>
+`;
 
-const html=
-(res.dashboard||[])
-.slice(1)
-.map(r=>{
+data.slice(1)
+.forEach(row=>{
 
-const count=
-Number(r[1]||0);
-
-
-if(!count)
-return "";
-
-
+const location=row[0];
+const count=Number(row[1]||0);
 total+=count;
+html+=
+`
+<tr>
 
+<td>${location}</td>
 
-return `
-<div class="dashboard-card">
+<td>${count}</td>
 
-<div class="dashboard-title">
-${r[0]}
-</div>
+</tr>
+`;
 
-<div class="dashboard-number">
-${count}
-</div>
+});
 
-</div>`;
+html+="</table>";
 
-})
-.join("");
+const counter=document.getElementById("checkCount");
+if(counter)counter.innerHTML=total;
 
-
-
-if(counter)
-counter.textContent=total;
-
-
-
-box.classList.toggle(
-"hidden",
-!html
-);
-
-
-box.innerHTML=html;
-
-
-
-}catch(e){
-
-
-console.error(e);
-
-
-box.classList.add("hidden");
-
-box.innerHTML="";
-
-
-if(counter)
-counter.textContent=0;
-
+const box=document.getElementById("dashboard");
+if(box)box.innerHTML=html;
 
 }
+catch(err){
+console.log("Dashboard Error",err);
+}
+
 
 }
