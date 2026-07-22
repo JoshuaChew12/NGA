@@ -3,14 +3,19 @@
 
 <head>
 
-<meta name="viewport"
+<meta charset="utf-8">
+
+<meta
+name="viewport"
 content="width=device-width,initial-scale=1">
 
 <title>
 NGA Worship Check-in
 </title>
 
-<link rel="stylesheet" href="style.css">
+<link
+rel="stylesheet"
+href="style.css">
 
 </head>
 
@@ -19,71 +24,78 @@ NGA Worship Check-in
 <div id="app">
 
 <!-- =====================
-APP HEADER
+HEADER
 ===================== -->
+
 <header id="appHeader">
 
-<div class="app-title">
-🔥 NGA Worship
-</div>
+<h1>
+NGA Worship Check-in
+</h1>
 
 <div id="counterBox">
 
-<span id="checkCount">
-0
-</span>
+Checked-in
 
-<span>
-Checked In
-</span>
+<div id="checkCount">
+0
+</div>
 
 </div>
 
 </header>
 
+
 <!-- =====================
 PAGES
 ===================== -->
+
 <main id="pages">
+
 
 <!-- =====================
 HOME
 ===================== -->
+
 <section
 id="homePage"
 class="page active">
 
-<!-- CLOCK HERO -->
-
 <div class="clock-card">
 
-<div id="clock"
-class="clock">
+<div
+class="clock"
+id="clock">
 
 00:00:00
 
 </div>
 
-<div id="todayDay"
-class="clock-day">
-----
-</div>
+<div
+class="clock-day"
+id="todayDay">
 
-<div id="todayDate"
-class="clock-date">
-----
-</div>
+Sunday
 
 </div>
 
-<!-- DASHBOARD -->
+<div
+class="clock-date"
+id="todayDate">
+
+20 July 2026
+
+</div>
+
+</div>
+
+
 <div
 id="dashboard"
 class="dashboard hidden">
 
 </div>
 
-<!-- LOGOUT -->
 
 <button
 class="logout-btn">
@@ -94,64 +106,78 @@ Logout
 
 </section>
 
+
+
 <!-- =====================
 MANUAL
 ===================== -->
+
 <section
 id="manualPage"
 class="page">
 
 <div class="counter-small">
 
-Checked In:
-<span>
+Checked-in
+
+<span id="manualCount">
 0
 </span>
 
 </div>
 
-<h2>
-Manual Check-in
-</h2>
+<div class="card">
 
-<div class="card"
-id="manualContent">
+<h2>
+
+Manual Check-in
+
+</h2>
 
 <input
 id="manualInput"
-placeholder="Enter Member ID">
+placeholder="Enter ID">
 
 <button>
+
 Submit
+
 </button>
 
 </div>
 
 </section>
 
+
+
 <!-- =====================
 SCAN
 ===================== -->
+
 <section
 id="scanPage"
 class="page">
 
 <div class="counter-small">
 
-Checked In:
-<span>
+Checked-in
+
+<span id="scanCount">
 0
 </span>
 
 </div>
 
-<h2>
-Scan QR
-</h2>
-
 <div class="card">
 
-<div id="scanner">
+<h2>
+
+Scan QR
+
+</h2>
+
+<div
+id="scanner">
 
 </div>
 
@@ -164,25 +190,32 @@ id="scanResult">
 
 </section>
 
+
+
 <!-- =====================
 SEARCH
 ===================== -->
+
 <section
 id="searchPage"
 class="page">
 
-<h2>
-Search Member
-</h2>
-
 <div class="card">
+
+<h2>
+
+Search Member
+
+</h2>
 
 <input
 id="searchInput"
 placeholder="Name / ID">
 
 <button>
+
 Search
+
 </button>
 
 <div
@@ -194,18 +227,23 @@ id="searchResult">
 
 </section>
 
+
+
 <!-- =====================
 REGISTER
 ===================== -->
+
 <section
 id="registerPage"
 class="page">
 
-<h2>
-New Registration
-</h2>
-
 <div class="card">
+
+<h2>
+
+New Registration
+
+</h2>
 
 <input
 placeholder="Chinese Name">
@@ -217,7 +255,9 @@ placeholder="English Name">
 placeholder="Phone">
 
 <button>
+
 Register
+
 </button>
 
 <div
@@ -231,62 +271,92 @@ id="registerResult">
 
 </main>
 
+
+
 <!-- =====================
-BOTTOM NAVIGATION
+BOTTOM NAV
 ===================== -->
+
 <nav id="bottomNav">
+
 
 <button
 data-page="homePage">
 
 🏠
+
 <span>
+
 Home
+
 </span>
 
 </button>
+
+
 
 <button
 data-page="manualPage">
 
 ⌨️
+
 <span>
+
 Manual
+
 </span>
 
 </button>
+
+
 
 <button
 id="scanNav">
 
 <div class="scan-circle">
 
+<div class="scan-icon">
+
 📷
 
 </div>
 
-<span>
+<div class="scan-text">
+
 Scan
-</span>
+
+</div>
+
+</div>
 
 </button>
+
+
 
 <button
 data-page="searchPage">
 
 🔍
+
 <span>
+
 Search
+
 </span>
 
 </button>
+
+
 
 <button
 data-page="registerPage">
 
 📝
+
 <span>
+
 Register
+
 </span>
 
 </button>
@@ -294,14 +364,19 @@ Register
 
 </nav>
 
-<!-- =====================
-SCRIPTS
-===================== -->
+</div>
+
+
 <script src="api.js"></script>
+
 <script src="home.js"></script>
+
 <script src="scan.js"></script>
+
 <script src="search.js"></script>
+
 <script src="register.js"></script>
+
 <script src="app.js"></script>
 
 </body>
