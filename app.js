@@ -31,7 +31,7 @@ id:"searchPage"
 
 
 register:{
-id:"register-Page"
+id:"registerPage"
 }
 
 
