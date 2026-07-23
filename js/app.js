@@ -1,5 +1,4 @@
 window.$=id=>document.getElementById(id);
-
 window.getUser=()=>{
 
 try{
@@ -17,11 +16,8 @@ if(currentPage===page)return;
 
 // cleanup
 if(currentPage){
-
 const fn=window["cleanup"+capitalize(currentPage)];
-if(typeof fn==="function")
-await fn();
-
+if(typeof fn==="function")await fn();
 }
 
 // html
@@ -49,7 +45,7 @@ document.getElementById("page-script")?.remove();
 const s=document.createElement("script");
 
 s.id="page-script";
-s.src="js/"+page+".js?v=1";
+s.src="js/"+page+".js";
 s.onload=resolve;
 s.onerror=resolve;
 
@@ -65,8 +61,7 @@ function setActiveNav(page){
 document
 .querySelectorAll("#bottomNav button")
 .forEach(b=>
-b.classList.toggle(
-"active",
+b.classList.toggle("active",
 b.dataset.page===page
 ));
 
@@ -82,35 +77,11 @@ return s[0].toUpperCase()+s.slice(1);
 // SESSION CHECK
 async function startApp(){
 
-try{
-const user=localStorage.user;
-if(!user){loadPage("login");return;
-}
-
-const res=await verifySession();
-
-if(!res.success){
-
-localStorage.clear();
-loadPage("login");
-return;
-
-}
-
-// 更新用户资料
-localStorage.user=JSON.stringify(res);
-
+const user=getUser();
+if(!user.token){location.href="index.html";return;}
 loadPage("home");
 
-
-}catch(e){console.log(e);
-
-loadPage("login");
-
 }
-
-}
-
 
 // NAV
 document
@@ -120,7 +91,6 @@ document
 btn.onclick=()=>{
 
 const page=btn.dataset.page;
-
 if(page)
 loadPage(page);
 
