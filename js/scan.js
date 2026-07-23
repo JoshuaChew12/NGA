@@ -200,6 +200,9 @@ showResult(
 "No Response"
 );
 
+playSound("error");
+vibrate("error");
+
 return;
 
 }
@@ -221,6 +224,9 @@ time:formatTime(res.time)
 }
 );
 
+playSound("success");
+vibrate("success");
+
 return;
 
 }
@@ -241,6 +247,9 @@ time:formatTime(res.time)
 }
 );
 
+playSound("duplicate");
+vibrate("duplicate");
+
 return;
 
 }
@@ -254,6 +263,8 @@ showResult(
 res.message||res.type||"Unknown Error"
 );
 
+playSound("error");
+vibrate("error");
 
 }
 
@@ -335,6 +346,52 @@ el.classList.toggle(
 
 }
 
+function playSound(type){
+
+let file="error.mp3";
+
+
+if(type==="success")
+file="welcome.mp3";
+
+
+if(type==="duplicate")
+file="duplicate.mp3";
+
+
+const audio=new Audio(
+"sound/"+file
+);
+
+
+audio.volume=.8;
+
+
+audio.play()
+.catch(()=>{});
+
+
+}
+
+function vibrate(type){
+
+if(!navigator.vibrate)
+return;
+
+
+if(type==="success")
+navigator.vibrate(80);
+
+
+else if(type==="duplicate")
+navigator.vibrate([100,80,100]);
+
+
+else
+navigator.vibrate(300);
+
+
+}
 
 /* FORMAT TIME */
 
