@@ -66,7 +66,9 @@ onScanSuccess(decodedText);
 
 },
 
-errorMessage=>{// ignore scan frame errors}
+errorMessage=>{
+// ignore scan frame errors
+}
 
 );
 
