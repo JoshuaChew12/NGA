@@ -1,10 +1,3 @@
-/* =====================================================
-NGA Worship Check-in
-STYLE.CSS V5 ULTIMATE
-PART 1
-Reset • Theme • Layout • Header • Counter • Card
-===================================================== */
-
 *{
 margin:0;
 padding:0;
@@ -37,168 +30,116 @@ inset 0 1px rgba(255,255,255,.9);
 /* =====================================================
 BODY
 ===================================================== */
-
 html,body{
 height:100%;
 }
 
 body{
-
 font-family:
 -apple-system,
 BlinkMacSystemFont,
 "Segoe UI",
 Arial,
 sans-serif;
-
 color:var(--text);
-
 background:
-linear-gradient(
-180deg,
-#ecfeff,
-#cffafe,
-#f8fafc
-);
-
+linear-gradient(180deg,#ecfeff,#cffafe,#f8fafc);
 overflow-x:hidden;
-
 }
 
 /* =====================================================
 APP
 ===================================================== */
-
 #app{
-
 width:100%;
 max-width:520px;
-
 min-height:100vh;
-
 margin:auto;
-
 display:flex;
 flex-direction:column;
-
 padding-bottom:90px;
+}
 
+.home{
+display:flex;
+flex-direction:column;
+gap:18px;
 }
 
 /* =====================================================
 HEADER
 ===================================================== */
-
 #appHeader{
-
 padding:
 20px
 18px
 10px;
-
 text-align:center;
-
 }
 
 #appHeader h1{
-
 font-size:24px;
 font-weight:900;
 letter-spacing:.3px;
-
 }
 
 /* =====================================================
 CHECKED-IN COUNTER
 ===================================================== */
-
 #counterBox{
-
 display:inline-flex;
-
 flex-direction:column;
-
 align-items:center;
-
 justify-content:center;
-
 margin-top:14px;
-
 padding:
 10px
 18px;
-
 border-radius:18px;
-
 background:var(--glass2);
-
 backdrop-filter:blur(14px);
-
 box-shadow:var(--shadow-sm);
-
 }
 
 .counter-value{
-
 font-size:20px;
-
 font-weight:900;
-
 color:var(--primary);
-
 line-height:1;
-
 }
 
 .counter-label{
-
 margin-top:5px;
-
 font-size:11px;
-
 font-weight:700;
-
 color:var(--sub);
-
 }
 
 /* =====================================================
 PAGE CONTAINER
 ===================================================== */
-
 #pageContainer{
-
 padding:
 12px
 18px
 30px;
-
 flex:1;
-
 }
 
 /* =====================================================
 COMMON CARD
 ===================================================== */
-
 .card{
-
 padding:24px;
-
 border-radius:var(--radius);
-
 background:var(--glass);
-
 backdrop-filter:blur(15px);
-
 box-shadow:var(--shadow);
-
 }
 
 /* =====================================================
 UTILITY
 ===================================================== */
-
 .hidden{
 display:none!important;
 }
@@ -208,21 +149,15 @@ text-align:center;
 }
 
 .loading{
-
 padding:40px 20px;
-
 text-align:center;
-
 color:var(--sub);
-
 font-weight:600;
-
 }
 
 /* =====================================================
 FORM SYSTEM
 ===================================================== */
-
 .form-group{
 display:flex;
 flex-direction:column;
@@ -278,7 +213,6 @@ box-shadow:
 /* =====================================================
 BUTTON
 ===================================================== */
-
 button{
 height:50px;
 padding:0 22px;
@@ -311,7 +245,6 @@ width:100%;
 /* =====================================================
 PRIMARY / SUCCESS / DANGER
 ===================================================== */
-
 .btn-primary{
 background:
 linear-gradient(135deg,#0f766e,#14b8a6);
@@ -330,32 +263,32 @@ linear-gradient(135deg,#64748b,#475569);
 /* =====================================================
 LOGOUT ICON BUTTON
 ===================================================== */
-
 .logout-wrap{
 display:flex;
 justify-content:center;
-margin-top:24px;
+margin-top:28px;
 }
 
 .logout-btn{
-width:56px;
-height:56px;
+width:58px;
+height:58px;
 padding:0;
-border-radius:18px;
+border-radius:20px;
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:24px;
+font-size:26px;
 background:
-linear-gradient(135deg,#ef4444,#dc2626);
+linear-gradient(135deg,#0f766e,#14b8a6);
+color:white;
 box-shadow:
-0 10px 24px rgba(239,68,68,.25);
+0 12px 30px
+rgba(15,118,110,.35);
 }
 
 /* =====================================================
 FORM MESSAGE
 ===================================================== */
-
 .form-message,
 #loginMessage,
 #registerResult,
@@ -370,7 +303,6 @@ color:#475569;
 /* =====================================================
 LOGIN
 ===================================================== */
-
 .login-page{
 min-height:100vh;
 display:flex;
@@ -410,11 +342,73 @@ font-weight:600;
 display:grid;
 gap:15px;
 }
+/* =====================================================
+CLOCK CARD
+===================================================== */
+.clock-card{
+padding:34px 20px;
+border-radius:32px;
+background:
+linear-gradient(135deg,#0f766e,#14b8a6,#22d3ee);
+color:white;
+text-align:center;
+box-shadow:
+0 22px 50px
+rgba(15,118,110,.35);
+position:relative;
+overflow:hidden;
+}
+
+.clock-card::before{
+content:"";
+position:absolute;
+width:220px;
+height:220px;
+right:-80px;
+top:-80px;
+background:rgba(255,255,255,.18);
+border-radius:50%;
+filter:blur(20px);
+}
+
+.clock-card::after{
+content:"";
+position:absolute;
+width:120px;
+height:120px;
+left:-40px;
+bottom:-40px;
+background:rgba(255,255,255,.12);
+border-radius:50%;
+filter:blur(20px);
+}
+
+.clock{
+position:relative;
+font-size:48px;
+font-weight:900;
+letter-spacing:1px;
+line-height:1.1;
+}
+
+.clock-day{
+position:relative;
+margin-top:12px;
+font-size:20px;
+font-weight:800;
+}
+
+.clock-date{
+position:relative;
+margin-top:6px;
+font-size:15px;
+font-weight:600;
+opacity:.9;
+}
 
 /* =====================================================
 DASHBOARD
 ===================================================== */
-
 .dashboard-title{
 margin:24px 4px 14px;
 font-size:20px;
@@ -429,13 +423,14 @@ gap:14px;
 
 .dashboard-card{
 padding:22px;
-border-radius:26px;
-background:rgba(255,255,255,.75);
-backdrop-filter:blur(16px);
+border-radius:28px;
+background:rgba(255,255,255,.72);
+backdrop-filter:
+blur(18px);
 box-shadow:
-0 15px 35px rgba(15,23,42,.12),
-inset 0 1px rgba(255,255,255,.85);
-transition:.2s;
+0 18px 40px rgba(15,23,42,.12),
+inset
+0 1px rgba(255,255,255,.9);
 }
 
 .dashboard-card:hover{
@@ -478,13 +473,12 @@ font-weight:600;
 /* =====================================================
 SCANNER
 ===================================================== */
-
 #scanner{
 width:100%;
 max-width:380px;
 aspect-ratio:1/1;
 margin:22px auto;
-border-radius:30px;
+border-radius:34px;
 overflow:hidden;
 background:#020617;
 position:relative;
@@ -495,23 +489,22 @@ box-shadow:
 #scanner::after{
 content:"";
 position:absolute;
-inset:12px;
+inset:10px;
 border:2px solid rgba(255,255,255,.35);
-border-radius:22px;
+border-radius:26px;
 pointer-events:none;
 }
 
 /* =====================================================
 SCAN RESULT POPUP
 ===================================================== */
-
 .scan-result{
 position:fixed;
 left:18px;
 right:18px;
 bottom:95px;
 padding:24px;
-border-radius:26px;
+border-radius:32px;
 background:rgba(255,255,255,.95);
 backdrop-filter:blur(18px);
 box-shadow:
@@ -579,7 +572,6 @@ transform:translateY(0) scale(1);
 /* =====================================================
 RESULT ACTIONS
 ===================================================== */
-
 .result-actions{
 display:flex;
 justify-content:center;
@@ -595,7 +587,6 @@ min-width:110px;
 /* =====================================================
 QR IMAGE
 ===================================================== */
-
 .qr-box{
 margin-top:18px;
 text-align:center;
@@ -614,7 +605,6 @@ box-shadow:
 /* =====================================================
 MEMBER ID
 ===================================================== */
-
 .member-id-box{
 margin:18px 0;
 padding:18px;
@@ -634,7 +624,6 @@ color:#0f766e;
 /* =====================================================
 BOTTOM NAVIGATION ULTIMATE
 ===================================================== */
-
 #bottomNav{
 position:fixed;
 left:50%;
@@ -659,7 +648,6 @@ z-index:1000;
 /* =====================================================
 NAV BUTTON
 ===================================================== */
-
 #bottomNav button{
 flex:1;
 height:100%;
@@ -690,7 +678,6 @@ transform:scale(.95);
 /* =====================================================
 ACTIVE
 ===================================================== */
-
 #bottomNav button.active{
 color:#0f766e;
 }
@@ -707,7 +694,6 @@ font-weight:800;
 /* =====================================================
 CENTER SCAN
 ===================================================== */
-
 #scanNav{
 flex:1;
 display:flex;
@@ -718,10 +704,9 @@ align-items:center;
 /* =====================================================
 SCAN GLASS BUTTON
 ===================================================== */
-
 .scan-circle{
-width:64px;
-height:64px;
+width:78px;
+height:78px;
 border-radius:50%;
 display:flex;
 flex-direction:column;
@@ -776,7 +761,6 @@ letter-spacing:.8px;
 /* =====================================================
 SAFE AREA
 ===================================================== */
-
 #app{
 padding-bottom:110px;
 }
@@ -784,7 +768,6 @@ padding-bottom:110px;
 /* =====================================================
 SMALL PHONE
 ===================================================== */
-
 @media(max-width:380px){
 
 #bottomNav{
