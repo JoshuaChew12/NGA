@@ -12,12 +12,13 @@ let resultTimer=null;
 /* INIT */
 async function initScan(){
 
+initAudio();
+
 showLoading(true);
 
 await startCamera();
 
 }
-
 
 /* CAMERA START */
 async function startCamera(){
@@ -346,30 +347,113 @@ el.classList.toggle(
 
 }
 
+/* ===============================
+   SOUND ENGINE V1
+=============================== */
+
+let audioCtx=null;
+
+function initAudio(){
+
+if(!audioCtx){
+audioCtx=
+new (window.AudioContext||
+window.webkitAudioContext)();
+}
+
+if(audioCtx.state==="suspended"){
+audioCtx.resume();
+}
+
+}
+
+
+/* ===============================
+   PLAY SOUND
+=============================== */
+
 function playSound(type){
 
-let file="error.mp3";
+try{
+
+initAudio();
+
+switch(type){
+
+case "success":
+tone(880,.15);
+setTimeout(()=>tone(1200,.18),160);
+break;
 
 
-if(type==="success")
-file="welcome.mp3";
+case "duplicate":
+tone(600,.25);
+setTimeout(()=>tone(500,.25),280);
+break;
 
 
-if(type==="duplicate")
-file="duplicate.mp3";
+case "notfound":
+tone(300,.35);
+setTimeout(()=>tone(220,.35),380);
+break;
 
 
-const audio=new Audio(
-"sound/"+file
+case "error":
+tone(250,.4);
+break;
+
+
+default:
+tone(700,.2);
+
+}
+
+}catch(e){
+
+console.log("sound error",e);
+
+}
+
+}
+
+
+/* ===============================
+   TONE GENERATOR
+=============================== */
+
+function tone(freq,duration){
+
+const osc=audioCtx.createOscillator();
+
+const gain=audioCtx.createGain();
+
+
+osc.type="sine";
+
+osc.frequency.value=freq;
+
+
+gain.gain.setValueAtTime(
+0.25,
+audioCtx.currentTime
+);
+
+gain.gain.exponentialRampToValueAtTime(
+0.001,
+audioCtx.currentTime+duration
 );
 
 
-audio.volume=.8;
+osc.connect(gain);
+
+gain.connect(audioCtx.destination);
 
 
-audio.play()
-.catch(()=>{});
+osc.start();
 
+osc.stop(
+audioCtx.currentTime+duration
+);
 
 }
 
