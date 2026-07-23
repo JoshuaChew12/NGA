@@ -4,11 +4,10 @@
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport"
 content="width=device-width,initial-scale=1,viewport-fit=cover">
 
-<title>NGA Worship Check-in</title>
+<title>NGA Worship Login</title>
 
 <link rel="stylesheet" href="style.css">
 
@@ -16,85 +15,50 @@ content="width=device-width,initial-scale=1,viewport-fit=cover">
 
 <body>
 
-<div id="app">
-
-<header id="appHeader">
-
-<div class="header-top">
-
-<h1>
-NGA Worship Check-in
-</h1>
-
-
-<div id="counterBox">
-
-<div id="checkCount"
-class="counter-value">
-0
-</div>
-
-<div class="counter-label">
-Checked-in
-</div>
+<div id="loginContainer">
 
 </div>
 
-</div>
-
-</header>
-
-<main id="pageContainer">
-
-</main>
-
-<nav id="bottomNav">
-
-<button data-page="home">
-🏠
-<span>Home</span>
-</button>
-
-<button data-page="manual">
-⌨️
-<span>Manual</span>
-</button>
-
-<button id="scanNav"
-data-page="scan">
-
-<div class="scan-circle">
-
-<div class="scan-icon">
-📷
-</div>
-
-<div class="scan-text">
-SCAN
-</div>
-
-</div>
-
-</button>
-
-<button data-page="search">
-🔍
-<span>Search</span>
-</button>
-
-<button data-page="register">
-📝
-<span>Register</span>
-</button>
-
-</nav>
-
-
-</div>
-
-<script src="https://unpkg.com/html5-qrcode"></script>
 <script src="js/api.js"></script>
-<script src="js/app.js"></script>
+<script src="js/login.js"></script>
+
+<script>
+
+async function loadLogin(){
+
+const res=await fetch("pages/login.html");
+loginContainer.innerHTML=await res.text();
+if(typeof initLogin==="function")
+initLogin();
+
+}
+
+async function checkSession(){
+
+const token=localStorage.token;
+if(!token){loadLogin();return;}
+
+try{
+
+const res=await verifySession();
+if(res.success){
+localStorage.user=JSON.stringify(res);
+location.href="app.html";
+}else{
+localStorage.clear();
+loadLogin();
+}
+
+}catch(e){
+localStorage.clear();
+loadLogin();
+}
+
+}
+
+document.addEventListener("DOMContentLoaded",checkSession);
+
+</script>
 
 </body>
 
