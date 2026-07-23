@@ -1,37 +1,26 @@
 <section class="scan">
 
-<div class="scan-status">
+<div class="scan-card">
 
-<div id="cameraStatus" class="camera-status">
-📷 Preparing Camera...
-</div>
+<h2>
+📷 Scan Check-in
+</h2>
 
-<button
-id="torchBtn"
-class="torch-btn hidden">
-🔦
-</button>
 
-</div>
-
-<div class="scanner-box">
+<div id="scanner">
 
 <div id="reader"></div>
 
 <div class="scan-line"></div>
 
-<div id="loadingMask" class="loading-mask">
+<div id="loadingMask"
+class="loading-mask">
 
 <div class="loading-spinner"></div>
 
-<div class="loading-text">
-Opening Camera...
 </div>
 
-</div>
-
-<div
-id="scanResult"
+<div id="scanResult"
 class="scan-result hidden">
 
 <div
@@ -40,11 +29,13 @@ class="result-icon">
 ✅
 </div>
 
+
 <div
 id="resultTitle"
 class="result-title">
 Welcome
 </div>
+
 
 <div
 id="resultMessage"
@@ -52,8 +43,8 @@ class="result-message">
 Participant
 </div>
 
-<div
-class="result-info">
+
+<div class="result-info">
 
 <div>
 <span>🆔</span>
@@ -75,24 +66,20 @@ class="result-info">
 <span id="resultTime"></span>
 </div>
 
-</div>
 
 </div>
 
+
 </div>
+
+
+</div>
+
 
 <div class="scan-footer">
-
 <div class="scan-tip">
-Point the camera at a QR Code
+Point camera at QR Code
 </div>
-
-<div
-id="scanInfo"
-class="scan-info">
-
-Ready
-
 </div>
 
 </div>
