@@ -4,12 +4,8 @@ loginBtn.onclick=async()=>{
 
 const username=loginUsername.value.trim();
 const password=loginPassword.value.trim();
-
 if(!username||!password){
-
-loginMessage.innerHTML=
-"Please enter username and password";
-
+loginMessage.innerHTML="Please enter username and password";
 return;
 
 }
@@ -20,14 +16,10 @@ loginMessage.innerHTML="Checking...";
 try{
 
 const res=await loginAPI(username,password);
-
 if(!res.success){
-
-loginMessage.innerHTML=
-res.message||"Login Failed";
+loginMessage.innerHTML=res.message||"Login Failed";
 loginBtn.disabled=false;
 return;
-
 }
 
 // =====================
@@ -37,25 +29,21 @@ localStorage.token=res.token;
 localStorage.user=JSON.stringify(res);
 
 // =====================
-// GO HOME
+// OPEN APP
 // =====================
 loginMessage.innerHTML="Login Success";
 
 setTimeout(()=>{
-loadPage("home");
+location.href="app.html";
 },300);
 
 }catch(err){
-
 loginMessage.innerHTML="Network Error";
-
 console.log(err);
-
 }
 
 loginBtn.disabled=false;
 
 };
-
 
 }
