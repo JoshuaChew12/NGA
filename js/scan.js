@@ -1,249 +1,363 @@
 /* =====================================
-   NGA Worship Check-in
-   Scan V5.3 Ultimate Performance
+ NGA Worship Check-in
+ Scan V5.2 Ultimate
 ===================================== */
+
 let scanner=null;
 let cameraRunning=false;
 let scanLocked=false;
 let resultTimer=null;
 
+
 /* INIT */
 async function initScan(){
+
 showLoading(true);
+
 await startCamera();
+
 }
 
-/* CAMERA */
+
+/* CAMERA START */
 async function startCamera(){
 
 if(cameraRunning)return;
 
 try{
 
-const cameras=await Html5Qrcode.getCameras();
-if(!cameras.length)throw"Camera Missing";
+if(typeof Html5Qrcode==="undefined"){
+showResult("❌","Scanner Error","Library Missing");
+return;
+}
 
-const cam=cameras.find(c=>
+
+const cameras=await Html5Qrcode.getCameras();
+
+if(!cameras.length){
+showResult("❌","Camera Error","No Camera Found");
+return;
+}
+
+
+let cam=cameras.find(c=>
 /back|rear|environment/i.test(c.label)
-)?.id||cameras[0].id;
+)||cameras[0];
+
 
 scanner=new Html5Qrcode("reader");
 
+
 await scanner.start(
 
-cam,
-{fps:15,
+cam.id,
+
+{
+fps:12,
+
 qrbox:(w,h)=>{
-let s=Math.min(w,h)*.7;
-return{width:s,height:s};
+
+let s=Math.min(w,h)*0.7;
+
+return{
+width:s,
+height:s
+};
+
 }
 
 },
 
 onScanSuccess,
+
 ()=>{}
 
 );
 
+
 cameraRunning=true;
+
 showLoading(false);
+
+
 }catch(e){
 
 console.log(e);
-showLoading(false);
-showResult("❌","Camera Error","Unable to open camera");
+
+showResult(
+"❌",
+"Camera Error",
+"Unable to open camera"
+);
 
 }
 
 }
 
-/* PAUSE / RESUME */
-async function pauseScanner(){
 
-try{
-if(scanner&&cameraRunning)await scanner.pause(true);
-}catch(e){}
+/* CAMERA STOP */
 
-}
-
-async function resumeScanner(){
-
-try{
-if(scanner&&cameraRunning)await scanner.resume();
-}catch(e){}
-
-}
-
-/* STOP */
 async function stopCamera(){
 
 try{
 
 if(scanner&&cameraRunning){
+
 await scanner.stop();
 await scanner.clear();
+
 }
 
 }catch(e){}
+
 
 scanner=null;
 cameraRunning=false;
 
 }
 
-async function cleanupScan(){
-await stopCamera();
-}
-
-/* LOADING */
-function showLoading(v){
-
-const el=document.getElementById("loadingMask");
-if(el)el.classList.toggle("hidden",!v);
-
-}
 
 /* QR SUCCESS */
+
 async function onScanSuccess(text){
 
 if(scanLocked)return;
-scanLocked=true;
-await pauseScanner();
 
-const id=String(text).trim().toUpperCase();
+scanLocked=true;
+
+
+const id=text
+.toString()
+.trim()
+.toUpperCase();
+
+
 if(!id){
-await resumeScanner();
+
 scanLocked=false;
 return;
+
 }
+
+
+/*
+立即停止 camera
+*/
+
+await stopCamera();
+
+
+showResult(
+"⏳",
+"Processing",
+"Checking participant..."
+);
+
 
 try{
+
 const res=await checkInAPI(id);
-handleScanResult(res);
+
+handleResult(res);
+
+
 }catch(e){
-showResult("❌","Network Error","Unable to connect server");
-playSound("error");
+
+showResult(
+"❌",
+"Network Error",
+"Unable to connect server"
+);
+
 }
+
 
 setTimeout(async()=>{
-await resumeScanner();
+
+hideResult();
+
+await startCamera();
+
 scanLocked=false;
-},3500);
+
+
+},3000);
+
 
 }
 
-/* RESULT */
-function handleScanResult(res){
+
+/* RESULT HANDLER */
+
+function handleResult(res){
+
 
 if(!res){
-showResult("❌","Server Error","No Response");
-playSound("error");
+
+showResult(
+"❌",
+"Server Error",
+"No Response"
+);
+
 return;
+
 }
+
+
+// SUCCESS
 
 if(res.success){
-showResult("✅","Welcome",res.englishName||res.chineseName,
+
+showResult(
+"✅",
+"Welcome",
+res.englishName||res.chineseName,
 {
 id:res.memberID,
 church:res.homeChurch,
 location:res.scanLocation,
 time:formatTime(res.time)
-});
-
-playSound("success");
-vibrate();
-return;
 }
+);
+
+return;
+
+}
+
+
+// DUPLICATE
 
 if(res.type==="duplicate"){
-showResult("⚠️","Already Checked In",res.chineseName,
+
+showResult(
+"⚠️",
+"Already Checked In",
+res.englishName||res.chineseName,
 {
 id:res.memberID,
 church:res.homeChurch,
-location:res.scanLocation,
 time:formatTime(res.time)
-});
+}
+);
 
-playSound("duplicate");
 return;
+
 }
 
-if(res.type==="not_found"){
-showResult("❌","Participant Not Found","ID : "+res.memberID);
 
-playSound("notfound");
-return;
+// OTHER ERROR
+
+showResult(
+"❌",
+"Check-in Failed",
+res.message||res.type||"Unknown Error"
+);
+
+
 }
 
-showResult("❌","Check-in Failed",res.message||"Unknown Error");
 
-playSound("error");
-}
+/* RESULT UI */
 
-/* POPUP */
-function showResult(
-icon,
-title,
-message,
-data={}
-){
+function showResult(icon,title,msg,data={}){
 
-pauseScanner();
-const card=document.getElementById("scanResult");
-if(!card)return;
-clearTimeout(resultTimer);
+const box=document.getElementById("scanResult");
+
+if(!box)return;
+
 
 resultIcon.innerHTML=icon;
+
 resultTitle.innerHTML=title;
-resultMessage.innerHTML=message;
+
+resultMessage.innerHTML=msg;
+
+
 resultID.innerHTML=data.id||"";
 resultChurch.innerHTML=data.church||"";
 resultLocation.innerHTML=data.location||"";
 resultTime.innerHTML=data.time||"";
-card.className="scan-result";
-card.classList.add(
-title==="Welcome"
-?"success":
-title==="Already Checked In"
-?"warning":
-"error"
+
+
+box.className="scan-result";
+
+
+if(title==="Welcome")
+box.classList.add("success");
+
+else if(title==="Already Checked In")
+box.classList.add("warning");
+
+else
+box.classList.add("error");
+
+
+box.classList.remove("hidden");
+
+
+clearTimeout(resultTimer);
+
+
+resultTimer=setTimeout(()=>{
+
+hideResult();
+
+},3000);
+
+
+}
+
+
+/* HIDE RESULT */
+
+function hideResult(){
+
+const box=document.getElementById("scanResult");
+
+if(box)
+box.classList.add("hidden");
+
+}
+
+
+/* LOADING */
+
+function showLoading(show){
+
+const el=document.getElementById("loadingMask");
+
+if(el)
+el.classList.toggle(
+"hidden",
+!show
 );
-card.classList.remove("hidden");
-
-resultTimer=setTimeout(async()=>{
-card.classList.add("hidden");
-await resumeScanner();
-scanLocked=false;
-},3500);
 
 }
 
-/* SOUND */
-function playSound(type){
 
-const src=
-type==="success"?"sound/welcome.mp3":
-type==="duplicate"?"sound/duplicate.mp3":
-type==="notfound"?"sound/notfound.mp3":
-"sound/error.mp3";
-
-try{
-new Audio(src).play().catch(()=>{});
-}catch(e){}
-
-}
-
-/* HELPERS */
-function vibrate(){
-navigator.vibrate?.(80);
-}
+/* FORMAT TIME */
 
 function formatTime(v){
 
-if(!v)return"";
+if(!v)return "";
 
 return new Date(v)
-.toLocaleTimeString("en-GB",
-{hour:"2-digit",minute:"2-digit"});
+.toLocaleTimeString(
+"en-GB",
+{
+hour:"2-digit",
+minute:"2-digit"
+}
+);
+
+}
+
+
+/* CLEANUP */
+
+async function cleanupScan(){
+
+await stopCamera();
 
 }
