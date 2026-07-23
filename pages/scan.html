@@ -1,36 +1,79 @@
 <section class="scan">
 
+<div class="scan-status">
+
+<div id="cameraStatus" class="camera-status">
+📷 Preparing Camera...
+</div>
+
+<button
+id="torchBtn"
+class="torch-btn hidden">
+🔦
+</button>
+
+</div>
+
 <div class="scanner-box">
 
 <div id="reader"></div>
 
-<div id="scanResult" class="scan-result hidden">
+<div class="scan-line"></div>
 
-<div id="resultIcon" class="result-icon">
-📷
+<div id="loadingMask" class="loading-mask">
+
+<div class="loading-spinner"></div>
+
+<div class="loading-text">
+Opening Camera...
 </div>
 
-<div id="resultTitle" class="result-title">
+</div>
+
+<div
+id="scanResult"
+class="scan-result hidden">
+
+<div
+id="resultIcon"
+class="result-icon">
+✅
+</div>
+
+<div
+id="resultTitle"
+class="result-title">
 Ready
 </div>
 
-<div id="resultMessage" class="result-message">
+<div
+id="resultMessage"
+class="result-message">
 Waiting for QR Code
 </div>
 
+<div
+id="resultExtra"
+class="result-extra">
 </div>
 
 </div>
 
-<div class="scan-action">
+</div>
 
-<button id="startScanBtn" class="primary-btn">
-Start Camera
-</button>
+<div class="scan-footer">
 
-<button id="stopScanBtn" class="secondary-btn">
-Stop Camera
-</button>
+<div class="scan-tip">
+Point the camera at a QR Code
+</div>
+
+<div
+id="scanInfo"
+class="scan-info">
+
+Ready
+
+</div>
 
 </div>
 
