@@ -2,20 +2,16 @@
  NGA Worship Check-in
  Scan V5.2 Ultimate
 ===================================== */
-
 let scanner=null;
 let cameraRunning=false;
 let scanLocked=false;
 let resultTimer=null;
 
-
 /* INIT */
 async function initScan(){
 
 initAudio();
-
 showLoading(true);
-
 await startCamera();
 
 }
@@ -32,39 +28,26 @@ showResult("❌","Scanner Error","Library Missing");
 return;
 }
 
-
 const cameras=await Html5Qrcode.getCameras();
-
 if(!cameras.length){
 showResult("❌","Camera Error","No Camera Found");
 return;
 }
 
-
 let cam=cameras.find(c=>
 /back|rear|environment/i.test(c.label)
 )||cameras[0];
 
-
 scanner=new Html5Qrcode("reader");
-
-
 await scanner.start(
-
 cam.id,
 
 {
 fps:12,
 
 qrbox:(w,h)=>{
-
 let s=Math.min(w,h)*0.7;
-
-return{
-width:s,
-height:s
-};
-
+return{width:s,height:s};
 }
 
 },
@@ -75,21 +58,13 @@ onScanSuccess,
 
 );
 
-
 cameraRunning=true;
-
 showLoading(false);
-
 
 }catch(e){
 
 console.log(e);
-
-showResult(
-"❌",
-"Camera Error",
-"Unable to open camera"
-);
+showResult("❌","Camera Error","Unable to open camera");
 
 }
 
@@ -97,7 +72,6 @@ showResult(
 
 
 /* CAMERA STOP */
-
 async function stopCamera(){
 
 try{
