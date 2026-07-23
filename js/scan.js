@@ -1,381 +1,186 @@
-/* =========================================
+/* =====================================
    NGA Worship Check-in
-   Scan Ultimate Core V1
-========================================= */
+   Scan V5.3 Ultimate Performance
+===================================== */
 let scanner=null;
 let cameraRunning=false;
-let torchEnabled=false;
-let currentCameraId=null;
+let scanLocked=false;
+let resultTimer=null;
 
-
-/* =========================================
-   INIT
-========================================= */
+/* INIT */
 async function initScan(){
-
-setStatus("Preparing Camera...");
 showLoading(true);
-bindScanButtons();
 await startCamera();
-
 }
 
-
-/* =========================================
-   START CAMERA
-========================================= */
+/* CAMERA */
 async function startCamera(){
 
 if(cameraRunning)return;
 
 try{
 
-if(typeof Html5Qrcode==="undefined"){
-cameraError("Scanner Library Missing");
-return;
-}
-
-// 获取 Camera
 const cameras=await Html5Qrcode.getCameras();
-if(!cameras || cameras.length===0){
-cameraError("No Camera Found");
-return;
-}
+if(!cameras.length)throw"Camera Missing";
 
-// 优先后镜头
-currentCameraId=selectBackCamera(cameras);
+const cam=cameras.find(c=>
+/back|rear|environment/i.test(c.label)
+)?.id||cameras[0].id;
 
-// 创建 Scanner
 scanner=new Html5Qrcode("reader");
 
-// 开始
 await scanner.start(
-currentCameraId,
-{
-fps:12,
-qrbox:function(width,height){
-const size=Math.min(width,height)*0.7;
-return{width:size,height:size};}
-},
 
-decodedText=>{
-
-if(typeof onScanSuccess==="function"){
-onScanSuccess(decodedText);
+cam,
+{fps:15,
+qrbox:(w,h)=>{
+let s=Math.min(w,h)*.7;
+return{width:s,height:s};
 }
 
 },
 
-errorMessage=>{
-// ignore scan frame errors
-}
+onScanSuccess,
+()=>{}
 
 );
 
 cameraRunning=true;
-
 showLoading(false);
-setStatus("Camera Ready");
-setInfo("Scanning");
-await checkTorch();
+}catch(e){
 
-}catch(err){
-
-console.log(err);
-cameraError("Camera Open Failed");
+console.log(e);
+showLoading(false);
+showResult("❌","Camera Error","Unable to open camera");
 
 }
 
 }
 
-/* =========================================
-   CAMERA SELECT
-========================================= */
-function selectBackCamera(cameras){
+/* PAUSE / RESUME */
+async function pauseScanner(){
 
-let back=cameras.find(c=>
-/back|rear|environment/i
-.test(c.label)
-);
-
-return back?back.id:cameras[0].id;
+try{
+if(scanner&&cameraRunning)await scanner.pause(true);
+}catch(e){}
 
 }
 
-/* =========================================
-   STOP CAMERA
-========================================= */
+async function resumeScanner(){
+
+try{
+if(scanner&&cameraRunning)await scanner.resume();
+}catch(e){}
+
+}
+
+/* STOP */
 async function stopCamera(){
 
 try{
 
-if(scanner && cameraRunning){
+if(scanner&&cameraRunning){
 await scanner.stop();
 await scanner.clear();
 }
 
-}catch(e){console.log(e);}
+}catch(e){}
 
 scanner=null;
 cameraRunning=false;
-currentCameraId=null;
 
 }
 
-/* =========================================
-   TORCH
-========================================= */
-async function checkTorch(){
-
-try{
-
-if(!scanner)return;
-const track=scanner.getRunningTrackSettings();
-
-if(track &&track.torchSupported){
-torchBtn.classList.remove("hidden");
-}else{torchBtn.classList.add("hidden");}
-
-}catch(e){torchBtn.classList.add("hidden");}
-
-}
-
-async function toggleTorch(){
-
-try{
-
-if(!scanner)return;
-torchEnabled=!torchEnabled;
-await scanner.applyVideoConstraints({
-advanced:[{torch:torchEnabled}]
-});
-
-}catch(e){torchEnabled=false;}
-
-}
-
-/* =========================================
-   UI STATUS
-========================================= */
-function setStatus(text){
-
-const el=document.getElementById("cameraStatus");
-if(el)el.innerHTML="📷 "+text;
-
-}
-
-function setInfo(text){
-
-const el=document.getElementById("scanInfo");
-if(el)el.innerHTML=text;
-
-}
-
-function showLoading(show){
-
-const el=document.getElementById("loadingMask");
-if(!el)return;
-el.classList.toggle("hidden",!show);
-
-}
-
-function cameraError(msg){
-
-showLoading(false);
-setStatus(msg);
-setInfo("Camera Error");
-
-}
-
-/* =========================================
-   BUTTONS
-========================================= */
-function bindScanButtons(){
-
-const torch=document.getElementById("torchBtn");
-if(torch){torch.onclick=toggleTorch;}
-
-}
-
-/* =========================================
-   PAGE CLEANUP
-========================================= */
 async function cleanupScan(){
 await stopCamera();
 }
 
-/* =========================================
-   HELPERS
-========================================= */
-function vibrate(){
-if(navigator.vibrate){navigator.vibrate(80);}
+/* LOADING */
+function showLoading(v){
+
+const el=document.getElementById("loadingMask");
+if(el)el.classList.toggle("hidden",!v);
+
 }
 
-/* =========================================
-   NGA Worship Check-in
-   Scan Ultimate Logic V1
-========================================= */
-let scanLocked=false;
-let resultTimer=null;
-
-/* =========================================
-   QR SUCCESS CALLBACK
-========================================= */
-async function onScanSuccess(decodedText){
+/* QR SUCCESS */
+async function onScanSuccess(text){
 
 if(scanLocked)return;
-// 防止重复扫描
 scanLocked=true;
+await pauseScanner();
 
-const id=decodedText
-.toString().trim().toUpperCase();
-if(!id){scanLocked=false;return;}
-setInfo("Checking...");
+const id=String(text).trim().toUpperCase();
+if(!id){
+await resumeScanner();
+scanLocked=false;
+return;
+}
 
 try{
-
-const result=await checkInAPI(id);
-handleScanResult(result);
-
-}catch(err){
-
-showResult(
-"❌",
-"Network Error",
-"Unable to connect server"
-);
+const res=await checkInAPI(id);
+handleScanResult(res);
+}catch(e){
+showResult("❌","Network Error","Unable to connect server");
 playSound("error");
 }
 
-setTimeout(()=>{
+setTimeout(async()=>{
+await resumeScanner();
 scanLocked=false;
-setInfo("Scanning");
-},1200);
+},3500);
 
 }
 
-/* =========================================
-   RESULT HANDLER
-========================================= */
+/* RESULT */
 function handleScanResult(res){
 
 if(!res){
-showResult(
-"❌",
-"Server Error",
-"No Response"
-);
-
+showResult("❌","Server Error","No Response");
 playSound("error");
 return;
-
 }
 
-// SUCCESS
 if(res.success){
-showResult(
-"✅",
-"Welcome",
-res.englishName||res.chineseName,
+showResult("✅","Welcome",res.englishName||res.chineseName,
 {
 id:res.memberID,
 church:res.homeChurch,
 location:res.scanLocation,
 time:formatTime(res.time)
-}
-);
+});
 
 playSound("success");
 vibrate();
 return;
-
 }
 
-// DUPLICATE
 if(res.type==="duplicate"){
-showResult(
-"⚠️",
-"Already Checked In",
-res.chineseName,
+showResult("⚠️","Already Checked In",res.chineseName,
 {
 id:res.memberID,
 church:res.homeChurch,
 location:res.scanLocation,
 time:formatTime(res.time)
-}
-
-);
+});
 
 playSound("duplicate");
 return;
-
 }
 
-// NOT FOUND
 if(res.type==="not_found"){
-showResult(
-"❌",
-"Participant Not Found",
-"ID : "+res.memberID||""
-);
+showResult("❌","Participant Not Found","ID : "+res.memberID);
 
 playSound("notfound");
 return;
-
 }
 
-// SESSION
-if(res.type==="no_session"){
-showResult(
-"⏰",
-"No Active Session",
-"Please check session time"
-);
+showResult("❌","Check-in Failed",res.message||"Unknown Error");
 
 playSound("error");
-return;
-
 }
 
-// LOGIN
-if(res.type==="invalid_session"||res.type==="inactive_user"){
-showResult(
-"🔒",
-"Session Expired",
-"Please login again"
-);
-
-playSound("error");
-return;
-
-}
-
-// BUSY
-if(res.type==="busy"){
-showResult(
-"⏳",
-"Please Wait",
-"Processing"
-);
-
-return;
-
-}
-
-// OTHER ERROR
-showResult(
-"❌",
-"Check-in Failed",
-res.message||"Unknown Error"
-);
-
-playSound("error");
-
-}
-
-/* =========================================
-   RESULT CARD
-========================================= */
+/* POPUP */
 function showResult(
 icon,
 title,
@@ -383,10 +188,11 @@ message,
 data={}
 ){
 
+pauseScanner();
 const card=document.getElementById("scanResult");
 if(!card)return;
-
 clearTimeout(resultTimer);
+
 resultIcon.innerHTML=icon;
 resultTitle.innerHTML=title;
 resultMessage.innerHTML=message;
@@ -394,68 +200,50 @@ resultID.innerHTML=data.id||"";
 resultChurch.innerHTML=data.church||"";
 resultLocation.innerHTML=data.location||"";
 resultTime.innerHTML=data.time||"";
-
-// reset class
 card.className="scan-result";
-if(title==="Welcome"){
-card.classList.add("success");
-}
-
-else if(title==="Already Checked In"){
-card.classList.add("warning");
-}
-
-else{card.classList.add("error");}
-
+card.classList.add(
+title==="Welcome"
+?"success":
+title==="Already Checked In"
+?"warning":
+"error"
+);
 card.classList.remove("hidden");
 
-resultTimer=setTimeout(()=>{
+resultTimer=setTimeout(async()=>{
 card.classList.add("hidden");
-},5000);
+await resumeScanner();
+scanLocked=false;
+},3500);
 
 }
 
-/* =========================================
-   SOUND SYSTEM
-========================================= */
+/* SOUND */
 function playSound(type){
 
+const src=
+type==="success"?"sound/welcome.mp3":
+type==="duplicate"?"sound/duplicate.mp3":
+type==="notfound"?"sound/notfound.mp3":
+"sound/error.mp3";
+
 try{
-let src="";
-switch(type){
-case "success":
-src="sound/welcome.mp3";
-break;
-
-case "duplicate":
-src="sound/duplicate.mp3";
-break;
-
-case "notfound":
-src="sound/notfound.mp3";
-break;
-
-default:
-src="sound/error.mp3";
-}
-
-const audio=new Audio(src);
-audio.volume=0.8;
-audio.play().catch(()=>{});
-
+new Audio(src).play().catch(()=>{});
 }catch(e){}
 
 }
 
-/* =========================================
-   FORMAT TIME
-========================================= */
-function formatTime(value){
+/* HELPERS */
+function vibrate(){
+navigator.vibrate?.(80);
+}
 
-if(!value)return "";
-const d=new Date(value);
-return d.toLocaleTimeString("en-GB",
-{hour:"2-digit",minute:"2-digit"}
-);
+function formatTime(v){
+
+if(!v)return"";
+
+return new Date(v)
+.toLocaleTimeString("en-GB",
+{hour:"2-digit",minute:"2-digit"});
 
 }
