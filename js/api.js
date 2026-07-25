@@ -56,6 +56,12 @@ keyword
 
 }
 
+function getChurchListAPI(){
+
+return apiGet("getchurchlist");
+
+}
+
 // REGISTER
 function registerAPI(data){
 
