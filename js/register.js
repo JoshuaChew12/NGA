@@ -3,10 +3,11 @@ REGISTER V5
 ===================================== */
 let registerLoading=false;
 
+
 /* =====================================
-LOAD REGISTER
+INIT
 ===================================== */
-async function loadRegister(){
+async function initRegister(){
 
 resetRegister();
 await loadChurchList();
@@ -29,9 +30,9 @@ Loading...
 
 try{
 
-const res=await apiGet("getchurchlist");
-
-if(res.success&&Array.isArray(res.data)&&res.data.length){
+const res=await getChurchListAPI();
+console.log("church list:",res);
+if(res.success&&res.data?.length){
 
 select.innerHTML=`
 <option value="">
@@ -43,7 +44,7 @@ res.data.forEach(c=>{
 
 select.innerHTML+=`
 <option value="${c.id}">
-${c.name || c.id}
+${c.name||c.id}
 </option>
 `;
 
@@ -53,24 +54,11 @@ return;
 
 }
 
-}catch(err){
+}catch(e){console.log(e);}
 
-console.log("Church API unavailable",err);
-
-}
-
-// fallback
 select.innerHTML=`
 <option value="">
-Select Church
-</option>
-
-<option value="NGA">
-Neighbour Grace Assembly
-</option>
-
-<option value="CIC">
-City Impact Church
+No Church Available
 </option>
 `;
 
