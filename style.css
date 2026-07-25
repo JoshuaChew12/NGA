@@ -904,3 +904,183 @@ font-size:20px;
 }
 
 }
+
+/* =========================
+SEARCH V6
+========================= */
+.search-page{padding-bottom:90px;}
+
+/* SEARCH BOX */
+.search-box{
+display:flex;
+gap:10px;
+align-items:center;
+}
+
+.search-box input{
+flex:1;
+height:45px;
+border-radius:14px;
+border:1px solid #ddd;
+padding:0 14px;
+font-size:15px;
+outline:none;
+}
+
+.search-box button{
+width:45px;
+height:45px;
+border:none;
+border-radius:14px;
+background:#2563eb;
+color:#fff;
+font-size:18px;
+}
+
+/* HISTORY */
+.history-box{
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+margin-top:12px;
+}
+
+.history-item{
+border:none;
+background:#f1f5f9;
+padding:6px 12px;
+border-radius:20px;
+font-size:13px;
+}
+
+/* RESULT */
+.member-title{
+text-align:center;
+margin-bottom:18px;
+}
+
+.member-title h3{
+margin:0;
+font-size:22px;
+}
+
+.member-title p{
+margin:5px 0;
+color:#64748b;
+}
+
+.info-row{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:12px 0;
+border-bottom:1px solid #eee;
+}
+
+/* ACTION */
+.action-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+}
+
+.action-grid button{
+height:45px;
+border:none;
+border-radius:14px;
+background:#2563eb;
+color:#fff;
+font-size:15px;
+}
+
+/* EMPTY */
+.empty-icon{
+font-size:40px;
+text-align:center;
+}
+
+.empty-title{
+text-align:center;
+font-size:18px;
+font-weight:600;
+margin-top:10px;
+}
+
+.empty-text{
+text-align:center;
+color:#64748b;
+line-height:1.5;
+margin-top:6px;
+}
+
+/* MODAL */
+.modal{
+position:fixed;
+inset:0;
+z-index:999;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.modal-mask{
+position:absolute;
+inset:0;
+background:rgba(0,0,0,.55);
+}
+
+.modal-content{
+position:relative;
+z-index:2;
+background:#fff;
+border-radius:20px;
+padding:20px;
+max-width:90%;
+max-height:90%;
+}
+
+.modal-content img{
+width:280px;
+height:280px;
+object-fit:contain;
+}
+
+/* PDF */
+.pdf-content{
+width:95%;
+height:85%;
+padding:10px;
+}
+
+.pdf-content iframe{
+width:100%;
+height:100%;
+border:none;
+border-radius:12px;
+}
+
+.close-btn{
+position:absolute;
+right:12px;
+top:10px;
+z-index:3;
+border:none;
+background:#ef4444;
+color:#fff;
+width:35px;
+height:35px;
+border-radius:50%;
+font-size:16px;
+}
+
+/* MOBILE */
+@media(max-width:480px){
+
+.qr-box img{
+width:150px;
+height:150px;
+}
+
+.pdf-content{height:80%;}
+
+}
