@@ -1,11 +1,15 @@
 /* =====================================
    NGA Worship Check-in
-   UI Ultimate V5
+   UI V6 Stable
 ===================================== */
-let resultTimer=null;
-let audioCtx=null;
 
-/* RESULT */
+let resultTimer = null;
+let audioCtx = null;
+
+/* =========================
+   RESULT
+========================= */
+
 function handleResult(res){
 
 if(!res){
@@ -66,20 +70,23 @@ vibrate("error");
 
 }
 
-/* POPUP */
+/* =========================
+   POPUP
+========================= */
+
 function showResult(icon,title,msg,data={}){
 
-const box=$("#scanResult");
+const box=document.getElementById("scanResult");
 if(!box)return;
 
-resultIcon.innerHTML=icon;
-resultTitle.innerHTML=title;
-resultMessage.innerHTML=msg;
+document.getElementById("resultIcon").innerHTML=icon;
+document.getElementById("resultTitle").innerHTML=title;
+document.getElementById("resultMessage").innerHTML=msg;
 
-resultID.innerHTML=data.id||"";
-resultChurch.innerHTML=data.church||"";
-resultLocation.innerHTML=data.location||"";
-resultTime.innerHTML=data.time||"";
+document.getElementById("resultID").innerHTML=data.id||"";
+document.getElementById("resultChurch").innerHTML=data.church||"";
+document.getElementById("resultLocation").innerHTML=data.location||"";
+document.getElementById("resultTime").innerHTML=data.time||"";
 
 box.className="scan-result";
 
@@ -100,18 +107,27 @@ resultTimer=setTimeout(hideResult,3000);
 
 function hideResult(){
 
-$("#scanResult")?.classList.add("hidden");
+const box=document.getElementById("scanResult");
+
+if(box)
+box.classList.add("hidden");
 
 }
 
-/* SOUND */
+/* =========================
+   SOUND
+========================= */
+
 function initAudio(){
 
-if(!audioCtx)
+if(!audioCtx){
+
 audioCtx=new(
 window.AudioContext||
 window.webkitAudioContext
 )();
+
+}
 
 if(audioCtx.state==="suspended")
 audioCtx.resume();
@@ -130,45 +146,48 @@ setTimeout(()=>tone(1175,.12),120);
 break;
 
 case"duplicate":
-tone(600,.16);
-setTimeout(()=>tone(470,.18),180);
+tone(650,.12);
+setTimeout(()=>tone(520,.18),140);
 break;
 
 case"error":
-tone(250,.28);
+tone(260,.28);
 break;
 
 }
 
 }
 
-function tone(f,d){
+function tone(freq,duration){
 
-const o=audioCtx.createOscillator();
-const g=audioCtx.createGain();
+const osc=audioCtx.createOscillator();
+const gain=audioCtx.createGain();
 
-o.type="triangle";
-o.frequency.value=f;
+osc.type="triangle";
+osc.frequency.value=freq;
 
-g.gain.setValueAtTime(
+gain.gain.setValueAtTime(
 0.22,
 audioCtx.currentTime
 );
 
-g.gain.exponentialRampToValueAtTime(
+gain.gain.exponentialRampToValueAtTime(
 0.001,
-audioCtx.currentTime+d
+audioCtx.currentTime+duration
 );
 
-o.connect(g);
-g.connect(audioCtx.destination);
+osc.connect(gain);
+gain.connect(audioCtx.destination);
 
-o.start();
-o.stop(audioCtx.currentTime+d);
+osc.start();
+osc.stop(audioCtx.currentTime+duration);
 
 }
 
-/* VIBRATE */
+/* =========================
+   VIBRATE
+========================= */
+
 function vibrate(type){
 
 if(!navigator.vibrate)return;
@@ -184,20 +203,22 @@ navigator.vibrate([80,60,80]);
 break;
 
 case"error":
-navigator.vibrate(250);
+navigator.vibrate(220);
 break;
 
 }
 
 }
 
-/* TIME */
+/* =========================
+   TIME
+========================= */
+
 function formatTime(v){
 
 if(!v)return"";
 
-return new Date(v)
-.toLocaleTimeString(
+return new Date(v).toLocaleTimeString(
 "en-GB",
 {
 hour:"2-digit",
