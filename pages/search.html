@@ -1,0 +1,79 @@
+<div class="search-page">
+
+<div class="card">
+<div class="search-box">
+<input id="searchInput" type="search" placeholder="Member ID / Name / Email / Phone" autocomplete="off">
+<button id="searchBtn">🔍</button>
+</div>
+<div id="historyBox" class="history-box"></div>
+</div>
+
+
+<div id="resultCard" class="card hidden">
+
+<div class="member-title">
+<h3 id="cnName">-</h3>
+<p id="enName">-</p>
+</div>
+
+<div class="info-row">
+<span>Church</span>
+<b id="church">-</b>
+</div>
+
+<div class="info-row">
+<span>Member ID</span>
+<div class="id-box">
+<b id="memberID">-</b>
+<button id="copyBtn">📋</button>
+</div>
+</div>
+
+<div class="qr-box">
+<img id="qrImage" alt="QR">
+</div>
+
+<div class="action-grid">
+<button id="pdfBtn">📄 PDF</button>
+<button id="waBtn">💬 WhatsApp</button>
+</div>
+
+</div>
+
+
+<div id="emptyCard" class="card">
+<div class="empty-icon">🔍</div>
+<div class="empty-title">Search Participant</div>
+<div class="empty-text">
+Search by Member ID, Name,<br>Email or Phone Number
+</div>
+</div>
+
+
+</div>
+
+
+<div id="qrModal" class="modal hidden">
+
+<div class="modal-mask"></div>
+
+<div class="modal-content">
+<img id="qrPreview">
+</div>
+
+</div>
+
+
+<div id="pdfModal" class="modal hidden">
+
+<div class="modal-mask"></div>
+
+<div class="modal-content pdf-content">
+
+<button id="closePDF" class="close-btn">✕</button>
+
+<iframe id="pdfFrame" loading="lazy"></iframe>
+
+</div>
+
+</div>
