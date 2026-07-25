@@ -29,7 +29,7 @@ Loading...
 
 try{
 
-const res=await apiGet({action:"getchurchlist"});
+const res=await apiGet("getchurchlist");
 
 if(res.success&&Array.isArray(res.data)&&res.data.length){
 
@@ -100,8 +100,7 @@ setRegisterButton(true);
 
 try{
 
-const res=await apiPost({
-action:"register",
+const res=await apiGet("register",{
 church,
 chineseName,
 englishName,
