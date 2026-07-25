@@ -43,7 +43,7 @@ res.data.forEach(c=>{
 
 select.innerHTML+=`
 <option value="${c.id}">
-${c.name}
+${c.name || c.id}
 </option>
 `;
 
