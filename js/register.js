@@ -21,41 +21,56 @@ async function loadChurchList(){
 const select=document.getElementById("registerChurch");
 if(!select)return;
 
+select.innerHTML=`
+<option value="">
+Loading...
+</option>
+`;
+
 try{
 
 const res=await apiGet({action:"getchurchlist"});
-if(res.success&&res.churches){
 
-select.innerHTML=
-`
+if(res.success&&Array.isArray(res.data)&&res.data.length){
+
+select.innerHTML=`
 <option value="">
 Select Church
 </option>
 `;
 
-res.churches.forEach(c=>{
-select.innerHTML+=
-`
-<option value="${c}">
-${c}
+res.data.forEach(c=>{
+
+select.innerHTML+=`
+<option value="${c.id}">
+${c.name}
 </option>
 `;
+
 });
 
 return;
 
 }
 
-}catch(e){console.log("Church API unavailable");}
+}catch(err){
 
-select.innerHTML=
-`
+console.log("Church API unavailable",err);
+
+}
+
+// fallback
+select.innerHTML=`
 <option value="">
 Select Church
 </option>
 
 <option value="NGA">
-NGA
+Neighbour Grace Assembly
+</option>
+
+<option value="CIC">
+City Impact Church
 </option>
 `;
 
