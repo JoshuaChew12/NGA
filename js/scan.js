@@ -1,71 +1,41 @@
 /* =====================================
- NGA Worship Check-in
- Scan V6 Ultimate Lite
+   NGA Worship Check-in
+   Scan V6 Stable
 ===================================== */
 
 let scanner=null;
-let cameraRunning=false;
-let scanLocked=false;
-
+let scanning=false;
+let scanLock=false;
 
 /* INIT */
-
 async function initScan(){
-
+scanLock=false;
 await startCamera();
-
 }
 
-
-/* CAMERA START */
-
+/* START CAMERA */
 async function startCamera(){
 
-if(cameraRunning)return;
+if(scanning)return;
 
 try{
 
-if(typeof Html5Qrcode==="undefined"){
+showLoading(true);
 
-showResult(
-"❌",
-"Scanner Error",
-"Library Missing"
-);
+const cams=await Html5Qrcode.getCameras();
 
+if(!cams.length){
+showLoading(false);
+showResult("❌","Camera Error","No Camera Found");
 return;
-
 }
-
-
-const cameras=
-await Html5Qrcode.getCameras();
-
-
-if(!cameras.length){
-
-showResult(
-"❌",
-"Camera Error",
-"No Camera Found"
-);
-
-return;
-
-}
-
 
 const cam=
-cameras.find(c=>
-/back|rear|environment/i
-.test(c.label)
-)
-||cameras[0];
+cams.find(c=>
+/back|rear|environment/i.test(c.label)
+)||cams[0];
 
-
-scanner=
-new Html5Qrcode("reader");
-
+scanner=new Html5Qrcode("reader");
 
 await scanner.start(
 
@@ -73,19 +43,13 @@ cam.id,
 
 {
 fps:12,
-
 qrbox:(w,h)=>{
-
-const s=
-Math.min(w,h)*0.7;
-
+const s=Math.min(w,h)*0.72;
 return{
 width:s,
 height:s
 };
-
 }
-
 },
 
 onScanSuccess,
@@ -94,13 +58,14 @@ onScanSuccess,
 
 );
 
-
-cameraRunning=true;
-
+scanning=true;
+showLoading(false);
 
 }catch(e){
 
 console.log(e);
+
+showLoading(false);
 
 showResult(
 "❌",
@@ -112,37 +77,35 @@ showResult(
 
 }
 
+/* STOP CAMERA */
+
+async function stopCamera(){
+
+if(!scanner)return;
+
+try{
+
+await scanner.stop();
+await scanner.clear();
+
+}catch(e){}
+
+scanner=null;
+scanning=false;
+
+}
 
 /* QR SUCCESS */
 
 async function onScanSuccess(text){
 
-if(scanLocked)return;
+if(scanLock)return;
 
-scanLocked=true;
-
-
-const id=
-text
-.toString()
-.trim()
-.toUpperCase();
-
-
-if(!id){
-
-scanLocked=false;
-return;
-
-}
-
-
-/*
-马上关闭Camera
-*/
+scanLock=true;
 
 await stopCamera();
 
+const id=text.trim().toUpperCase();
 
 showResult(
 "⏳",
@@ -150,15 +113,11 @@ showResult(
 "Checking participant..."
 );
 
-
 try{
 
-const res=
-await checkInAPI(id);
-
+const res=await checkInAPI(id);
 
 handleResult(res);
-
 
 }catch(e){
 
@@ -173,52 +132,28 @@ vibrate("error");
 
 }
 
-
-/*
-等待结果后恢复
-*/
-
 setTimeout(async()=>{
-
 
 hideResult();
 
+scanLock=false;
 
 await startCamera();
 
-
-scanLocked=false;
-
-
 },3000);
 
-
 }
 
+/* LOADING */
 
-/* CAMERA STOP */
+function showLoading(show){
 
-async function stopCamera(){
+const m=document.getElementById("loadingMask");
 
-try{
-
-if(scanner&&cameraRunning){
-
-await scanner.stop();
-
-await scanner.clear();
+if(m)
+m.classList.toggle("hidden",!show);
 
 }
-
-}catch(e){}
-
-
-scanner=null;
-
-cameraRunning=false;
-
-}
-
 
 /* CLEANUP */
 
