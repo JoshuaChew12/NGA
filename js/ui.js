@@ -1,149 +1,174 @@
+/* =====================================
+   NGA Worship Check-in
+   UI Ultimate V5
+===================================== */
+let resultTimer=null;
+let audioCtx=null;
+
+/* RESULT */
+function handleResult(res){
+
+if(!res){
+showResult("❌","Server Error","No Response");
+playSound("error");
+vibrate("error");
+return;
+}
+
+if(res.success){
+
+showResult(
+"✅",
+"Welcome",
+res.englishName||res.chineseName,
+{
+id:res.memberID,
+church:res.homeChurch,
+location:res.scanLocation,
+time:formatTime(res.time)
+}
+);
+
+playSound("success");
+vibrate("success");
+return;
+
+}
+
+if(res.type==="duplicate"){
+
+showResult(
+"⚠️",
+"Already Checked In",
+res.englishName||res.chineseName,
+{
+id:res.memberID,
+church:res.homeChurch,
+location:res.scanLocation,
+time:formatTime(res.time)
+}
+);
+
+playSound("duplicate");
+vibrate("duplicate");
+return;
+
+}
+
+showResult(
+"❌",
+"Check-in Failed",
+res.message||res.type||"Unknown Error"
+);
+
+playSound("error");
+vibrate("error");
+
+}
+
+/* POPUP */
 function showResult(icon,title,msg,data={}){
 
-const box=document.getElementById("scanResult");
+const box=$("#scanResult");
 if(!box)return;
 
 resultIcon.innerHTML=icon;
 resultTitle.innerHTML=title;
 resultMessage.innerHTML=msg;
+
 resultID.innerHTML=data.id||"";
 resultChurch.innerHTML=data.church||"";
 resultLocation.innerHTML=data.location||"";
 resultTime.innerHTML=data.time||"";
+
 box.className="scan-result";
+
 if(title==="Welcome")
 box.classList.add("success");
 else if(title==="Already Checked In")
 box.classList.add("warning");
 else
 box.classList.add("error");
+
 box.classList.remove("hidden");
 
 clearTimeout(resultTimer);
-resultTimer=setTimeout(()=>{hideResult();},3000);
+
+resultTimer=setTimeout(hideResult,3000);
 
 }
 
-/* HIDE RESULT */
 function hideResult(){
 
-const box=document.getElementById("scanResult");
-if(box)box.classList.add("hidden");
+$("#scanResult")?.classList.add("hidden");
 
 }
 
-/* LOADING */
-function showLoading(show){
-
-const el=document.getElementById("loadingMask");
-if(el)el.classList.toggle("hidden",!show);
-
-}
-
-/* =====================================
-   SOUND ENGINE V2 ULTIMATE
-===================================== */
-let audioCtx=null;
-
+/* SOUND */
 function initAudio(){
 
-if(audioCtx)return;
-audioCtx=new(window.AudioContext||window.webkitAudioContext)();
-document.removeEventListener("pointerdown",initAudio);
+if(!audioCtx)
+audioCtx=new(
+window.AudioContext||
+window.webkitAudioContext
+)();
 
-}
-
-document.addEventListener("pointerdown",initAudio,{once:true});
-
-function tone(
-freq,
-dur,
-type="triangle",
-vol=.28
-){
-
-if(!audioCtx)return;
 if(audioCtx.state==="suspended")
 audioCtx.resume();
 
-const osc=audioCtx.createOscillator();
-const gain=audioCtx.createGain();
-
-osc.type=type;
-osc.frequency.value=freq;
-
-gain.gain.setValueAtTime(0,audioCtx.currentTime);
-gain.gain.linearRampToValueAtTime(vol,audioCtx.currentTime+.01);
-
-gain.gain.exponentialRampToValueAtTime(
-0.0001,
-audioCtx.currentTime+dur
-);
-
-osc.connect(gain);
-gain.connect(audioCtx.destination);
-
-osc.start();
-osc.stop(audioCtx.currentTime+dur);
-
 }
 
-/* =====================================
-   WELCOME
-===================================== */
-function welcomeSound(){
-
-tone(880,.07);
-setTimeout(()=>{tone(1175,.07);},70);
-setTimeout(()=>{tone(1568,.16,"sine",.24);},150);
-
-}
-
-/* =====================================
-   DUPLICATE
-===================================== */
-function duplicateSound(){
-
-tone(560,.12);
-setTimeout(()=>{tone(430,.18);},120);
-
-}
-
-/* =====================================
-   ERROR
-===================================== */
-function errorSound(){
-
-tone(280,.15,"sawtooth",.22);
-setTimeout(()=>{tone(180,.25,"sawtooth",.20);},150);
-
-}
-
-/* =====================================
-   PLAYER
-===================================== */
 function playSound(type){
+
+initAudio();
 
 switch(type){
 
 case"success":
-welcomeSound();
+tone(880,.10);
+setTimeout(()=>tone(1175,.12),120);
 break;
 
 case"duplicate":
-duplicateSound();
+tone(600,.16);
+setTimeout(()=>tone(470,.18),180);
 break;
 
-default:
-errorSound();
+case"error":
+tone(250,.28);
+break;
 
 }
 
 }
 
-/* =====================================
-   VIBRATE
-===================================== */
+function tone(f,d){
+
+const o=audioCtx.createOscillator();
+const g=audioCtx.createGain();
+
+o.type="triangle";
+o.frequency.value=f;
+
+g.gain.setValueAtTime(
+0.22,
+audioCtx.currentTime
+);
+
+g.gain.exponentialRampToValueAtTime(
+0.001,
+audioCtx.currentTime+d
+);
+
+o.connect(g);
+g.connect(audioCtx.destination);
+
+o.start();
+o.stop(audioCtx.currentTime+d);
+
+}
+
+/* VIBRATE */
 function vibrate(type){
 
 if(!navigator.vibrate)return;
@@ -151,27 +176,33 @@ if(!navigator.vibrate)return;
 switch(type){
 
 case"success":
-navigator.vibrate(70);
+navigator.vibrate(80);
 break;
 
 case"duplicate":
 navigator.vibrate([80,60,80]);
 break;
 
-default:
+case"error":
 navigator.vibrate(250);
+break;
 
 }
 
 }
 
-/* FORMAT TIME */
+/* TIME */
 function formatTime(v){
 
-if(!v)return "";
+if(!v)return"";
 
-return new Date(v).toLocaleTimeString("en-GB",
-{hour:"2-digit",minute:"2-digit"}
+return new Date(v)
+.toLocaleTimeString(
+"en-GB",
+{
+hour:"2-digit",
+minute:"2-digit"
+}
 );
 
 }
