@@ -1,22 +1,24 @@
 /* =====================================
  NGA Worship Check-in
- Scan V5.2 Ultimate
+ Scan V6 Ultimate Lite
 ===================================== */
+
 let scanner=null;
 let cameraRunning=false;
 let scanLocked=false;
-let resultTimer=null;
+
 
 /* INIT */
+
 async function initScan(){
 
-initAudio();
-showLoading(true);
 await startCamera();
 
 }
 
+
 /* CAMERA START */
+
 async function startCamera(){
 
 if(cameraRunning)return;
@@ -24,30 +26,64 @@ if(cameraRunning)return;
 try{
 
 if(typeof Html5Qrcode==="undefined"){
-showResult("❌","Scanner Error","Library Missing");
+
+showResult(
+"❌",
+"Scanner Error",
+"Library Missing"
+);
+
 return;
+
 }
 
-const cameras=await Html5Qrcode.getCameras();
+
+const cameras=
+await Html5Qrcode.getCameras();
+
+
 if(!cameras.length){
-showResult("❌","Camera Error","No Camera Found");
+
+showResult(
+"❌",
+"Camera Error",
+"No Camera Found"
+);
+
 return;
+
 }
 
-let cam=cameras.find(c=>
-/back|rear|environment/i.test(c.label)
-)||cameras[0];
 
-scanner=new Html5Qrcode("reader");
+const cam=
+cameras.find(c=>
+/back|rear|environment/i
+.test(c.label)
+)
+||cameras[0];
+
+
+scanner=
+new Html5Qrcode("reader");
+
+
 await scanner.start(
+
 cam.id,
 
 {
 fps:12,
 
 qrbox:(w,h)=>{
-let s=Math.min(w,h)*0.7;
-return{width:s,height:s};
+
+const s=
+Math.min(w,h)*0.7;
+
+return{
+width:s,
+height:s
+};
+
 }
 
 },
@@ -58,313 +94,134 @@ onScanSuccess,
 
 );
 
+
 cameraRunning=true;
-showLoading(false);
+
 
 }catch(e){
 
 console.log(e);
-showResult("❌","Camera Error","Unable to open camera");
+
+showResult(
+"❌",
+"Camera Error",
+"Unable to open camera"
+);
 
 }
 
 }
 
-/* CAMERA STOP */
-async function stopCamera(){
-
-try{
-
-if(scanner&&cameraRunning){
-await scanner.stop();
-await scanner.clear();
-}
-
-}catch(e){}
-
-scanner=null;
-cameraRunning=false;
-
-}
 
 /* QR SUCCESS */
+
 async function onScanSuccess(text){
 
 if(scanLocked)return;
+
 scanLocked=true;
 
-const id=text.toString().trim().toUpperCase();
-if(!id){scanLocked=false;return;}
 
-/*
-立即停止 camera
-*/
-await stopCamera();
+const id=
+text
+.toString()
+.trim()
+.toUpperCase();
 
-showResult("⏳","Processing","Checking participant...");
 
-try{
+if(!id){
 
-const res=await checkInAPI(id);
-handleResult(res);
-
-}catch(e){
-
-showResult("❌","Network Error","Unable to connect server");
+scanLocked=false;
+return;
 
 }
 
+
+/*
+马上关闭Camera
+*/
+
+await stopCamera();
+
+
+showResult(
+"⏳",
+"Processing",
+"Checking participant..."
+);
+
+
+try{
+
+const res=
+await checkInAPI(id);
+
+
+handleResult(res);
+
+
+}catch(e){
+
+showResult(
+"❌",
+"Network Error",
+"Unable to connect server"
+);
+
+playSound("error");
+vibrate("error");
+
+}
+
+
+/*
+等待结果后恢复
+*/
+
 setTimeout(async()=>{
 
+
 hideResult();
+
+
 await startCamera();
+
+
 scanLocked=false;
+
 
 },3000);
 
 
 }
 
-/* RESULT HANDLER */
-function handleResult(res){
 
-if(!res){
+/* CAMERA STOP */
 
-showResult("❌","Server Error","No Response");
-playSound("error");
-vibrate("error");
-return;
+async function stopCamera(){
 
-}
+try{
 
-// SUCCESS
-if(res.success){
+if(scanner&&cameraRunning){
 
-showResult("✅","Welcome",
-res.englishName||res.chineseName,
-{
-id:res.memberID,
-church:res.homeChurch,
-location:res.scanLocation,
-time:formatTime(res.time)
-}
-);
+await scanner.stop();
 
-playSound("success");
-vibrate("success");
-return;
+await scanner.clear();
 
 }
 
-// DUPLICATE
-if(res.type==="duplicate"){
+}catch(e){}
 
-showResult("⚠️","Already Checked In",
-res.englishName||res.chineseName,
-{
-id:res.memberID,
-church:res.homeChurch,
-time:formatTime(res.time)
-}
-);
 
-playSound("duplicate");
-vibrate("duplicate");
-return;
+scanner=null;
+
+cameraRunning=false;
 
 }
 
-// OTHER ERROR
-showResult("❌","Check-in Failed",
-res.message||res.type||"Unknown Error"
-);
-
-playSound("error");
-vibrate("error");
-
-}
-
-
-/* RESULT UI */
-function showResult(icon,title,msg,data={}){
-
-const box=document.getElementById("scanResult");
-if(!box)return;
-
-resultIcon.innerHTML=icon;
-resultTitle.innerHTML=title;
-resultMessage.innerHTML=msg;
-resultID.innerHTML=data.id||"";
-resultChurch.innerHTML=data.church||"";
-resultLocation.innerHTML=data.location||"";
-resultTime.innerHTML=data.time||"";
-box.className="scan-result";
-if(title==="Welcome")
-box.classList.add("success");
-else if(title==="Already Checked In")
-box.classList.add("warning");
-else
-box.classList.add("error");
-box.classList.remove("hidden");
-
-clearTimeout(resultTimer);
-resultTimer=setTimeout(()=>{hideResult();},3000);
-
-}
-
-/* HIDE RESULT */
-function hideResult(){
-
-const box=document.getElementById("scanResult");
-if(box)box.classList.add("hidden");
-
-}
-
-/* LOADING */
-function showLoading(show){
-
-const el=document.getElementById("loadingMask");
-if(el)el.classList.toggle("hidden",!show);
-
-}
-
-/* =====================================
-   SOUND ENGINE V2 ULTIMATE
-===================================== */
-let audioCtx=null;
-
-function initAudio(){
-
-if(audioCtx)return;
-audioCtx=new(window.AudioContext||window.webkitAudioContext)();
-document.removeEventListener("pointerdown",initAudio);
-
-}
-
-document.addEventListener("pointerdown",initAudio,{once:true});
-
-function tone(
-freq,
-dur,
-type="triangle",
-vol=.28
-){
-
-if(!audioCtx)return;
-if(audioCtx.state==="suspended")
-audioCtx.resume();
-
-const osc=audioCtx.createOscillator();
-const gain=audioCtx.createGain();
-
-osc.type=type;
-osc.frequency.value=freq;
-
-gain.gain.setValueAtTime(0,audioCtx.currentTime);
-gain.gain.linearRampToValueAtTime(vol,audioCtx.currentTime+.01);
-
-gain.gain.exponentialRampToValueAtTime(
-0.0001,
-audioCtx.currentTime+dur
-);
-
-osc.connect(gain);
-gain.connect(audioCtx.destination);
-
-osc.start();
-osc.stop(audioCtx.currentTime+dur);
-
-}
-
-/* =====================================
-   WELCOME
-===================================== */
-function welcomeSound(){
-
-tone(880,.07);
-setTimeout(()=>{tone(1175,.07);},70);
-setTimeout(()=>{tone(1568,.16,"sine",.24);},150);
-
-}
-
-/* =====================================
-   DUPLICATE
-===================================== */
-function duplicateSound(){
-
-tone(560,.12);
-setTimeout(()=>{tone(430,.18);},120);
-
-}
-
-/* =====================================
-   ERROR
-===================================== */
-function errorSound(){
-
-tone(280,.15,"sawtooth",.22);
-setTimeout(()=>{tone(180,.25,"sawtooth",.20);},150);
-
-}
-
-/* =====================================
-   PLAYER
-===================================== */
-function playSound(type){
-
-switch(type){
-
-case"success":
-welcomeSound();
-break;
-
-case"duplicate":
-duplicateSound();
-break;
-
-default:
-errorSound();
-
-}
-
-}
-
-/* =====================================
-   VIBRATE
-===================================== */
-function vibrate(type){
-
-if(!navigator.vibrate)return;
-
-switch(type){
-
-case"success":
-navigator.vibrate(70);
-break;
-
-case"duplicate":
-navigator.vibrate([80,60,80]);
-break;
-
-default:
-navigator.vibrate(250);
-
-}
-
-}
-
-/* FORMAT TIME */
-function formatTime(v){
-
-if(!v)return "";
-
-return new Date(v).toLocaleTimeString("en-GB",
-{hour:"2-digit",minute:"2-digit"}
-);
-
-}
 
 /* CLEANUP */
+
 async function cleanupScan(){
 
 await stopCamera();
