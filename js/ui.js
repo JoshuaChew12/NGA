@@ -22,7 +22,7 @@ if(res.success){
 showResult(
 "✅",
 "Welcome",
-res.englishName||res.chineseName,
+memberName(res),
 {
 id:res.memberID,
 church:res.homeChurch,
@@ -42,7 +42,7 @@ if(res.type==="duplicate"){
 showResult(
 "⚠️",
 "Already Checked In",
-res.englishName||res.chineseName,
+memberName(res),
 {
 id:res.memberID,
 church:res.homeChurch,
@@ -210,4 +210,14 @@ break;
 ========================= */
 function formatTime(v){
 return v ? String(v).slice(0,16) : "";
+}
+
+function memberName(res){
+
+const cn=(res.chineseName||"").trim();
+const en=(res.englishName||"").trim();
+if(cn&&en)
+return ${cn} ${en};
+return cn||en||"";
+
 }
