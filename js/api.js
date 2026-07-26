@@ -16,55 +16,38 @@ return await res.json();
 
 // LOGIN
 function loginAPI(username,password){
-
 return apiGet("login",{username,password});
-
 }
 
 // VERIFY SESSION
 function verifySession(){
-
-return apiGet("verifysession",{
-token:localStorage.token||""
-});
-
+return apiGet("verifysession",{token:localStorage.token||""});
 }
 
 // DASHBOARD
 function getDashboard(){
-
 return apiGet("dashboard");
+}
 
+function getRecentCheckin(){
+return apiGet("recentcheckin");
 }
 
 // CHECK IN
 function checkInAPI(id){
-
-return apiGet("checkin",{
-id,
-token:localStorage.token||""
-});
-
+return apiGet("checkin",{id,token:localStorage.token||""});
 }
 
 // SEARCH
 function searchAPI(keyword){
-
-return apiGet("searchparticipant",{
-keyword
-});
-
+return apiGet("searchparticipant",{keyword});
 }
 
 function getChurchListAPI(){
-
 return apiGet("getchurchlist");
-
 }
 
 // REGISTER
 function registerAPI(data){
-
 return apiGet("register",data);
-
 }
