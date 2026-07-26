@@ -8,7 +8,8 @@ async function initHome(){
 startClock();
 await loadDashboard();
 await loadRecentCheckin();
-logoutBtn.onclick=logout;
+const btn=$("logoutBtn");
+if(btn) btn.onclick=logout;
 
 }
 
@@ -24,16 +25,16 @@ const run=()=>{
 const now=new Date();
 const h=now.getHours();
 
-greeting.innerHTML=
+$("greeting").innerHTML=
 h<12?"Good Morning":
 h<17?"Good Afternoon":
 h<20?"Good Evening":
 "Good Night";
 
-clock.innerHTML=
+$("clock").innerHTML=
 now.toLocaleTimeString("en-GB");
 
-todayDate.innerHTML=
+$("todayDate").innerHTML=
 now.toLocaleDateString("en-GB",{
 weekday:"long",
 day:"2-digit",
@@ -54,15 +55,15 @@ window.homeClock=setInterval(run,1000);
 // =====================================
 async function loadDashboard(){
 
-dashboard.innerHTML='<div class="loading">Loading...</div>';
+$("dashboard").innerHTML='<div class="loading">Loading...</div>';
 
 try{
 
 const res=await getDashboard();
 
 if(!res.success){
-dashboard.innerHTML="No data";
-checkCount.innerHTML=0;
+$("dashboard").innerHTML="No data";
+$("checkCount").innerHTML=0;
 return;
 }
 
@@ -75,7 +76,7 @@ map[r[0]]=Number(r[1]||0);
 const nga=map.NGA||0;
 const cic=map.CIC||0;
 
-dashboard.innerHTML=`
+$("dashboard").innerHTML=`
 <div class="dashboard-grid">
 
 <div class="dashboard-item">
@@ -91,12 +92,12 @@ dashboard.innerHTML=`
 </div>
 `;
 
-checkCount.innerHTML=nga+cic;
+$("checkCount").innerHTML=nga+cic;
 
 }catch(e){
 
-dashboard.innerHTML="Load failed";
-checkCount.innerHTML=0;
+$("dashboard").innerHTML="Load failed";
+$("checkCount").innerHTML=0;
 console.log(e);
 
 }
@@ -105,25 +106,25 @@ console.log(e);
 
 async function loadRecentCheckin(){
 
-recentCheckin.innerHTML='<div class="loading">Loading...</div>';
+$("recentCheckin").innerHTML='<div class="loading">Loading...</div>';
 
 try{
 
 const res=await getRecentCheckin();
 
 if(!res.success){
-recentCheckin.innerHTML="No data";
+$("recentCheckin").innerHTML="No data";
 return;
 }
 
 const rows=res.rows||[];
 
 if(!rows.length){
-recentCheckin.innerHTML="No attendance";
+$("recentCheckin").innerHTML="No attendance";
 return;
 }
 
-recentCheckin.innerHTML=rows.map(r=>`
+$("recentCheckin").innerHTML=rows.map(r=>`
 
 <div class="recent-row">
 
@@ -144,7 +145,7 @@ ${r.time}
 
 }catch(e){
 
-recentCheckin.innerHTML="Load failed";
+$("recentCheckin").innerHTML="Load failed";
 
 }
 
