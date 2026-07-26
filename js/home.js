@@ -1,4 +1,4 @@
-let homeClock=null;
+window.homeClock=null;
 
 // =====================================
 // INIT
@@ -6,9 +6,8 @@ let homeClock=null;
 async function initHome(){
 
 startClock();
-
 await loadDashboard();
-
+await loadRecentCheckin();
 logoutBtn.onclick=logout;
 
 }
@@ -18,7 +17,7 @@ logoutBtn.onclick=logout;
 // =====================================
 function startClock(){
 
-clearInterval(homeClock);
+clearInterval(window.homeClock);
 
 const run=()=>{
 
@@ -28,9 +27,7 @@ clock.innerHTML=
 now.toLocaleTimeString("en-GB");
 
 todayDay.innerHTML=
-now.toLocaleDateString("en-GB",{
-weekday:"long"
-});
+now.toLocaleDateString("en-GB",{weekday:"long"});
 
 todayDate.innerHTML=
 now.toLocaleDateString("en-GB",{
@@ -43,7 +40,7 @@ year:"numeric"
 
 run();
 
-homeClock=setInterval(run,1000);
+window.homeClock=setInterval(run,1000);
 
 }
 
@@ -52,7 +49,7 @@ homeClock=setInterval(run,1000);
 // =====================================
 async function loadDashboard(){
 
-dashboard.innerHTML="Loading...";
+dashboard.innerHTML='<div class="loading">Loading...</div>';
 
 try{
 
@@ -60,43 +57,89 @@ const res=await getDashboard();
 
 if(!res.success){
 dashboard.innerHTML="No data";
-return;
-}
-
-const rows=res.dashboard||[];
-
-if(rows.length<=1){
-dashboard.innerHTML="No attendance";
 checkCount.innerHTML=0;
 return;
 }
 
-let total=0;
-let html="";
+const map={};
 
-for(let i=1;i<rows.length;i++){
+(res.dashboard||[]).slice(1).forEach(r=>{
+map[r[0]]=Number(r[1]||0);
+});
 
-const location=rows[i][0]||"-";
-const count=Number(rows[i][1]||0);
+const nga=map.NGA||0;
+const cic=map.CIC||0;
 
-total+=count;
+dashboard.innerHTML=`
+<div class="dashboard-grid">
 
-html+=`
-<div class="dash-row">
-<div>${location}</div>
-<b>${count}</b>
+<div class="dashboard-item">
+<div class="dashboard-location">NGA</div>
+<div class="dashboard-number">${nga}</div>
+</div>
+
+<div class="dashboard-item">
+<div class="dashboard-location">CIC</div>
+<div class="dashboard-number">${cic}</div>
+</div>
+
 </div>
 `;
 
-}
+checkCount.innerHTML=nga+cic;
 
-dashboard.innerHTML=html;
-checkCount.innerHTML=total;
-
-}catch(err){
+}catch(e){
 
 dashboard.innerHTML="Load failed";
-console.log(err);
+checkCount.innerHTML=0;
+console.log(e);
+
+}
+
+}
+
+async function loadRecentCheckin(){
+
+recentCheckin.innerHTML='<div class="loading">Loading...</div>';
+
+try{
+
+const res=await getRecentCheckin();
+
+if(!res.success){
+recentCheckin.innerHTML="No data";
+return;
+}
+
+const rows=res.rows||[];
+
+if(!rows.length){
+recentCheckin.innerHTML="No attendance";
+return;
+}
+
+recentCheckin.innerHTML=rows.map(r=>`
+
+<div class="recent-row">
+
+<div class="recent-id">${r.id}</div>
+
+<div class="recent-name">
+${r.cn}<br>
+<small>${r.en}</small>
+</div>
+
+<div class="recent-time">
+${r.time}
+</div>
+
+</div>
+
+`).join("");
+
+}catch(e){
+
+recentCheckin.innerHTML="Load failed";
 
 }
 
@@ -109,7 +152,7 @@ function logout(){
 
 if(!confirm("Logout?"))return;
 
-clearInterval(homeClock);
+clearInterval(window.homeClock);
 
 localStorage.removeItem("token");
 localStorage.removeItem("user");
@@ -123,6 +166,6 @@ location.reload();
 // =====================================
 function cleanupHome(){
 
-clearInterval(homeClock);
+clearInterval(window.homeClock);
 
 }
