@@ -41,10 +41,17 @@ function loadScript(page){
 
 return new Promise(resolve=>{
 
-document.getElementById("page-script")?.remove();
+const old=document.getElementById("page-script");
+if(old){
+const oldPage=old.dataset.page;
+if(oldPage===page){resolve();return;}
+old.remove();
+}
+
 const s=document.createElement("script");
 
 s.id="page-script";
+s.dataset.page=page;
 s.src="js/"+page+".js";
 s.onload=resolve;
 s.onerror=resolve;
