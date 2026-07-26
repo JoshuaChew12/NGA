@@ -2,14 +2,12 @@
    NGA Worship Check-in
    UI V6 Stable
 ===================================== */
-
 let resultTimer = null;
 let audioCtx = null;
 
 /* =========================
    RESULT
 ========================= */
-
 function handleResult(res){
 
 if(!res){
@@ -73,7 +71,6 @@ vibrate("error");
 /* =========================
    POPUP
 ========================= */
-
 function showResult(icon,title,msg,data={}){
 
 const box=document.getElementById("scanResult");
@@ -117,7 +114,6 @@ box.classList.add("hidden");
 /* =========================
    SOUND
 ========================= */
-
 function initAudio(){
 
 if(!audioCtx){
@@ -187,7 +183,6 @@ osc.stop(audioCtx.currentTime+duration);
 /* =========================
    VIBRATE
 ========================= */
-
 function vibrate(type){
 
 if(!navigator.vibrate)return;
@@ -213,17 +208,6 @@ break;
 /* =========================
    TIME
 ========================= */
-
 function formatTime(v){
-
-if(!v)return"";
-
-return new Date(v).toLocaleTimeString(
-"en-GB",
-{
-hour:"2-digit",
-minute:"2-digit"
-}
-);
-
+return v ? String(v).slice(0,16) : "";
 }
