@@ -385,7 +385,7 @@ filter:blur(20px);
 
 .clock{
 position:relative;
-font-size:48px;
+font-size:38px;
 font-weight:900;
 letter-spacing:1px;
 line-height:1.1;
@@ -401,7 +401,7 @@ font-weight:800;
 .clock-date{
 position:relative;
 margin-top:6px;
-font-size:15px;
+font-size:18px;
 font-weight:600;
 opacity:.9;
 }
@@ -411,6 +411,7 @@ DASHBOARD
 ===================================================== */
 .dashboard-title{
 margin:24px 4px 14px;
+text-align:center;
 font-size:20px;
 font-weight:800;
 color:#0f172a;
@@ -437,18 +438,25 @@ inset
 transform:translateY(-2px);
 }
 
+.dashboard-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:18px;
+}
+
+.dashboard-item{
+text-align:center;
+}
+
 .dashboard-location{
-font-size:15px;
+font-size:18px;
 font-weight:700;
-color:#475569;
 }
 
 .dashboard-number{
-margin-top:10px;
-font-size:38px;
+margin-top:8px;
+font-size:42px;
 font-weight:900;
-color:#0f766e;
-line-height:1;
 }
 
 .dashboard-label{
