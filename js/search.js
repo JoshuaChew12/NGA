@@ -1,13 +1,13 @@
-let searchTimer=null;
-let searchData=null;
+window.searchTimer=null;
+window.searchData=null;
 
 const SEARCH_CACHE="search_cache_v6";
 
 function initSearch(){
 
 searchInput.oninput=()=>{
-clearTimeout(searchTimer);
-searchTimer=setTimeout(()=>{
+clearTimeout(window.searchTimer);
+window.searchTimer=setTimeout(()=>{
 runSearch(searchInput.value);
 },300);
 };
@@ -41,75 +41,52 @@ renderHistory();
 
 }
 
-
 async function runSearch(keyword){
 
 keyword=keyword.trim();
-
 if(!keyword)return;
 
 const cache=getCache();
-
 if(cache[keyword]){
 showResult(cache[keyword]);
 return;
 }
 
-
 emptyCard.classList.add("hidden");
 resultCard.classList.add("hidden");
-
 showLoading(true);
-
 
 try{
 
 const res=await searchAPI(keyword);
-
 if(!res.success){
-
 showEmpty();
 return;
-
 }
 
-searchData=res;
-
+window.searchData=res;
 saveCache(keyword,res);
-
 showResult(res);
 
-
-}catch(e){
-
-showEmpty();
-
-}
+}catch(e){showEmpty();}
 
 showLoading(false);
 
 }
 
-
 function showResult(d){
 
-searchData=d;
-
+window.searchData=d;
 cnName.textContent=d.chineseName||"-";
 enName.textContent=d.englishName||"-";
 church.textContent=d.church||"-";
 memberID.textContent=d.id||"-";
-
 qrImage.src=d.qr||"";
-
 resultCard.classList.remove("hidden");
 emptyCard.classList.add("hidden");
-
 addHistory(d.id||"");
 
-
 }
-
 
 function showEmpty(){
 
@@ -118,131 +95,90 @@ emptyCard.classList.remove("hidden");
 
 }
 
-
 function copyMemberID(){
 
-if(!searchData)return;
-
-navigator.clipboard.writeText(searchData.id||"");
-
+if(!window.searchData)return;
+navigator.clipboard.writeText(window.searchData.id||"");
 if(typeof toast==="function")
 toast("Copied");
 
 }
 
-
 function showPDF(){
 
-if(!searchData?.pdf)return;
-
-pdfFrame.src=searchData.pdf;
-
+if(!window.searchData?.pdf)return;
+pdfFrame.src=window.searchData.pdf;
 pdfModal.classList.remove("hidden");
 
 }
 
-
 function hidePDF(){
 
 pdfModal.classList.add("hidden");
-
 pdfFrame.src="";
 
 }
 
-
 function openWA(){
 
-if(searchData?.wa)
-window.open(searchData.wa,"_blank");
+if(window.searchData?.wa)
+window.open(window.searchData.wa,"_blank");
 
 }
-
 
 function getCache(){
 
 try{
 
-return JSON.parse(
-localStorage.getItem(SEARCH_CACHE)||"{}"
-);
+return JSON.parse(localStorage.getItem(SEARCH_CACHE)||"{}");
 
-}catch(e){
-
-return {};
+}catch(e){return {};}
 
 }
-
-}
-
 
 function saveCache(key,value){
 
 let c=getCache();
-
 c[key]=value;
 
 let keys=Object.keys(c);
-
-if(keys.length>10)
+if(keys.length>3)
 delete c[keys[0]];
-
-
-localStorage.setItem(
-SEARCH_CACHE,
-JSON.stringify(c)
-);
+localStorage.setItem(SEARCH_CACHE,JSON.stringify(c));
 
 }
-
 
 function addHistory(id){
 
 if(!id)return;
 
-let h=JSON.parse(
-localStorage.search_history||"[]"
-);
-
+let h=JSON.parse(localStorage.search_history||"[]");
 h=h.filter(x=>x!==id);
-
 h.unshift(id);
-
-if(h.length>10)
+if(h.length>3)
 h.pop();
 
-
-localStorage.search_history=
-JSON.stringify(h);
-
+localStorage.search_history=JSON.stringify(h);
 renderHistory();
 
 }
 
-
 function renderHistory(){
 
-let h=JSON.parse(
-localStorage.search_history||"[]"
-);
-
+let h=JSON.parse(localStorage.search_history||"[]");
 historyBox.innerHTML=h.map(x=>
 
 `<button class="history-item">${x}</button>`
 
 ).join("");
 
-
 historyBox
 .querySelectorAll("button")
 .forEach(b=>{
-
 b.onclick=()=>runSearch(b.textContent);
-
 });
 
 }
-
 
 function showLoading(v){
 
@@ -250,7 +186,6 @@ if(typeof loading==="function")
 loading(v);
 
 }
-
 
 function cleanupSearch(){
 
@@ -263,6 +198,6 @@ qrImage.onclick=null;
 pdfBtn.onclick=null;
 closePDF.onclick=null;
 
-searchData=null;
+window.searchData=null;
 
 }
