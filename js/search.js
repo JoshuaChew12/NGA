@@ -189,7 +189,7 @@ loading(v);
 
 function cleanupSearch(){
 
-clearTimeout(searchTimer);
+clearTimeout(window.searchTimer);
 
 searchInput.oninput=null;
 searchBtn.onclick=null;
