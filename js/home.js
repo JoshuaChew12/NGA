@@ -22,15 +22,20 @@ clearInterval(window.homeClock);
 const run=()=>{
 
 const now=new Date();
+const h=now.getHours();
+
+greeting.innerHTML=
+h<12?"Good Morning":
+h<17?"Good Afternoon":
+h<20?"Good Evening":
+"Good Night";
 
 clock.innerHTML=
 now.toLocaleTimeString("en-GB");
 
-todayDay.innerHTML=
-now.toLocaleDateString("en-GB",{weekday:"long"});
-
 todayDate.innerHTML=
 now.toLocaleDateString("en-GB",{
+weekday:"long",
 day:"2-digit",
 month:"long",
 year:"numeric"
