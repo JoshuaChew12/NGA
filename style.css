@@ -1136,3 +1136,20 @@ box-shadow:0 10px 22px rgba(15,23,42,.12);
 .result-actions a:active{
 transform:scale(.97);
 }
+
+/* ==========================
+MANUAL
+========================== */
+.manual{
+display:flex;
+justify-content:center;
+}
+
+.manual .card{width:100%;}
+
+.page-title{
+margin-bottom:20px;
+text-align:center;
+font-size:24px;
+font-weight:900;
+}
