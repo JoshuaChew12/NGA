@@ -1,5 +1,10 @@
 window.homeClock=null;
 
+function set(id,v){
+const e=document.getElementById(id);
+if(e)e.innerHTML=v;
+}
+
 // =====================================
 // INIT
 // =====================================
@@ -25,22 +30,25 @@ const run=()=>{
 const now=new Date();
 const h=now.getHours();
 
-$("greeting").innerHTML=
+set("greeting",
 h<12?"☀️ Good Morning":
 h<17?"🌤️ Good Afternoon":
 h<20?"🌙 Good Evening":
-"🌙 Good Night";
+"🌙 Good Night"
+);
 
-$("clock").innerHTML=
-now.toLocaleTimeString("en-GB");
+set("clock",
+now.toLocaleTimeString("en-GB")
+);
 
-$("todayDate").innerHTML=
+set("todayDate",
 now.toLocaleDateString("en-GB",{
 weekday:"long",
 day:"2-digit",
 month:"long",
 year:"numeric"
-});
+})
+);
 
 };
 
@@ -55,15 +63,15 @@ window.homeClock=setInterval(run,1000);
 // =====================================
 async function loadDashboard(){
 
-$("dashboard").innerHTML='<div class="loading">Loading...</div>';
+set("dashboard",'<div class="loading">Loading...</div>');
 
 try{
 
 const res=await getDashboard();
 
 if(!res.success){
-$("dashboard").innerHTML="No data";
-$("checkCount").innerHTML=0;
+set("dashboard","No data");
+set("checkCount",0);
 return;
 }
 
@@ -76,28 +84,27 @@ map[r[0]]=Number(r[1]||0);
 const nga=map.NGA||0;
 const cic=map.CIC||0;
 
-$("dashboard").innerHTML=`
+set("dashboard",
+`
 <div class="dashboard-grid">
-
 <div class="dashboard-item">
 <div class="dashboard-location">NGA</div>
 <div class="dashboard-number">${nga}</div>
 </div>
-
 <div class="dashboard-item">
 <div class="dashboard-location">CIC</div>
 <div class="dashboard-number">${cic}</div>
 </div>
-
 </div>
-`;
+`
+);
 
-$("checkCount").innerHTML=nga+cic;
+set("checkCount",nga+cic);
 
 }catch(e){
 
-$("dashboard").innerHTML="Load failed";
-$("checkCount").innerHTML=0;
+set("dashboard","Load failed");
+set("checkCount",0);
 console.log(e);
 
 }
@@ -106,25 +113,25 @@ console.log(e);
 
 async function loadRecentCheckin(){
 
-$("recentCheckin").innerHTML='<div class="loading">Loading...</div>';
+set("recentCheckin",'<div class="loading">Loading...</div>');
 
 try{
 
 const res=await getRecentCheckin();
 
 if(!res.success){
-$("recentCheckin").innerHTML="No data";
+set("recentCheckin","No data");
 return;
 }
 
 const rows=res.rows||[];
 
 if(!rows.length){
-$("recentCheckin").innerHTML="No attendance";
+set("recentCheckin","No attendance");
 return;
 }
 
-$("recentCheckin").innerHTML=rows.map(r=>`
+set("recentCheckin",rows.map(r=>`
 
 <div class="recent-row">
 
@@ -141,11 +148,12 @@ ${r.time}
 
 </div>
 
-`).join("");
+`).join("")
+);
 
 }catch(e){
 
-$("recentCheckin").innerHTML="Load failed";
+set("recentCheckin","Load failed");
 
 }
 
