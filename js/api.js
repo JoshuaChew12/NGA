@@ -30,7 +30,7 @@ return apiGet("dashboard");
 }
 
 function getRecentCheckin(){
-return apiGet("recentcheckin");
+return apiGet("recentcheckin",{token:localStorage.token||""});
 }
 
 // CHECK IN
