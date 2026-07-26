@@ -142,7 +142,7 @@ let c=getCache();
 c[key]=value;
 
 let keys=Object.keys(c);
-if(keys.length>3)
+if(keys.length>4)
 delete c[keys[0]];
 localStorage.setItem(window.SEARCH_CACHE,JSON.stringify(c));
 
@@ -155,7 +155,7 @@ if(!id)return;
 let h=JSON.parse(localStorage.search_history||"[]");
 h=h.filter(x=>x!==id);
 h.unshift(id);
-if(h.length>3)
+if(h.length>4)
 h.pop();
 
 localStorage.search_history=JSON.stringify(h);
