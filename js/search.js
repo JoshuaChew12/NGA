@@ -1,7 +1,7 @@
 window.searchTimer=null;
 window.searchData=null;
 
-const SEARCH_CACHE="search_cache_v6";
+window.SEARCH_CACHE="search_cache_v6";
 
 function initSearch(){
 
@@ -130,7 +130,7 @@ function getCache(){
 
 try{
 
-return JSON.parse(localStorage.getItem(SEARCH_CACHE)||"{}");
+return JSON.parse(localStorage.getItem(window.SEARCH_CACHE)||"{}");
 
 }catch(e){return {};}
 
@@ -144,7 +144,7 @@ c[key]=value;
 let keys=Object.keys(c);
 if(keys.length>3)
 delete c[keys[0]];
-localStorage.setItem(SEARCH_CACHE,JSON.stringify(c));
+localStorage.setItem(window.SEARCH_CACHE,JSON.stringify(c));
 
 }
 
