@@ -217,7 +217,7 @@ function memberName(res){
 const cn=(res.chineseName||"").trim();
 const en=(res.englishName||"").trim();
 if(cn&&en)
-return ${cn} ${en};
+return `${cn} ${en}`;
 return cn||en||"";
 
 }
