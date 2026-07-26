@@ -2,21 +2,20 @@
    NGA Worship Check-in
    Scan V6 Stable
 ===================================== */
-
-let scanner=null;
-let scanning=false;
-let scanLock=false;
+window.scanner=null;
+window.scanning=false;
+window.scanLock=false;
 
 /* INIT */
 async function initScan(){
-scanLock=false;
+window.scanLock=false;
 await startCamera();
 }
 
 /* START CAMERA */
 async function startCamera(){
 
-if(scanning)return;
+if(window.scanning)return;
 
 try{
 
@@ -35,9 +34,9 @@ cams.find(c=>
 /back|rear|environment/i.test(c.label)
 )||cams[0];
 
-scanner=new Html5Qrcode("reader");
+window.scanner=new Html5Qrcode("reader");
 
-await scanner.start(
+await window.scanner.start(
 
 cam.id,
 
@@ -58,7 +57,7 @@ onScanSuccess,
 
 );
 
-scanning=true;
+window.scanning=true;
 showLoading(false);
 
 }catch(e){
@@ -78,30 +77,28 @@ showResult(
 }
 
 /* STOP CAMERA */
-
 async function stopCamera(){
 
-if(!scanner)return;
+if(!window.scanner)return;
 
 try{
 
-await scanner.stop();
-await scanner.clear();
+await window.scanner.stop();
+await window.scanner.clear();
 
 }catch(e){}
 
-scanner=null;
-scanning=false;
+window.scanner=null;
+window.scanning=false;
 
 }
 
 /* QR SUCCESS */
-
 async function onScanSuccess(text){
 
-if(scanLock)return;
+if(window.scanLock)return;
 
-scanLock=true;
+window.scanLock=true;
 
 await stopCamera();
 
@@ -136,7 +133,7 @@ setTimeout(async()=>{
 
 hideResult();
 
-scanLock=false;
+window.scanLock=false;
 
 await startCamera();
 
@@ -145,7 +142,6 @@ await startCamera();
 }
 
 /* LOADING */
-
 function showLoading(show){
 
 const m=document.getElementById("loadingMask");
@@ -156,7 +152,6 @@ m.classList.toggle("hidden",!show);
 }
 
 /* CLEANUP */
-
 async function cleanupScan(){
 
 await stopCamera();
