@@ -1084,3 +1084,55 @@ height:150px;
 .pdf-content{height:80%;}
 
 }
+
+/* =====================================================
+REGISTER
+===================================================== */
+.register-page{
+display:flex;
+flex-direction:column;
+gap:18px;
+}
+
+.register-card h2{
+margin-bottom:20px;
+text-align:center;
+font-size:24px;
+font-weight:900;
+}
+
+.register-btn{
+margin-top:10px;
+}
+
+.register-result{
+margin-top:18px;
+animation:resultIn .25s ease;
+}
+
+.register-result h3{
+text-align:center;
+margin-bottom:20px;
+font-size:24px;
+font-weight:800;
+color:#16a34a;
+}
+
+.result-actions a{
+flex:1;
+height:50px;
+display:flex;
+align-items:center;
+justify-content:center;
+text-decoration:none;
+border-radius:16px;
+font-size:15px;
+font-weight:700;
+color:#fff;
+background:linear-gradient(135deg,#64748b,#475569);
+box-shadow:0 10px 22px rgba(15,23,42,.12);
+}
+
+.result-actions a:active{
+transform:scale(.97);
+}
