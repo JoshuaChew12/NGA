@@ -346,11 +346,11 @@ gap:15px;
 CLOCK CARD
 ===================================================== */
 .clock-card{
-padding:34px 20px;
+padding:24px 20px;
 border-radius:32px;
 background:
 linear-gradient(135deg,#0f766e,#14b8a6,#22d3ee);
-color:white;
+color:#fff;
 text-align:center;
 box-shadow:
 0 22px 50px
@@ -383,19 +383,20 @@ border-radius:50%;
 filter:blur(20px);
 }
 
+.clock-greeting{
+position:relative;
+font-size:18px;
+font-weight:700;
+opacity:.95;
+margin-bottom:8px;
+}
+
 .clock{
 position:relative;
 font-size:38px;
 font-weight:900;
 letter-spacing:1px;
 line-height:1.1;
-}
-
-.clock-day{
-position:relative;
-margin-top:12px;
-font-size:20px;
-font-weight:800;
 }
 
 .clock-date{
@@ -410,7 +411,7 @@ opacity:.9;
 DASHBOARD
 ===================================================== */
 .dashboard-title{
-margin:24px 4px 14px;
+margin-bottom:18px;
 text-align:center;
 font-size:20px;
 font-weight:800;
