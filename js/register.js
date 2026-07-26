@@ -1,8 +1,7 @@
 /* =====================================
 REGISTER V5
 ===================================== */
-let registerLoading=false;
-
+window.registerLoading=false;
 
 /* =====================================
 INIT
@@ -69,7 +68,7 @@ SUBMIT REGISTER
 ===================================== */
 async function submitRegister(){
 
-if(registerLoading)return;
+if(window.registerLoading)return;
 
 const church=registerChurch.value.trim();
 const chineseName=registerCN.value.trim();
@@ -83,7 +82,7 @@ showRegisterMessage("Please fill required fields");
 return;
 }
 
-registerLoading=true;
+window.registerLoading=true;
 setRegisterButton(true);
 
 try{
@@ -112,7 +111,7 @@ showRegisterMessage("Server Error");
 
 }finally{
 
-registerLoading=false;
+window.registerLoading=false;
 setRegisterButton(false);
 
 }
