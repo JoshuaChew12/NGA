@@ -1,10 +1,5 @@
 window.homeClock=null;
 
-function set(id,v){
-const e=document.getElementById(id);
-if(e)e.innerHTML=v;
-}
-
 // =====================================
 // INIT
 // =====================================
@@ -71,7 +66,6 @@ const res=await getDashboard();
 
 if(!res.success){
 set("dashboard","No data");
-set("checkCount",0);
 return;
 }
 
@@ -99,12 +93,9 @@ set("dashboard",
 `
 );
 
-set("checkCount",nga+cic);
-
 }catch(e){
 
 set("dashboard","Load failed");
-set("checkCount",0);
 console.log(e);
 
 }
