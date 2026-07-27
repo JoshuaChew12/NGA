@@ -23,41 +23,7 @@ content="width=device-width,initial-scale=1,viewport-fit=cover">
 <script src="js/login.js"></script>
 
 <script>
-
-async function loadLogin(){
-
-const res=await fetch("pages/login.html");
-loginContainer.innerHTML=await res.text();
-if(typeof initLogin==="function")
-initLogin();
-
-}
-
-async function checkSession(){
-
-const token=localStorage.token;
-if(!token){loadLogin();return;}
-
-try{
-
-const res=await verifySession();
-if(res.success){
-localStorage.user=JSON.stringify(res);
-location.href="app.html";
-}else{
-localStorage.clear();
-loadLogin();
-}
-
-}catch(e){
-localStorage.clear();
-loadLogin();
-}
-
-}
-
 document.addEventListener("DOMContentLoaded",checkSession);
-
 </script>
 
 </body>
