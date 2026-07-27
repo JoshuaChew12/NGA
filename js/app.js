@@ -1,10 +1,14 @@
 window.$=id=>document.getElementById(id);
-window.getUser=()=>{
 
+window.set=function(id,v){
+const e=$(id);
+if(e)e.innerHTML=v;
+};
+
+window.getUser=()=>{
 try{
 return JSON.parse(localStorage.user||"{}");
 }catch(e){return {};}
-
 };
 
 let currentPage=null;
@@ -22,7 +26,7 @@ if(typeof fn==="function")await fn();
 
 // html
 const res=await fetch("pages/"+page+".html");
-pageContainer.innerHTML=await res.text();
+$("pageContainer").innerHTML=await res.text();
 
 // js
 await loadScript(page);
