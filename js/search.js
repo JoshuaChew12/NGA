@@ -198,12 +198,7 @@ loading(v);
 function cleanupSearch(){
 
 clearTimeout(window.searchTimer);
-$("searchInput").oninput=null;
-$("searchBtn").onclick=null;
-$("copyBtn").onclick=null;
-$("qrImage").onclick=null;
-$("pdfBtn").onclick=null;
-$("closePDF").onclick=null;
-window.searchData=null;
+window.searchTimer = null;
+window.searchData = null;
 
 }
