@@ -5,36 +5,38 @@ window.SEARCH_CACHE="search_cache_v6";
 
 function initSearch(){
 
-searchInput.oninput=()=>{
+$("searchInput").oninput=()=>{
 clearTimeout(window.searchTimer);
 window.searchTimer=setTimeout(()=>{
-runSearch(searchInput.value);
+runSearch($("searchInput").value);
 },300);
+
 };
 
-searchBtn.onclick=()=>{
-runSearch(searchInput.value);
+$("searchBtn").onclick=()=>{
+runSearch($("searchInput").value);
+};
+$("copyBtn").onclick=copyMemberID;
+
+$("qrImage").onclick=()=>{
+const img=$("qrImage");
+const preview=$("qrPreview");
+const modal=$("qrModal");
+if(preview&&img)preview.src=img.src;
+if(modal)modal.classList.remove("hidden");
 };
 
-copyBtn.onclick=copyMemberID;
-
-qrImage.onclick=()=>{
-qrPreview.src=qrImage.src;
-qrModal.classList.remove("hidden");
+$("qrModal").onclick=()=>{
+$("qrModal")?.classList.add("hidden");
 };
 
-qrModal.onclick=()=>{
-qrModal.classList.add("hidden");
-};
+$("waBtn").onclick=openWA;
+$("pdfBtn").onclick=showPDF;
+$("closePDF").onclick=hidePDF;
+$("pdfModal").onclick=e=>{
 
-waBtn.onclick=openWA;  
-pdfBtn.onclick=showPDF;
+if(e.target.classList.contains("modal-mask"))hidePDF();
 
-closePDF.onclick=hidePDF;
-
-pdfModal.onclick=e=>{
-if(e.target.classList.contains("modal-mask"))
-hidePDF();
 };
 
 renderHistory();
@@ -48,12 +50,12 @@ if(!keyword)return;
 
 const cache=getCache();
 if(cache[keyword]){
-showResult(cache[keyword]);
+showSearchResult(cache[keyword]);
 return;
 }
 
-emptyCard.classList.add("hidden");
-resultCard.classList.add("hidden");
+$("emptyCard")?.classList.add("hidden");
+$("resultCard")?.classList.add("hidden");
 showLoading(true);
 
 try{
@@ -66,7 +68,7 @@ return;
 
 window.searchData=res;
 saveCache(keyword,res);
-showResult(res);
+showSearchResult(res);
 
 }catch(e){showEmpty();}
 
@@ -74,24 +76,26 @@ showLoading(false);
 
 }
 
-function showResult(d){
+function showSearchResult(d){
 
 window.searchData=d;
-cnName.textContent=d.chineseName||"-";
-enName.textContent=d.englishName||"-";
-church.textContent=d.church||"-";
-memberID.textContent=d.id||"-";
-qrImage.src=d.qr||"";
-resultCard.classList.remove("hidden");
-emptyCard.classList.add("hidden");
+set("cnName",d.chineseName||"-");
+set("enName",d.englishName||"-");
+set("church",d.church||"-");
+set("memberID",d.id||"-");
+
+const img=$("qrImage");
+if(img)img.src=d.qr||"";
+$("resultCard")?.classList.remove("hidden");
+$("emptyCard")?.classList.add("hidden");
 addHistory(d.id||"");
 
 }
 
 function showEmpty(){
 
-resultCard.classList.add("hidden");
-emptyCard.classList.remove("hidden");
+$("resultCard")?.classList.add("hidden");
+$("emptyCard")?.classList.remove("hidden");
 
 }
 
@@ -107,15 +111,19 @@ toast("Copied");
 function showPDF(){
 
 if(!window.searchData?.pdf)return;
-pdfFrame.src=window.searchData.pdf;
-pdfModal.classList.remove("hidden");
+const frame=$("pdfFrame");
+const modal=$("pdfModal");
+
+if(frame)frame.src=window.searchData.pdf;
+if(modal)modal.classList.remove("hidden");
 
 }
 
 function hidePDF(){
 
-pdfModal.classList.add("hidden");
-pdfFrame.src="";
+$("pdfModal")?.classList.add("hidden");
+const frame=$("pdfFrame");
+if(frame)frame.src="";
 
 }
 
@@ -166,14 +174,14 @@ renderHistory();
 function renderHistory(){
 
 let h=JSON.parse(localStorage.search_history||"[]");
-historyBox.innerHTML=h.map(x=>
+set("historyBox",
+h.map(x=><button class="history-item">${x}</button>).join("")
+);
 
-`<button class="history-item">${x}</button>`
+const box=$("historyBox");
+if(!box)return;
 
-).join("");
-
-historyBox
-.querySelectorAll("button")
+box.querySelectorAll("button")
 .forEach(b=>{
 b.onclick=()=>runSearch(b.textContent);
 });
@@ -190,14 +198,12 @@ loading(v);
 function cleanupSearch(){
 
 clearTimeout(window.searchTimer);
-
-searchInput.oninput=null;
-searchBtn.onclick=null;
-copyBtn.onclick=null;
-qrImage.onclick=null;
-pdfBtn.onclick=null;
-closePDF.onclick=null;
-
+$("searchInput").oninput=null;
+$("searchBtn").onclick=null;
+$("copyBtn").onclick=null;
+$("qrImage").onclick=null;
+$("pdfBtn").onclick=null;
+$("closePDF").onclick=null;
 window.searchData=null;
 
 }
