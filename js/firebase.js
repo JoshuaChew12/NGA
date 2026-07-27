@@ -24,3 +24,11 @@ snap.val()||0
 });
 
 }
+
+function firebaseIncrement(){
+
+firebaseDB
+.ref("count")
+.transaction(v=>(v||0)+1);
+
+}
