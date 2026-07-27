@@ -90,6 +90,7 @@ async function startApp(){
 
 const user=getUser();
 if(!user.token){location.href="index.html";return;}
+startFirebaseCounter();
 loadPage("home");
 
 }
