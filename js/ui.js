@@ -33,6 +33,7 @@ time:formatTime(res.time)
 
 playSound("success");
 vibrate("success");
+firebaseIncrement();
 return;
 
 }
