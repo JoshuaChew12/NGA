@@ -175,7 +175,7 @@ function renderHistory(){
 
 let h=JSON.parse(localStorage.search_history||"[]");
 set("historyBox",
-h.map(x=><button class="history-item">${x}</button>).join("")
+h.map(x=>`<button class="history-item">${x}</button>`).join("")
 );
 
 const box=$("historyBox");
