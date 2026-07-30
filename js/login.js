@@ -9,22 +9,24 @@ initLogin();
 
 async function checkSession(){
 
-const token=localStorage.token;
+const token=localStorage.NGA_token;
 if(!token){loadLogin();return;}
 
 try{
 
 const res=await verifySession();
 if(res.success){
-localStorage.user=JSON.stringify(res);
+localStorage.NGA_user=JSON.stringify(res);
 location.href="app.html";
 }else{
-localStorage.clear();
+localStorage.removeItem("NGA_token");
+localStorage.removeItem("NGA_user");
 loadLogin();
 }
 
 }catch(e){
-localStorage.clear();
+localStorage.removeItem("NGA_token");
+localStorage.removeItem("NGA_user");
 loadLogin();
 }
 
@@ -57,8 +59,8 @@ return;
 // =====================
 // SAVE SESSION
 // =====================
-localStorage.token=res.token;
-localStorage.user=JSON.stringify(res);
+localStorage.NGA_token=res.token;
+localStorage.NGA_user=JSON.stringify(res);
 
 // =====================
 // OPEN APP
