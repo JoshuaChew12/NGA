@@ -1,7 +1,7 @@
 window.searchTimer=null;
 window.searchData=null;
 
-window.SEARCH_CACHE="search_cache_v6";
+window.SEARCH_CACHE="NGA_search_cache_v6";
 
 function initSearch(){
 
@@ -160,20 +160,20 @@ function addHistory(id){
 
 if(!id)return;
 
-let h=JSON.parse(localStorage.search_history||"[]");
+let h=JSON.parse(localStorage.NGA_search_history||"[]");
 h=h.filter(x=>x!==id);
 h.unshift(id);
 if(h.length>4)
 h.pop();
 
-localStorage.search_history=JSON.stringify(h);
+localStorage.NGA_search_history=JSON.stringify(h);
 renderHistory();
 
 }
 
 function renderHistory(){
 
-let h=JSON.parse(localStorage.search_history||"[]");
+let h=JSON.parse(localStorage.NGA_search_history||"[]");
 set("historyBox",
 h.map(x=>`<button class="history-item">${x}</button>`).join("")
 );
