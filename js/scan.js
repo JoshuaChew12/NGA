@@ -20,22 +20,15 @@ if(window.scanning)return;
 try{
 
 showLoading(true);
-
 const cams=await Html5Qrcode.getCameras();
-
 if(!cams.length){
 showLoading(false);
 showResult("❌","Camera Error","No Camera Found");
 return;
 }
 
-const cam=
-cams.find(c=>
-/back|rear|environment/i.test(c.label)
-)||cams[0];
-
+const cam=cams.find(c=>/back|rear|environment/i.test(c.label))||cams[0];
 window.scanner=new Html5Qrcode("reader");
-
 await window.scanner.start(
 
 cam.id,
@@ -63,7 +56,6 @@ showLoading(false);
 }catch(e){
 
 console.log(e);
-
 showLoading(false);
 
 showResult(
@@ -82,10 +74,8 @@ async function stopCamera(){
 if(!window.scanner)return;
 
 try{
-
 await window.scanner.stop();
 await window.scanner.clear();
-
 }catch(e){}
 
 window.scanner=null;
@@ -97,12 +87,10 @@ window.scanning=false;
 async function onScanSuccess(text){
 
 if(window.scanLock)return;
-
 window.scanLock=true;
-
 await stopCamera();
-
 const id=text.trim().toUpperCase();
+resetIdleTimer();
 
 showResult(
 "⏳",
@@ -111,11 +99,8 @@ showResult(
 );
 
 try{
-
 const res=await checkInAPI(id);
-
 handleResult(res);
-
 }catch(e){
 
 showResult(
@@ -130,13 +115,9 @@ vibrate("error");
 }
 
 setTimeout(async()=>{
-
 hideResult();
-
 window.scanLock=false;
-
 await startCamera();
-
 },3000);
 
 }
@@ -145,7 +126,6 @@ await startCamera();
 function showLoading(show){
 
 const m=document.getElementById("loadingMask");
-
 if(m)
 m.classList.toggle("hidden",!show);
 
