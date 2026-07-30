@@ -7,7 +7,7 @@ if(e)e.innerHTML=v;
 
 window.getUser=()=>{
 try{
-return JSON.parse(localStorage.user||"{}");
+return JSON.parse(localStorage.NGA_user||"{}");
 }catch(e){return {};}
 };
 
@@ -88,8 +88,7 @@ return s[0].toUpperCase()+s.slice(1);
 // SESSION CHECK
 async function startApp(){
 
-const user=getUser();
-if(!user.token){location.href="index.html";return;}
+if(!localStorage.NGA_token){location.href="index.html";return;}
 startFirebaseCounter();
 loadPage("home");
 
