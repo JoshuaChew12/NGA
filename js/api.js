@@ -21,7 +21,7 @@ return apiGet("login",{username,password});
 
 // VERIFY SESSION
 function verifySession(){
-return apiGet("verifysession",{token:localStorage.token||""});
+return apiGet("verifysession",{token:localStorage.NGA_token||""});
 }
 
 // DASHBOARD
@@ -30,12 +30,12 @@ return apiGet("dashboard");
 }
 
 function getRecentCheckin(){
-return apiGet("recentcheckin",{token:localStorage.token||""});
+return apiGet("recentcheckin",{token:localStorage.NGA_token||""});
 }
 
 // CHECK IN
 function checkInAPI(id){
-return apiGet("checkin",{id,token:localStorage.token||""});
+return apiGet("checkin",{id,token:localStorage.NGA_token||""});
 }
 
 // SEARCH
