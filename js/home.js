@@ -158,11 +158,11 @@ function logout(){
 if(!confirm("Logout?"))return;
 
 clearInterval(window.homeClock);
-
+clearIdleTimer();
 localStorage.removeItem("NGA_token");
 localStorage.removeItem("NGA_user");
 
-location.reload();
+location.href="index.html";
 
 }
 
