@@ -159,8 +159,8 @@ if(!confirm("Logout?"))return;
 
 clearInterval(window.homeClock);
 
-localStorage.removeItem("token");
-localStorage.removeItem("user");
+localStorage.removeItem("NGA_token");
+localStorage.removeItem("NGA_user");
 
 location.reload();
 
