@@ -13,6 +13,60 @@ return JSON.parse(localStorage.NGA_user||"{}");
 
 let currentPage=null;
 
+window.NGA_idleTimer=null;
+window.NGA_idleEnabled=false;
+
+const NGA_IDLE_EVENTS=[
+"click",
+"mousemove",
+"keydown",
+"touchstart",
+"scroll"
+];
+
+function startIdleTimer(){
+
+clearIdleTimer();
+const user=getUser();
+const limit=Number(user.idleLimit||600000);
+window.NGA_idleTimer=setTimeout(()=>{autoLogout();},limit);
+
+}
+
+function resetIdleTimer(){
+startIdleTimer();
+}
+
+function clearIdleTimer(){
+
+if(window.NGA_idleTimer){
+clearTimeout(window.NGA_idleTimer);
+window.NGA_idleTimer=null;
+}
+
+}
+
+function enableIdleTracking(){
+
+if(window.NGA_idleEnabled)return;
+window.NGA_idleEnabled=true;
+
+NGA_IDLE_EVENTS.forEach(e=>{
+document.addEventListener(e,resetIdleTimer,{passive:true});
+});
+startIdleTimer();
+
+}
+
+function autoLogout(){
+
+alert("Session expired. Please login again.");
+localStorage.removeItem("NGA_token");
+localStorage.removeItem("NGA_user");
+location.href="index.html";
+
+}
+
 // LOAD PAGE
 async function loadPage(page){
 
@@ -89,6 +143,7 @@ return s[0].toUpperCase()+s.slice(1);
 async function startApp(){
 
 if(!localStorage.NGA_token){location.href="index.html";return;}
+enableIdleTracking();
 startFirebaseCounter();
 loadPage("home");
 
