@@ -7,10 +7,15 @@ window.scanning=false;
 window.scanLock=false;
 window.cameras=[];
 window.currentCamera=0;
+window.frontCamera=-1;
+window.backCamera=-1;
+window.cameraLoaded=false;
+window.switchingCamera=false;
 
 /* INIT */
 async function initScan(){
 window.scanLock=false;
+if(window.scanning)return;
 await startCamera();
 }
 
@@ -22,7 +27,7 @@ if(window.scanning)return;
 try{
 
 showLoading(true);
-window.cameras=await Html5Qrcode.getCameras();
+if(!window.cameras.length){window.cameras=await Html5Qrcode.getCameras();}
 const cams=window.cameras;
 if(!cams.length){
 showLoading(false);
@@ -30,13 +35,20 @@ showResult("❌","Camera Error","No Camera Found");
 return;
 }
 
-if(window.currentCamera>=cams.length)window.currentCamera=0;
+if(!window.cameraLoaded){
 
-const back=cams.findIndex(c=>/back|rear|environment/i.test(c.label));
+window.frontCamera=cams.findIndex(c=>/front|user/i.test(c.label));
+window.backCamera=cams.findIndex(c=>/back|rear|environment/i.test(c.label));
+if(window.backCamera<0)window.backCamera=0;
+if(window.frontCamera<0){
+window.frontCamera=cams.findIndex((c,i)=>i!==window.backCamera);
+}
+window.currentCamera=window.backCamera;
+window.cameraLoaded=true;
 
-if(window.currentCamera===0 && back>=0)window.currentCamera=back;
+}
 
-const cam=cams[window.currentCamera];
+const cam=cams[Math.max(0,Math.min(window.currentCamera,cams.length-1))];
 window.scanner=new Html5Qrcode("reader");
 await window.scanner.start(
 
@@ -83,33 +95,46 @@ async function stopCamera(){
 if(!window.scanner)return;
 
 try{
-await window.scanner.stop();
+
+if(window.scanning){await window.scanner.stop();}
 await window.scanner.clear();
-}catch(e){}
+
+}catch(e){console.log(e);}
 
 window.scanner=null;
 window.scanning=false;
+await new Promise(r=>setTimeout(r,300));
 
 }
 
 async function switchCamera(){
 
 if(window.scanLock)return;
-if(!window.cameras.length)return;
-if(window.cameras.length===1){
+if(window.switchingCamera)return;
+window.switchingCamera=true;
+
+try{
+
+if(window.frontCamera<0){
 showResult(
 "📷",
 "Camera",
-"Only one camera available"
+"Front Camera Not Available"
 );
 return;
 }
 
-window.currentCamera++;
-if(window.currentCamera>=window.cameras.length)window.currentCamera=0;
+window.currentCamera=
+window.currentCamera===window.backCamera
+?window.frontCamera
+:window.backCamera;
 
 await stopCamera();
 await startCamera();
+
+}catch(e){console.log(e);
+
+}finally{window.switchingCamera=false;}
 
 }
 
@@ -119,6 +144,7 @@ async function onScanSuccess(text){
 if(window.scanLock)return;
 window.scanLock=true;
 await stopCamera();
+window.switchingCamera=false;
 const id=text.trim().toUpperCase();
 resetIdleTimer();
 
@@ -164,6 +190,7 @@ m.classList.toggle("hidden",!show);
 /* CLEANUP */
 async function cleanupScan(){
 
+window.scanLock=true;
 await stopCamera();
 
 }
