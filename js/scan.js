@@ -5,6 +5,8 @@
 window.scanner=null;
 window.scanning=false;
 window.scanLock=false;
+window.cameras=[];
+window.currentCamera=0;
 
 /* INIT */
 async function initScan(){
@@ -20,14 +22,21 @@ if(window.scanning)return;
 try{
 
 showLoading(true);
-const cams=await Html5Qrcode.getCameras();
+window.cameras=await Html5Qrcode.getCameras();
+const cams=window.cameras;
 if(!cams.length){
 showLoading(false);
 showResult("❌","Camera Error","No Camera Found");
 return;
 }
 
-const cam=cams.find(c=>/back|rear|environment/i.test(c.label))||cams[0];
+if(window.currentCamera>=cams.length)window.currentCamera=0;
+
+const back=cams.findIndex(c=>/back|rear|environment/i.test(c.label));
+
+if(window.currentCamera===0 && back>=0)window.currentCamera=back;
+
+const cam=cams[window.currentCamera];
 window.scanner=new Html5Qrcode("reader");
 await window.scanner.start(
 
@@ -80,6 +89,27 @@ await window.scanner.clear();
 
 window.scanner=null;
 window.scanning=false;
+
+}
+
+async function switchCamera(){
+
+if(window.scanLock)return;
+if(!window.cameras.length)return;
+if(window.cameras.length===1){
+showResult(
+"📷",
+"Camera",
+"Only one camera available"
+);
+return;
+}
+
+window.currentCamera++;
+if(window.currentCamera>=window.cameras.length)window.currentCamera=0;
+
+await stopCamera();
+await startCamera();
 
 }
 
